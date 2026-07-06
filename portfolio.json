@@ -1,0 +1,54 @@
+{
+  "_note": "theme_tags must come from themes.md so the diversification check can count them.",
+  "_sizing_note": "shares are unknown (owner gave approximate cost basis per share only, 2026-07-06 interview). Until share counts are filled in, the diversification check is COUNT-BASED: each holding weighted equally. cost_basis is approximate per-share purchase price; null means dollar-cost averaged over many dates.",
+  "holdings": [
+    {
+      "ticker": "VOO",
+      "shares": null,
+      "cost_basis": null,
+      "date_acquired": null,
+      "thesis": "Broad US market core, dollar-cost averaged over a long period.",
+      "theme_tags": ["broad-index"]
+    },
+    {
+      "ticker": "NBIS",
+      "shares": null,
+      "cost_basis": 140.0,
+      "date_acquired": null,
+      "thesis": "AI neocloud — rented GPU compute capacity rides the AI buildout.",
+      "theme_tags": ["ai-infrastructure"]
+    },
+    {
+      "ticker": "LITE",
+      "shares": null,
+      "cost_basis": 750.0,
+      "date_acquired": null,
+      "thesis": "Optical components for AI datacenter bandwidth — the interconnect bottleneck.",
+      "theme_tags": ["ai-infrastructure", "data-center-hardware"]
+    },
+    {
+      "ticker": "TSM",
+      "shares": null,
+      "cost_basis": 200.0,
+      "date_acquired": null,
+      "thesis": "Leading-edge foundry chokepoint that all AI silicon passes through.",
+      "theme_tags": ["semiconductors", "ai-infrastructure"]
+    },
+    {
+      "ticker": "ASML",
+      "shares": null,
+      "cost_basis": 700.0,
+      "date_acquired": null,
+      "thesis": "EUV lithography monopoly upstream of every leading-edge fab.",
+      "theme_tags": ["semiconductors"]
+    },
+    {
+      "ticker": "WKHS",
+      "shares": null,
+      "cost_basis": 5.0,
+      "date_acquired": null,
+      "thesis": "Speculative EV last-mile delivery truck position.",
+      "theme_tags": ["electric-vehicles"]
+    }
+  ]
+}
