@@ -32,6 +32,8 @@ watches the portfolio for theme concentration.
   - `**Claim:**` one causal sentence.
   - `**Evidence:**` bullets, each `fact ([Publication](URL), YYYY-MM-DD)`.
   - `**Exposed:**` one line (or bullets): `` `TICKER` Company — why`` per name; note exchange for non-US listings.
+  - `**Dies if:**` one checkable falsifier — required on every new CURRENT/FRONTIER/SPECULATIVE
+    node (legacy nodes retrofitted 2–3 per weekly; see docs/ROADMAP.md §2).
   - `**Status rationale:**` one line. Write `Evidence thin.` when it is.
 - Status changes: never delete a node; change its STATUS tag and note the change in that
   week's memo under WHAT CHANGED.

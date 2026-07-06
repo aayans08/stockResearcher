@@ -11,7 +11,8 @@ recommendations. Never present anything as a buy signal, price target, or trade.
 
 ## a. Load state
 1. Read `CLAUDE.md` (contracts), `portfolio.json`, every file in `theses/`, the newest
-   file in `memos/`, and `themes.md`.
+   file in `memos/`, `themes.md`, and `docs/ROADMAP.md` — if a roadmap review gate is
+   due, run it this session and record the result in the memo.
 2. Read `flags.md` and the week's `briefs/` files (if any) — the daily passes flag
    proposed status changes, candidate leads, and crowding signals there. Every open flag
    must be decided this session: accepted (act on it) or rejected (say why in WHAT
@@ -51,9 +52,11 @@ the math. Also note when this week's NEW CANDIDATES would worsen concentration.
 ## f. Write the memo — `memos/YYYY-MM-DD.md`
 Exact section order (contract in CLAUDE.md):
 1. `## WHAT CHANGED` — developments that mattered + every node status change.
-2. `## NEW CANDIDATES` — quality bar: **3 deeply-reasoned beats 20 shallow**. Each gets
-   its full chain (root → … → node), the evidence with sources, what would kill the
-   thesis, and its theme tags. If research was thin this week, say so instead of padding.
+2. `## NEW CANDIDATES` — quality bar: **3 deeply-reasoned beats 20 shallow**, and
+   **zero is a normal outcome** — "no new candidates cleared the bar this week" is a
+   legitimate section body; the bar never bends to the calendar. Each candidate that
+   does clear gets its full chain (root → … → node), the evidence with sources, what
+   would kill the thesis, and its theme tags.
 3. `## GETTING CROWDED` — nodes/names approaching consensus; what got demoted and why.
 4. `## SCOREBOARD CHECK` — paste the `--md` table + one honest sentence: are surfaced
    ideas beating SPY or not. No spin. If the record is bad, write that it is bad.
