@@ -81,3 +81,6 @@ Crowding detector: `.venv/bin/python scripts/crowding.py [--md] [TICKER ...]` �
 excess return ran >2x SPY. Non-US tickers use yfinance suffixes (`6501.T`, `3324.TW`,
 `HPS-A.TO`, `ENR.DE`); both scripts print a loud DATA-ISSUE line for tickers they cannot
 price — never silently skip.
+Sandboxed cloud runs cannot reach Yahoo: `.github/workflows/refresh-prices.yml` commits
+fresh `data/*_latest.json` before each scheduled run, and both scripts fall back to that
+cache automatically with a dated banner — repeat that date in whatever you write.
