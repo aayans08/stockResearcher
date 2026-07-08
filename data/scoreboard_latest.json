@@ -1,0 +1,79 @@
+{
+  "summary": {
+    "as_of": "2026-07-08",
+    "n_ideas": 6,
+    "n_scored": 6,
+    "n_beating_spy": 2,
+    "hit_rate_vs_spy": 33.3,
+    "avg_excess_pct": -2.21,
+    "median_excess_pct": -3.03
+  },
+  "entries": [
+    {
+      "ticker": "WST",
+      "date_surfaced": "2026-07-05",
+      "price_at_mention": 365.74,
+      "thesis_file": "theses/glp1-second-order.md",
+      "chain_summary": "GLP-1 adoption -> injectable supply chain -> qualified fill-finish/coated-stopper capacity (contrarian: de-rated on pill fear)",
+      "price_now": 356.08,
+      "return_pct": -2.64,
+      "spy_return_pct": 0.39,
+      "excess_pct": -3.03
+    },
+    {
+      "ticker": "SRRK",
+      "date_surfaced": "2026-07-05",
+      "price_at_mention": 54.88,
+      "thesis_file": "theses/glp1-second-order.md",
+      "chain_summary": "GLP-1 weight loss -> 25-40pct lean-mass loss -> muscle-preservation add-on becomes clinical necessity (FRONTIER, high binary risk)",
+      "price_now": 56.56,
+      "return_pct": 3.06,
+      "spy_return_pct": 0.39,
+      "excess_pct": 2.67
+    },
+    {
+      "ticker": "RMD",
+      "date_surfaced": "2026-07-05",
+      "price_at_mention": 209.63,
+      "thesis_file": "theses/glp1-second-order.md",
+      "chain_summary": "GLP-1 OSA treatment -> reflexive kills-sleep-apnea trade -> but GLP-1 raises diagnosis; CPAP a net beneficiary (contrarian winner)",
+      "price_now": 219.75,
+      "return_pct": 4.83,
+      "spy_return_pct": 0.39,
+      "excess_pct": 4.44
+    },
+    {
+      "ticker": "FN",
+      "date_surfaced": "2026-07-05",
+      "price_at_mention": 499.61,
+      "thesis_file": "theses/ai-infrastructure.md",
+      "chain_summary": "AI clusters -> bandwidth bottleneck -> optics -> CPO shifts value to laser/fiber-attach assembly (Nvidia optics CM)",
+      "price_now": 468.48,
+      "return_pct": -6.23,
+      "spy_return_pct": 0.39,
+      "excess_pct": -6.62
+    },
+    {
+      "ticker": "CLF",
+      "date_surfaced": "2026-07-05",
+      "price_at_mention": 9.86,
+      "thesis_file": "theses/ai-infrastructure.md",
+      "chain_summary": "AI+grid -> transformer shortage -> grain-oriented electrical steel -> sole US GOES producer (chokepoint buried in a steel story)",
+      "price_now": 9.54,
+      "return_pct": -3.25,
+      "spy_return_pct": 0.39,
+      "excess_pct": -3.64
+    },
+    {
+      "ticker": "GNRC",
+      "date_surfaced": "2026-07-05",
+      "price_at_mention": 252.66,
+      "thesis_file": "theses/grid-modernization.md",
+      "chain_summary": "Electricity demand + 4-7yr interconnect queues -> behind-the-meter generation -> data-center genset backlog inflection on a home-standby base",
+      "price_now": 235.8,
+      "return_pct": -6.67,
+      "spy_return_pct": 0.39,
+      "excess_pct": -7.06
+    }
+  ]
+}

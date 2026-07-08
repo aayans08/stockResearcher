@@ -1,0 +1,43 @@
+# Price-cache refresher: GitHub runners have open network; the Claude cloud
+# routines do not (Yahoo Finance is blocked by their sandbox egress policy).
+# This commits fresh scoreboard/crowding JSON to data/ shortly before each
+# scheduled research run, and the scripts fall back to it automatically.
+name: refresh-prices
+on:
+  schedule:
+    - cron: "30 10 * * 1-5"   # weekdays 10:30 UTC, before the 11:00 daily brief
+    - cron: "30 11 * * 0"     # Sunday 11:30 UTC, before the 12:00 weekly memo
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install yfinance
+      - name: Fetch prices and validate
+        run: |
+          mkdir -p data
+          python scripts/scoreboard.py --json > data/scoreboard_latest.json
+          python scripts/crowding.py --json > data/crowding_latest.json
+          python - <<'EOF'
+          import json
+          s = json.load(open("data/scoreboard_latest.json"))
+          assert s["summary"]["n_scored"] > 0, "scoreboard fetch returned no priced entries"
+          c = json.load(open("data/crowding_latest.json"))
+          assert any(e.get("ret_6mo_pct") is not None for e in c["entries"]), "crowding fetch returned no priced entries"
+          print("validated: scoreboard", s["summary"]["n_scored"], "scored; crowding", len(c["entries"]), "entries")
+          EOF
+      - name: Commit cache
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "price cache refresh"
+          git push

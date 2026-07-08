@@ -21,11 +21,13 @@ rest of the machine, never issues trade recommendations.
 import argparse
 import json
 import re
+from datetime import date
 from pathlib import Path
 
 from scoreboard import ROOT, BENCHMARK, normalize_ticker, is_non_us, report_data_issues
 
 TICKER_RE = re.compile(r"`([A-Z][A-Z0-9]{0,5}(?:[.-][A-Z0-9]{1,4}){0,2}|[0-9]{4,6}\.[A-Z]{1,3})`")
+CACHE = ROOT / "data" / "crowding_latest.json"
 
 
 def universe(extra, include_theses=False):
@@ -55,8 +57,11 @@ def compute(tickers):
         sorted(set(norm_map.values()) | {BENCHMARK}),
         period="6mo", auto_adjust=True, progress=False, group_by="ticker",
     )
-    spy = data[BENCHMARK]["Close"].dropna()
-    spy_ret = (float(spy.iloc[-1]) / float(spy.iloc[0]) - 1) * 100
+    try:
+        spy = data[BENCHMARK]["Close"].dropna()
+        spy_ret = (float(spy.iloc[-1]) / float(spy.iloc[0]) - 1) * 100
+    except Exception as exc:
+        raise RuntimeError(f"no SPY data — download likely failed entirely ({exc})")
     results = []
     for t in tickers:
         row = {"ticker": t}
@@ -121,9 +126,25 @@ def main():
     if not tickers:
         print("No tickers in portfolio, scoreboard, or arguments — nothing to check.")
         return
-    results, spy_ret = compute(tickers)
+    try:
+        results, spy_ret = compute(tickers)
+        priced = any(r.get("ret_6mo_pct") is not None for r in results)
+    except Exception as exc:
+        print(f"DATA-ISSUE: live price download failed entirely ({exc}).")
+        results, spy_ret, priced = [], None, False
+    if not priced and CACHE.exists():
+        cached = json.loads(CACHE.read_text())
+        print(
+            f"LIVE FETCH FAILED — falling back to cached prices from "
+            f"{cached.get('as_of', 'unknown date')} (data/crowding_latest.json, committed "
+            f"by the refresh-prices workflow). State this date in anything you write."
+        )
+        results, spy_ret = cached["entries"], cached["spy_6mo_pct"]
+    elif not priced:
+        print("DATA-ISSUE: no live prices and no data/crowding_latest.json cache — no crowding read possible.")
+        return
     if args.json:
-        print(json.dumps({"spy_6mo_pct": spy_ret, "entries": results}, indent=2))
+        print(json.dumps({"as_of": date.today().isoformat(), "spy_6mo_pct": spy_ret, "entries": results}, indent=2))
     else:
         print_table(results, spy_ret, markdown=args.md)
 

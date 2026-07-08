@@ -20,6 +20,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SCOREBOARD = ROOT / "scoreboard.json"
 BENCHMARK = "SPY"
+# Committed by .github/workflows/refresh-prices.yml so sandboxed environments that
+# cannot reach Yahoo (e.g. scheduled cloud agents) still get a same-morning read.
+CACHE = ROOT / "data" / "scoreboard_latest.json"
 
 # Exchange suffixes yfinance understands (Tokyo .T, Taiwan .TW/.TWO, Toronto .TO/.V,
 # Swiss .SW, Frankfurt/Xetra .DE/.F, Korea .KS/.KQ, São Paulo .SA, plus common others).
@@ -238,8 +241,20 @@ def main():
         print(f"added {entry}")
         return
 
-    results = compute(data["entries"])
+    try:
+        results = compute(data["entries"])
+    except Exception as exc:
+        print(f"DATA-ISSUE: live price download failed entirely ({exc}).")
+        results = [dict(e, error=str(exc)) for e in data["entries"]]
     summary = summarize(results)
+    if summary["n_scored"] == 0 and results and CACHE.exists():
+        cached = json.loads(CACHE.read_text())
+        print(
+            f"LIVE FETCH FAILED — falling back to cached prices from "
+            f"{cached['summary']['as_of']} (data/scoreboard_latest.json, committed by "
+            f"the refresh-prices workflow). State this date in anything you write."
+        )
+        results, summary = cached["entries"], cached["summary"]
     if args.json:
         print(json.dumps({"summary": summary, "entries": results}, indent=2))
     else:
