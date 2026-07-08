@@ -1,0 +1,3 @@
+# Flags — proposed by daily briefs, decided by the Sunday weekly
+
+- [2026-07-08] [DATA-ISSUE] all scoreboard/crowding tickers — this session's egress network policy blocks Yahoo Finance (fc.yahoo.com, 403 on CONNECT); `scripts/scoreboard.py --md` and `scripts/crowding.py --md` returned zero prices for every ticker (WST, SRRK, RMD, FN, CLF, GNRC, SPY, and all portfolio names). Confirmed as an organization policy denial via the agent-proxy status endpoint, not a symbol/suffix problem — needs a network-policy allowlist fix for finance.yahoo.com/query endpoints, not a script change (local agent-proxy status, 2026-07-08).
