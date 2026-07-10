@@ -1,12 +1,12 @@
 {
   "summary": {
-    "as_of": "2026-07-09",
+    "as_of": "2026-07-10",
     "n_ideas": 6,
     "n_scored": 6,
     "n_beating_spy": 1,
     "hit_rate_vs_spy": 16.7,
-    "avg_excess_pct": -2.88,
-    "median_excess_pct": -3.38
+    "avg_excess_pct": -2.91,
+    "median_excess_pct": -3.14
   },
   "entries": [
     {
@@ -15,10 +15,10 @@
       "price_at_mention": 365.74,
       "thesis_file": "theses/glp1-second-order.md",
       "chain_summary": "GLP-1 adoption -> injectable supply chain -> qualified fill-finish/coated-stopper capacity (contrarian: de-rated on pill fear)",
-      "price_now": 353.68,
-      "return_pct": -3.3,
-      "spy_return_pct": 0.08,
-      "excess_pct": -3.38
+      "price_now": 357.66,
+      "return_pct": -2.21,
+      "spy_return_pct": 0.93,
+      "excess_pct": -3.14
     },
     {
       "ticker": "SRRK",
@@ -26,10 +26,10 @@
       "price_at_mention": 54.88,
       "thesis_file": "theses/glp1-second-order.md",
       "chain_summary": "GLP-1 weight loss -> 25-40pct lean-mass loss -> muscle-preservation add-on becomes clinical necessity (FRONTIER, high binary risk)",
-      "price_now": 56.03,
-      "return_pct": 2.1,
-      "spy_return_pct": 0.08,
-      "excess_pct": 2.02
+      "price_now": 57.94,
+      "return_pct": 5.58,
+      "spy_return_pct": 0.93,
+      "excess_pct": 4.65
     },
     {
       "ticker": "RMD",
@@ -37,10 +37,10 @@
       "price_at_mention": 209.63,
       "thesis_file": "theses/glp1-second-order.md",
       "chain_summary": "GLP-1 OSA treatment -> reflexive kills-sleep-apnea trade -> but GLP-1 raises diagnosis; CPAP a net beneficiary (contrarian winner)",
-      "price_now": 205.84,
-      "return_pct": -1.81,
-      "spy_return_pct": 0.08,
-      "excess_pct": -1.89
+      "price_now": 208.45,
+      "return_pct": -0.56,
+      "spy_return_pct": 0.93,
+      "excess_pct": -1.49
     },
     {
       "ticker": "FN",
@@ -48,10 +48,10 @@
       "price_at_mention": 499.61,
       "thesis_file": "theses/ai-infrastructure.md",
       "chain_summary": "AI clusters -> bandwidth bottleneck -> optics -> CPO shifts value to laser/fiber-attach assembly (Nvidia optics CM)",
-      "price_now": 480.07,
-      "return_pct": -3.91,
-      "spy_return_pct": 0.08,
-      "excess_pct": -3.99
+      "price_now": 482.78,
+      "return_pct": -3.37,
+      "spy_return_pct": 0.93,
+      "excess_pct": -4.3
     },
     {
       "ticker": "CLF",
@@ -59,10 +59,10 @@
       "price_at_mention": 9.86,
       "thesis_file": "theses/ai-infrastructure.md",
       "chain_summary": "AI+grid -> transformer shortage -> grain-oriented electrical steel -> sole US GOES producer (chokepoint buried in a steel story)",
-      "price_now": 9.51,
-      "return_pct": -3.55,
-      "spy_return_pct": 0.08,
-      "excess_pct": -3.63
+      "price_now": 9.4,
+      "return_pct": -4.67,
+      "spy_return_pct": 0.93,
+      "excess_pct": -5.6
     },
     {
       "ticker": "GNRC",
@@ -70,10 +70,10 @@
       "price_at_mention": 252.66,
       "thesis_file": "theses/grid-modernization.md",
       "chain_summary": "Electricity demand + 4-7yr interconnect queues -> behind-the-meter generation -> data-center genset backlog inflection on a home-standby base",
-      "price_now": 236.61,
-      "return_pct": -6.35,
-      "spy_return_pct": 0.08,
-      "excess_pct": -6.43
+      "price_now": 235.86,
+      "return_pct": -6.65,
+      "spy_return_pct": 0.93,
+      "excess_pct": -7.58
     }
   ]
 }
