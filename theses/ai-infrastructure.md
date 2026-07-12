@@ -94,31 +94,35 @@
 
 **Status rationale:** CURRENT — the constraint is real and worsening, but IPP/utility names (CEG, VST, TLN) have already re-rated dramatically; discovery value now sits in the sub-nodes.
 
-##### [CURRENT] Gas turbines & slot reservations
+##### [CONSENSUS] Gas turbines & slot reservations
 
-**Claim:** Power scarcity makes dispatchable generation equipment scarce — heavy-duty gas turbine slots from a three-vendor oligopoly are sold out years ahead.
+**Claim:** Power scarcity makes dispatchable generation equipment scarce — heavy-duty gas turbine slots from a three-vendor oligopoly are sold out years ahead — but the trade is now fully priced and actively debated by sell-side generalists, the hallmark of consensus rather than edge.
 
 **Evidence:**
 - GE Vernova's gas backlog + slot reservations hit **100 GW** in Q1 2026 (backlog 44 GW, slot reservations 56 GW), targeting 110 GW by year-end; output ramping to 20 GW/yr by Q3 2026 ([mgrid](https://mgrid.org/2026/04/22/ge-vernovas-gas-turbine-backlog-hits-100-gw-as-data-centers-drive-4-billion-in-q1-orders/), 2026-04-22; [GE Vernova 8-K](https://www.sec.gov/Archives/edgar/data/0001996810/000199681026000063/gevpressrelease1q26.htm), 2026-04).
 - Turbine makers are booked solid through ~2028 with lead times topping three years; supply concentrated in GE Vernova, Siemens Energy, Mitsubishi Heavy ([Power Engineering](https://www.power-eng.com/gas/turbines/data-centers-drive-record-surge-in-ge-vernova-power-equipment-orders-as-turbine-slots-tighten-through-2030/), 2026).
 - Siemens Energy: record **€154B** order backlog, Q2 FY2026 book-to-bill 1.72, FY26 revenue growth guidance raised to 14–16% on US data-center-linked gas demand ([Siemens Energy](https://www.siemens-energy.com/global/en/home/press-releases/earnings-release-q1-fy-2026.html), 2026; [MarketScreener](https://www.marketscreener.com/news/siemens-energy-books-record-order-backlog-driven-by-ai-data-center-boom-ce7e5adcd08bfe2c), 2026-05).
+- Barclays downgraded Siemens Energy to Underweight on 2026-07-07 (PT raised to €130 despite the cut) on "peak-cycle" logic: orders running at an annualized ~50 GW pace vs. an estimated sustainable 80–90 GW/yr, gas-turbine order share expanded to ~40% of the book (historical norm 25–27%); the stock still fell 5% same-day and GE Vernova fell 6.5% in sympathy ([Parameter](https://parameter.io/siemens-energy-enr-shares-tumble-5-following-barclays-downgrade-warning/), 2026-07-07; [Tikr](https://www.tikr.com/blog/ge-vernova-stock-fell-7-on-a-rivals-downgrade-heres-where-the-stock-could-go-in-2026), 2026-07-07). A sell-side house publicly debating whether the cycle has peaked — while the names still fall on the call — is itself the marker of a fully-discovered, consensus trade.
 
 **Exposed:** `GEV`, Siemens Energy (ENR.DE, Xetra), Mitsubishi Heavy Industries (7011.T, Tokyo), `CAT` (Solar Turbines + gensets), `CMI` (Cummins — recip gensets for bridge power).
 
-**Status rationale:** CURRENT, approaching consensus — GEV/Siemens Energy are among the best-performing large caps of 2025–26 and heavily covered; backlog visibility is real but priced richly.
+**Status rationale:** CONSENSUS (promoted from CURRENT, 2026-07-12) — the Barclays "peak-cycle" downgrade and GEV's sympathy selloff mark the point where the debate has shifted from "is this real" to "is this over-owned," which is what consensus pricing looks like. Attention moves to the still-less-priced sibling nodes: Transformers/switchgear (just promoted FRONTIER→CURRENT, still cheaper than turbines) and the On-site power / SMR tail below.
 
-##### [FRONTIER] Transformers, switchgear & grid equipment
+##### [CURRENT] Transformers, switchgear & grid equipment
 
-**Claim:** Even with generation secured, power can't reach the rack without transformers and switchgear — a genuinely broken supply chain with 3–5 year lead times and decades of underinvestment.
+**Claim:** Even with generation secured, power can't reach the rack without transformers and switchgear — a genuinely broken supply chain with 3–5 year lead times and decades of underinvestment, and as of this week the bottleneck has graduated from trade press to wire-service coverage.
 
 **Evidence:**
 - Large power transformer lead times have extended to ~**4–5 years** (from 24–30 months pre-2020); medium-voltage switchgear effectively sold out through 2028 in many channels ([pv magazine USA](https://pv-magazine-usa.com/2026/05/11/u-s-transformer-market-faces-severe-supply-constraints-as-lead-times-extend-to-four-years/), 2026-05-11; [Build.inc](https://build.inc/insights/data-center-transformer-procurement-2026), 2026).
 - Demand for generator step-up transformers rose **274%** 2019–2025; substation transformers +116% (PwC data via [ChargedUp Pro](https://chargeduppro.com/post/data-center-transformer-shortage-power-bottleneck-industrial-property-2026), 2026).
 - Capacity response underway but slow: Eaton investing $340M in US three-phase transformer production (output from 2027); Hitachi announced $1B US grid-manufacturing program plus a further $106M Tennessee bushings expansion and the Canduct insulation acquisition in 2026 ([Utility Dive](https://www.utilitydive.com/news/hitachi-energy-commits-250-million-transformer-shortage/742010/), 2025; [Manufacturing Dive](https://www.manufacturingdive.com/news/hitachi-unveils-1b-grid-manufacturing-investment-virginia-transformer/759512/), 2025-09; [Transformers Magazine](https://transformers-magazine.com/tm-news/hitachi-energy-invests-106-m-in-transformers/), 2026).
+- Reuters (wire service, not trade press): generator step-up transformer lead times hit **160 weeks by Q1 2026**, up from **143 weeks in 2024** (Wood Mackenzie analyst Ben Boucher); high-voltage circuit breaker lead times climbed to **125 weeks in 2H2025**, up from 77 weeks in 2023 — a distinct, previously-untracked chokepoint one layer below transformers; transformer costs projected up 4–10% over the next year ([Reuters via WIFC](https://wifc.com/2026/07/09/us-power-companies-scramble-to-secure-equipment-as-surging-data-center-demand-strains-supplies/), 2026-07-09). The HV-breaker figure is a candidate for its own node, but the supply-side beneficiary (a reported Hyosung/Quanta breaker JV in Canonsburg, PA) is sourced only to secondary aggregation as of this week — holding off on naming exposure until a primary source confirms it (see DIG DEEPER).
 
 **Exposed:** `ETN` (Eaton), Hitachi (6501.T, Tokyo — Hitachi Energy), ABB (ABBN.SW, Zurich), Schneider Electric (SU.PA), `POWL` (Powell Industries — switchgear pure-play), Hammond Power Solutions (HPS-A.TO, Toronto — dry-type transformers), `GEV` (Electrification: $2.4B of Q1'26 data-center equipment orders).
 
-**Status rationale:** FRONTIER — the constraint is well documented in trade press but mid-cap exposure (POWL, HPS-A) is less saturated than turbines; watch that POWL has already run and capacity adds land 2027+.
+**Dies if:** large power transformer lead times fall back under ~2 years (the pre-2020 norm) as new domestic capacity (Eaton, Hitachi South Boston/VA) comes fully online, signaling the shortage has cleared.
+
+**Status rationale:** CURRENT (promoted from FRONTIER, 2026-07-12) — a Reuters wire story ([WIFC](https://wifc.com/2026/07/09/us-power-companies-scramble-to-secure-equipment-as-surging-data-center-demand-strains-supplies/), 2026-07-09), not just trade press, carried the 160-week figure; this is mainstream-acknowledged now, though mid-cap exposure (POWL, HPS-A) is still less saturated than turbines and capacity adds don't land until 2027+.
 
 ##### [CURRENT] On-site power: fuel cells & bridge generation
 
@@ -133,6 +137,21 @@
 
 **Status rationale:** CURRENT — Bloom is now a headline AI trade (CNBC "bubble" coverage, +23% single-day moves); thesis intact but entry is crowded.
 
+###### [SPECULATIVE] Scandium supply for solid-oxide fuel cells
+
+**Claim:** If solid-oxide fuel-cell deployment scales the way Bloom Energy's backlog implies, scandium oxide — a byproduct-sourced, China-concentrated input with no substitute in the ceramic electrolyte — becomes the binding constraint before fuel-cell manufacturing capacity does.
+
+**Evidence:**
+- Hunterbrook Media alleged (2026-07-08) that Bloom's 5 GW production target would require ~220 tonnes/yr of scandium oxide against ~240 tonnes of projected global supply, with Hunan Oriental Scandium as the largest single supplier (China-concentrated); a second short-seller, Crossroads Capital, made a similar allegation the next day. Bloom rebutted via 8-K, calling the allegations "false and misleading" and citing audited filings; the stock fell ~15% over five trading days before recovering as sell-side analysts (Baird, Jefferies, Mizuho) pushed back on the scandium-shortage framing ([Bloomberg](https://www.bloomberg.com/news/articles/2026-07-09/bloom-energy-criticism-spotlights-vital-but-obscure-rare-mineral), 2026-07-09; [TradingView/Bloom 8-K](https://www.tradingview.com/news/tradingview:182c46c3cc8f3:0-bloom-energy-rebuts-short-seller-report-defends-scandium-supply-and-financials/), 2026-07-09; [TipRanks](https://www.tipranks.com/news/bloom-energy-stock-be-plunges-15-in-5-days-amid-short-seller-attacks-whats-next), 2026-07-10).
+- Global scandium production is only ~30–40 tonnes/yr by some USGS-adjacent estimates, with other claimants (e.g., Lockheed's F-35 program) also drawing on the same thin supply base — a genuinely small, thinly-covered market ([Modern War Institute](https://mwi.westpoint.edu/the-sixty-ton-problem-scandium-supply-chain-risk-the-us-defense-industrial-base/), 2026).
+- Non-China supply is emerging but early: NioCorp's Elk Creek, Nebraska project aims to be the first vertically-integrated US mine-to-market scandium chain ([NioCorp](https://finance.yahoo.com/news/niocorp-acquires-scandium-alloy-assets-220200423.html), 2026); Rio Tinto's Element 21 (Sorel-Tracy, Quebec) holds a $40M DLA sole-source contract for 6,384 kg of scandium oxide ([Modern War Institute](https://mwi.westpoint.edu/the-sixty-ton-problem-scandium-supply-chain-risk-the-us-defense-industrial-base/), 2026).
+
+**Exposed:** `NB` (NioCorp Developments — pre-revenue Elk Creek scandium/niobium project), Rio Tinto (`RIO` — Element 21 scandium byproduct, immaterial to consolidated P&L). `BE` (Bloom Energy) sits on the input-risk side of this node, not the beneficiary side.
+
+**Dies if:** Bloom's own SEC disclosures or independent audits confirm scandium sourcing is diversified beyond China at the volumes needed for its stated GW targets, refuting the shortfall math — or Bloom's actual GW deployment stays far below the 5 GW/25 GW figures the allegation used.
+
+**Status rationale:** SPECULATIVE, evidence thin — the entire node is downstream of one contested short-seller report from this week, rebutted by the company and pushed back on by sell-side within 48 hours; genuinely pre-consensus but on a thin, single-narrative evidence base. Not yet a scoreboard candidate — see DIG DEEPER.
+
 ##### [SPECULATIVE] SMRs / new nuclear
 
 **Claim:** Data-center power demand pulls forward a nuclear build cycle — but SMR revenue is mostly 2030+, so today's exposure is contracted-pipeline announcements, not cash flow.
@@ -141,6 +160,7 @@
 - Oklo has a master power agreement with Switch for up to **12 GW**, plus a 500 MW Equinix deal and a 1.2 GW Ohio project — all pre-revenue ([Globe and Mail](https://www.theglobeandmail.com/investing/markets/stocks/OKLO/pressreleases/2155409/nuscale-power-vs-oklo-which-nuclear-stock-is-a-better-buy-in-2026/), 2026).
 - Meta signed agreements for up to 6.6 GW with Oklo, Vistra and TerraPower (Jan 2026) ([Utility Dive](https://www.utilitydive.com/news/meta-nuclear-deal-oklo-vistra-terrapower-ai-data-centers/809215/), 2026-01).
 - Valar Atomics' Ward250 test reactor went critical June 18 and the company announced an Nvidia collaboration (2026-07-01) on a 30 MW nearly-waterless nuclear AI facility in Utah — under DOE pilot authorization, not NRC licensing ([Deseret News](https://www.deseret.com/u-s-world/2026/07/01/valar-atomics-nvidia-milestone/), 2026-07-01; [Tom's Hardware](https://www.tomshardware.com/tech-industry/data-centers/startup-activates-nuclear-microreactor-live-on-stage-to-power-an-nvidia-rtx-spark-desktop-pc-firm-working-with-nvidia-to-build-a-30mw-closed-loop-ai-factory-that-doesnt-use-local-water), 2026-07).
+- Valar's Ward250 generated first power (100kW, enough to power one Nvidia Blackwell processor) on 2026-07-01, one of three reactors (with Antares Energy and Deployable Energy) to reach criticality by the DOE Reactor Pilot Program's 2026-07-04 deadline — still pilot-scale, not NRC-licensed commercial deployment, but confirms the pilot cohort is real hardware, not just paper agreements ([Forbes](https://www.forbes.com/sites/christopherhelman/2026/07/02/new-atomic-age-underway-as-three-mini-reactors-go-critical-by-trumps-july-4-deadline/), 2026-07-02).
 - NuScale targets manufacturing readiness in 2026 but commercial deployment ~2030 ([NuScale 8-K](https://www.sec.gov/Archives/edgar/data/0001822966/000182296626000052/a2026-05x07xnuscaleq1202.htm), 2026-05-07).
 
 **Exposed:** `OKLO`, `SMR` (NuScale), `BWXT` (actual nuclear manufacturing revenue today), `CCJ` (Cameco — uranium), `LEU` (Centrus — HALEU enrichment, feeds Oklo/TerraPower fuel).
@@ -186,19 +206,20 @@
 
 **Status rationale:** SPECULATIVE — evidence thin for near-term public-equity payoff: direct-to-chip is winning this generation, fluid exposure is diluted inside majors, and the PFAS overhang cuts both ways.
 
-#### [CURRENT] Optical interconnect & co-packaged optics
+#### [CONSENSUS] Optical interconnect & co-packaged optics
 
-**Claim:** Million-GPU clusters shift the bottleneck from FLOPs to bandwidth-per-watt, making optics the fastest-growing bill-of-materials line — and Nvidia just paid $4B to lock up the supply chain.
+**Claim:** Million-GPU clusters shift the bottleneck from FLOPs to bandwidth-per-watt, making optics the fastest-growing bill-of-materials line — and Nvidia already paid $4B to lock up the supply chain; the names have now re-rated so far that this is the mainstream AI-infra trade, not the edge.
 
 **Evidence:**
 - 1.6T optical module demand expected to grow from **1.8M units (2025) to 30M+ units (2026)**, with Nvidia >60% of demand ([MapYourTech](https://mapyourtech.com/co-packaged-optics-architecture-status-and-the-path-to-1-6t-switches/), 2026; [Digitimes](https://www.digitimes.com/news/a20251229PD203/siph-cpo-optical-communications-broadcom-nvidia-2026.html), 2025-12-29).
 - Nvidia announced multi-year strategic agreements on 2026-03-02: **$2B equity investments in each of Coherent and Lumentum** plus multi-billion purchase commitments ([Forbes](https://www.forbes.com/sites/stevemcdowell/2026/03/04/nvidias-optical-strategy-4bn-reshapes-ai-data-center-economics/), 2026-03-04; [Coherent 8-K](https://www.sec.gov/Archives/edgar/data/0000820318/000119312526084366/d42735dex991.htm), 2026-03).
 - Coherent networking revenue +56% y/y in the latest reported quarter; ~25% share of optical transceivers ([Industrial Analyst](https://industrialanalyst.substack.com/p/optical-networking-earnings-recap), 2026).
 - CPO is commercializing in 2026 via Nvidia Quantum-X/Spectrum-X and Broadcom Tomahawk-based platforms ([Digitimes](https://www.digitimes.com/news/a20251229PD203/siph-cpo-optical-communications-broadcom-nvidia-2026.html), 2025-12-29).
+- LITE ran **+131% trailing 6 months (~15x SPY)** and NBIS/LITE are the two most-crowded names in the whole portfolio per this week's crowding check ([`scripts/crowding.py --md`](../scripts/crowding.py), cache dated 2026-07-10); a July 2 AI-photonics valuation reset (Applied Optoelectronics -17%, Coherent -10%, Lumentum -10% in one session on stretched multiples, no company-specific catalyst) reads as multiple compression at a full-consensus price, not thesis damage — consistent with a node that has finished re-rating ([24/7 Wall St.](https://247wallst.com/investing/2026/07/02/applied-optoelectronics-plunges-17-coherent-and-lumentum-sink-10-as-photonics-stocks-reset/), 2026-07-02).
 
 **Exposed:** `COHR` (Coherent), `LITE` (Lumentum), `FN` (Fabrinet — contract manufacturer for Nvidia optics), `AVGO`, `MRVL`, Innolight (300308.SZ, Shenzhen — transceiver volume leader), `GLW` (Corning — fiber; also received an Nvidia partnership).
 
-**Status rationale:** CURRENT — the Nvidia investments made this front-page in March 2026 and COHR/LITE re-rated hard; unit growth still outpaces coverage, but easy discovery is gone.
+**Status rationale:** CONSENSUS (promoted from CURRENT, 2026-07-12) — front-page since the March Nvidia investments, COHR/LITE re-rated 11–15x SPY trailing 6mo, and a July valuation reset was read by the market as multiple-compression rather than thesis risk — all signs the story is fully discovered. Attention moves to the still-FRONTIER child below: CPO supply chain (lasers, fiber attach, photonic foundry), where the pluggables-vs-CPO winners aren't yet sorted.
 
 ##### [FRONTIER] CPO supply chain: lasers, fiber attach, photonic foundry
 
