@@ -1,0 +1,1142 @@
+<title>Stock Researcher — Machine State</title>
+<style>
+  :root {
+    --paper: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e;
+    --muted: #898781; --hairline: #e1e0d9; --baseline: #c3c2b7;
+    --border: rgba(11,11,11,0.10); --accent: #2a78d6; --neg: #e34948;
+    --cur: #eda100; --spec: #e87ba4; --warn: #fab219; --crit: #d03b3b;
+    --good-text: #006300; --tip-bg: #0b0b0b; --tip-ink: #fcfcfb;
+    --branch: color-mix(in srgb, var(--ink) 16%, transparent);
+    --card-shadow: 0 1px 2px rgba(11,11,11,0.05), 0 6px 20px -8px rgba(11,11,11,0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink2: #c3c2b7;
+      --muted: #898781; --hairline: #2c2c2a; --baseline: #383835;
+      --border: rgba(255,255,255,0.10); --accent: #3987e5; --neg: #e66767;
+      --cur: #c98500; --spec: #d55181; --good-text: #0ca30c;
+      --tip-bg: #fcfcfb; --tip-ink: #0b0b0b;
+      --branch: color-mix(in srgb, var(--ink) 20%, transparent);
+      --card-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 14px 34px -12px rgba(0,0,0,0.55);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e;
+    --muted: #898781; --hairline: #e1e0d9; --baseline: #c3c2b7;
+    --border: rgba(11,11,11,0.10); --accent: #2a78d6; --neg: #e34948;
+    --cur: #eda100; --spec: #e87ba4; --good-text: #006300;
+    --tip-bg: #0b0b0b; --tip-ink: #fcfcfb;
+    --branch: color-mix(in srgb, var(--ink) 16%, transparent);
+    --card-shadow: 0 1px 2px rgba(11,11,11,0.05), 0 6px 20px -8px rgba(11,11,11,0.10);
+  }
+  :root[data-theme="dark"] {
+    --paper: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink2: #c3c2b7;
+    --muted: #898781; --hairline: #2c2c2a; --baseline: #383835;
+    --border: rgba(255,255,255,0.10); --accent: #3987e5; --neg: #e66767;
+    --cur: #c98500; --spec: #d55181; --good-text: #0ca30c;
+    --tip-bg: #fcfcfb; --tip-ink: #0b0b0b;
+    --branch: color-mix(in srgb, var(--ink) 20%, transparent);
+    --card-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 14px 34px -12px rgba(0,0,0,0.55);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: var(--paper); color: var(--ink); font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .serif { font-family: Charter, "Iowan Old Style", Georgia, "Times New Roman", serif; }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+  .wrap { max-width: 1020px; margin: 0 auto; padding: clamp(20px, 4vw, 44px) clamp(16px, 3vw, 32px) 56px; }
+
+  header { border-bottom: 2px solid var(--ink); padding-bottom: 16px; }
+  h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.12; margin: 0 0 6px; font-weight: 700; letter-spacing: -0.01em; }
+  .standfirst { color: var(--ink2); margin: 0; max-width: 64ch; }
+  .asof { color: var(--muted); font-size: 12px; margin-top: 8px; }
+  .asof b { color: var(--good-text); font-weight: 650; }
+
+  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0 6px; }
+  @media (max-width: 760px) { .tiles { grid-template-columns: repeat(2, 1fr); } }
+  .tile { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px 10px; box-shadow: var(--card-shadow); }
+  .tile .k { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .tile .v { font-size: 24px; font-weight: 650; margin-top: 3px; }
+  .tile .s { font-size: 12px; color: var(--ink2); margin-top: 1px; }
+
+  section { margin-top: 36px; }
+  .sectionhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--hairline); padding-bottom: 7px; margin-bottom: 12px; }
+  h2 { font-size: 19px; margin: 0; font-weight: 700; }
+  .sectionhead .note { color: var(--muted); font-size: 12px; }
+  .caption { color: var(--ink2); font-size: 13px; margin: 10px 0 0; max-width: 80ch; }
+  .caption strong { color: var(--ink); }
+
+  .chart { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px 12px; overflow-x: auto; box-shadow: var(--card-shadow); }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--ink2); margin-bottom: 10px; }
+  .legend .sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  .legend .ln { display: inline-block; width: 14px; border-top: 2px dashed var(--muted); margin-right: 5px; vertical-align: 3px; }
+  .brow { display: grid; grid-template-columns: 128px 1fr 60px; align-items: center; gap: 12px; padding: 3px 0; border-radius: 4px; min-width: 460px; }
+  .brow:hover, .brow:focus-visible { background: color-mix(in srgb, var(--ink) 5%, transparent); outline: none; }
+  .brow:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+  .blabel { font-size: 13px; display: flex; align-items: center; gap: 6px; min-width: 0; }
+  .blabel .tk { font-weight: 650; }
+  .chip { display: inline-block; font-size: 10px; letter-spacing: 0.05em; padding: 0.5px 6px; border: 1px solid var(--border); border-radius: 999px; color: var(--ink2); white-space: nowrap; }
+  .chip.crowded { border-color: var(--crit); color: var(--crit); font-weight: 650; }
+  .chip.conc { border-color: var(--crit); color: var(--crit); font-weight: 650; }
+  .chip.watch { border-color: var(--warn); color: var(--ink2); font-weight: 650; }
+  .btrack { position: relative; height: 18px; }
+  .btrack .zero { position: absolute; top: -2px; bottom: -2px; width: 1px; background: var(--baseline); }
+  .btrack .mark { position: absolute; top: -2px; bottom: -2px; width: 0; border-left: 2px dashed var(--muted); opacity: 0.7; }
+  .btrack .fill { position: absolute; top: 2px; height: 14px; border-radius: 0 4px 4px 0; background: var(--accent); }
+  .btrack .fill.neg { border-radius: 4px 0 0 4px; background: var(--neg); }
+  .bval { font-size: 12.5px; text-align: right; }
+  .axisnote { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; margin-top: 8px; border-top: 1px solid var(--hairline); padding-top: 5px; min-width: 460px; }
+
+  .crow { display: grid; grid-template-columns: 180px 1fr 118px; align-items: center; gap: 12px; padding: 4px 0; min-width: 460px; }
+  .crow .nm { font-size: 12.5px; }
+  .crow .tr { position: relative; height: 15px; background: color-mix(in srgb, var(--ink) 4%, transparent); border-radius: 4px; }
+  .crow .fl { position: absolute; inset: 2px auto 2px 0; background: var(--accent); border-radius: 3px; }
+  .crow.combined .fl { background: var(--crit); }
+  .crow .tr .mark { position: absolute; top: -3px; bottom: -3px; border-left: 2px dashed var(--muted); }
+  .crow .rv { font-size: 12.5px; display: flex; gap: 7px; align-items: center; }
+
+  .treegrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .treegrid { grid-template-columns: 1fr; } }
+  .tree {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, var(--surface)), var(--surface) 120px);
+    border: 1px solid var(--border); border-radius: 10px; padding: 18px 16px 16px;
+    box-shadow: var(--card-shadow);
+  }
+  .treehead { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 3px; }
+  .tree h3 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.005em; }
+  .tree .tcount { flex: none; font-size: 10.5px; color: var(--accent); font-weight: 650; letter-spacing: 0.07em; }
+  .tree .sub { color: var(--muted); font-size: 12px; line-height: 1.5; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--hairline); }
+  .tree ul { list-style: none; margin: 0; padding: 0; }
+  .tree li { position: relative; }
+  .tree ul ul { margin-left: 10px; }
+  .tree ul ul > li { padding-left: 20px; }
+  .tree ul ul > li::before {
+    content: ""; position: absolute; left: 0; top: -6px; height: 24px; width: 14px;
+    border-left: 1.5px solid var(--branch); border-bottom: 1.5px solid var(--branch);
+    border-bottom-left-radius: 9px;
+  }
+  .tree ul ul > li:not(:last-child)::after {
+    content: ""; position: absolute; left: 0; top: -6px; bottom: -2px;
+    border-left: 1.5px solid var(--branch);
+  }
+  .tnode { position: relative; display: flex; align-items: baseline; gap: 9px; padding: 5px 8px; border-radius: 7px; font-size: 13px; }
+  .tnode .dot {
+    flex: none; width: 8px; height: 8px; border-radius: 50%; align-self: center;
+    background: var(--dc, var(--muted));
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--dc, var(--muted)) 18%, transparent);
+  }
+  .tnode.consensus { --dc: var(--baseline); }
+  .tnode.consensus .tt { color: var(--muted); }
+  .tnode.current { --dc: var(--cur); }
+  .tnode.current .tt { color: var(--ink2); }
+  .tnode.speculative { --dc: var(--spec); }
+  .tnode.speculative .tt { color: var(--ink2); }
+  .tnode.frontier {
+    --dc: var(--accent);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 16%, transparent), color-mix(in srgb, var(--accent) 4%, transparent) 70%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    margin: 2px 0;
+  }
+  .tnode.frontier .dot { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent), 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent); }
+  .tnode.frontier .tt { color: var(--ink); font-weight: 600; }
+  .tnode .tt { min-width: 0; }
+  .tnode .st { margin-left: auto; flex: none; font-size: 9px; letter-spacing: 0.1em; color: var(--muted); font-weight: 650; }
+  .tnode.frontier .st { color: var(--accent); }
+  .tnode.root .tt { color: var(--ink); font-weight: 650; font-size: 13.5px; }
+  .treekey { display: flex; gap: 18px; flex-wrap: wrap; font-size: 12px; color: var(--ink2); margin-bottom: 14px; }
+  .treekey span { display: inline-flex; align-items: center; gap: 7px; }
+  .treekey i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; background: var(--kc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--kc) 18%, transparent); }
+
+  .reader { display: grid; grid-template-columns: 236px 1fr; gap: 12px; align-items: start; }
+  @media (max-width: 820px) { .reader { grid-template-columns: 1fr; } }
+  .doclist { display: flex; flex-direction: column; gap: 6px; max-height: 74vh; overflow-y: auto; }
+  .doc { text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; cursor: pointer; color: var(--ink); font: inherit; box-shadow: var(--card-shadow); }
+  .doc:hover { border-color: var(--accent); }
+  .doc:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .doc.active { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+  .doc .dk { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .doc .dt { font-weight: 650; font-size: 13.5px; margin-top: 1px; }
+  .docnote { font-size: 12px; color: var(--muted); padding: 4px 12px 0; line-height: 1.5; }
+  .docpane { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 8px 24px 24px; max-height: 74vh; overflow-y: auto; box-shadow: var(--card-shadow); }
+  .md { max-width: 72ch; }
+  .md h1 { font-size: 21px; margin: 18px 0 6px; font-family: Charter, "Iowan Old Style", Georgia, serif; }
+  .md h2 { font-size: 16.5px; margin: 22px 0 6px; border-bottom: 1px solid var(--hairline); padding-bottom: 5px; }
+  .md h3 { font-size: 14.5px; margin: 16px 0 4px; }
+  .md p, .md li { font-size: 13.5px; color: var(--ink2); line-height: 1.6; }
+  .md p strong, .md li strong { color: var(--ink); }
+  .md a { color: var(--accent); }
+  .md code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; background: color-mix(in srgb, var(--ink) 6%, transparent); padding: 1px 5px; border-radius: 4px; }
+  .md hr { border: 0; border-top: 1px solid var(--hairline); margin: 18px 0; }
+  .md .tablewrap { overflow-x: auto; }
+  .md table { border-collapse: collapse; font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+  .md th, .md td { border: 1px solid var(--hairline); padding: 4px 10px; text-align: right; }
+  .md th:first-child, .md td:first-child { text-align: left; }
+
+  .runrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media (max-width: 760px) { .runrow { grid-template-columns: 1fr; } }
+  .run { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: var(--ink2); box-shadow: var(--card-shadow); }
+  .run b { color: var(--ink); display: block; margin-bottom: 2px; font-size: 13.5px; }
+  .run .when { color: var(--muted); font-size: 11.5px; margin-top: 6px; }
+
+  footer { margin-top: 44px; border-top: 2px solid var(--ink); padding-top: 12px; color: var(--ink2); font-size: 12.5px; }
+  footer p { margin: 0 0 5px; max-width: 82ch; }
+
+  #tip { position: fixed; z-index: 10; max-width: 330px; background: var(--tip-bg); color: var(--tip-ink); border-radius: 6px; padding: 10px 12px; font-size: 12.5px; line-height: 1.45; pointer-events: none; opacity: 0; transition: opacity 0.12s; box-shadow: 0 4px 18px rgba(0,0,0,0.25); }
+  #tip.on { opacity: 1; }
+  #tip .tt { font-weight: 650; margin-bottom: 3px; }
+  @media (prefers-reduced-motion: reduce) { #tip { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1 class="serif">Stock Researcher — Machine State</h1>
+    <p class="standfirst">Three thesis trees, a paper scoreboard measured against SPY, and pre-committed tests that decide whether any of it survives.</p>
+    <p class="asof mono">as of 2026-07-16 · <b>live</b> — 7 briefs + 2 memos, zero missed runs · candidates to research, not recommendations</p>
+  </header>
+
+  <div class="tiles">
+    <div class="tile">
+      <div class="k">Scoreboard vs SPY</div>
+      <div class="v mono" id="tile-score"></div>
+      <div class="s" id="tile-score-s"></div>
+    </div>
+    <div class="tile">
+      <div class="k">Frontier nodes</div>
+      <div class="v mono">12<span style="color:var(--muted); font-size:15px;"> / 49</span></div>
+      <div class="s">where the edge lives</div>
+    </div>
+    <div class="tile">
+      <div class="k">AI-adjacent holdings</div>
+      <div class="v mono" style="color:var(--crit);">67%</div>
+      <div class="s">CONCENTRATED (&gt;50%)</div>
+    </div>
+    <div class="tile">
+      <div class="k">Next review gate</div>
+      <div class="v mono">Aug 3</div>
+      <div class="s">daily-cadence test</div>
+    </div>
+  </div>
+
+  <section>
+    <div class="sectionhead">
+      <h2 class="serif">Research — read it here</h2>
+      <span class="note">every brief and memo, permanently — the list only grows</span>
+    </div>
+    <div class="reader">
+      <div class="doclist" id="doclist">
+        <p class="docnote">Daily briefs land every weekday morning and Sunday memos every week. Every document also lives permanently as a dated file in the git repo; nothing is ever overwritten.</p>
+      </div>
+      <article class="docpane"><div class="md" id="docbody"></div></article>
+    </div>
+  </section>
+
+  <section>
+    <div class="sectionhead">
+      <h2 class="serif">Thesis trees</h2>
+      <span class="note">49 nodes · the edge is only at the frontier</span>
+    </div>
+    <div class="treekey">
+      <span><i style="--kc:var(--accent);"></i>FRONTIER — the edge</span>
+      <span><i style="--kc:var(--cur);"></i>CURRENT — being worked</span>
+      <span><i style="--kc:var(--spec);"></i>SPECULATIVE — evidence thin</span>
+      <span><i style="--kc:var(--baseline);"></i>CONSENSUS — context only</span>
+    </div>
+    <div class="treegrid" id="trees"></div>
+  </section>
+
+  <section>
+    <div class="sectionhead">
+      <h2 class="serif">Scoreboard — excess return vs SPY since mention</h2>
+      <span class="note">every candidate ever surfaced, forever</span>
+    </div>
+    <div class="chart">
+      <div class="legend">
+        <span><span class="sw" style="background:var(--accent);"></span>beating SPY</span>
+        <span><span class="sw" style="background:var(--neg);"></span>trailing SPY</span>
+        <span class="mono" id="sb-spy"></span>
+      </div>
+      <div id="scorebars"></div>
+      <div class="axisnote mono" id="sb-axis"></div>
+    </div>
+    <p class="caption"><strong>Day 11: 0/6 beating SPY, average excess -5.0%.</strong> Stated plainly because that's the deal. Still far too early for signal — the first meaningful read is months out — but the number is the number. Hover a row for its thesis chain.</p>
+  </section>
+
+  <section>
+    <div class="sectionhead">
+      <h2 class="serif">Crowding — trailing 6-month return vs SPY</h2>
+      <span class="note">ran &gt;2× SPY = already discovered</span>
+    </div>
+    <div class="chart">
+      <div class="legend">
+        <span><span class="sw" style="background:var(--accent);"></span>positive</span>
+        <span><span class="sw" style="background:var(--neg);"></span>negative</span>
+        <span><span class="ln"></span><span id="cb-spy"></span></span>
+        <span><span class="chip">P</span> portfolio · <span class="chip">S</span> scoreboard</span>
+      </div>
+      <div id="crowdbars"></div>
+      <div class="axisnote mono" id="cb-axis"></div>
+    </div>
+    <p class="caption"><strong>7 of 12 names ran &gt;2× SPY</strong> — crowded ≠ sell; it means the discovery premium is smaller than it looks, and these feed demotion reviews.</p>
+  </section>
+
+  <section>
+    <div class="sectionhead">
+      <h2 class="serif">Portfolio — theme concentration</h2>
+      <span class="note">dashed marks: WATCH 35% · CONCENTRATED 50%</span>
+    </div>
+    <div class="chart" id="concbars"></div>
+    <p class="caption"><strong>Four of six holdings are the same AI-compute bet</strong> — which is why the roadmap forces a non-AI thesis tree by Sep 30. Count-based until real share counts are filled in.</p>
+  </section>
+
+  <section>
+    <div class="sectionhead">
+      <h2 class="serif">How it runs</h2>
+      <span class="note">scheduled cloud agents + a GitHub Actions price bridge — nothing depends on your machine</span>
+    </div>
+    <div class="runrow">
+      <div class="run">
+        <b>Daily brief · read-only</b>
+        News delta on active nodes, fresh numbers, proposals to <span class="mono">flags.md</span>. Never adds candidates.
+        <div class="when mono">Mon–Fri 11:00 UTC (~7a ET) · price cache 8:45 UTC</div>
+      </div>
+      <div class="run">
+        <b>Weekly memo · writer of record</b>
+        Decides every flag, extends trees, surfaces candidates, logs them to the scoreboard at that day's price.
+        <div class="when mono">Sun 12:00 UTC (~8a ET)</div>
+      </div>
+      <div class="run">
+        <b>Review gates · pre-committed</b>
+        Aug 3 — daily earns its keep or dies. Sep 30 — a non-AI tree must exist. <strong style="color:var(--crit);">Jan 5 — kill test:</strong> negative median excess + hit rate &lt;40% → probation.
+        <div class="when mono">thresholds never move after results arrive</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Candidates to research, not recommendations.</strong> The machine argues; the owner allocates. Every claim in the memos carries a dated source, and every surfaced name is measured against SPY forever.</p>
+    <p class="mono" style="color:var(--muted);">snapshot of <a href="https://github.com/learn-programing1223/stockResearcher" target="_blank" rel="noopener" style="color:inherit;">learn-programing1223/stockResearcher</a> · prices: yfinance close via data/ cache, 2026-07-16</p>
+  </footer>
+</div>
+
+<div id="tip" role="status" aria-hidden="true"></div>
+
+<script type="text/markdown" id="doc-2026-07-16-briefs">
+# Daily Brief — 2026-07-16
+
+*Candidates to research, not recommendations. No buy signals, no price targets.*
+
+## DELTA
+
+Window covered: 2026-07-14 (Tue eve) through 2026-07-16 (Thu pre-market). 27 CURRENT/FRONTIER nodes checked across all three trees via parallel subagents.
+
+- **GLP-1 — oral molecules:** European Commission approved Novo Nordisk's Wegovy pill (oral semaglutide 25mg) for obesity/overweight, the first oral GLP-1 approved across all EU member states, following earlier US/UK/UAE approvals ([GlobeNewswire](https://www.globenewswire.com/news-release/2026/07/15/3327953/0/en/Novo-Nordisk-receives-European-Commission-approval-of-Wegovy-pill-as-first-oral-GLP-1-for-weight-management-in-the-EU-single-ready-to-use-pen-for-higher-dose-7-2-mg-also-approved.html), 2026-07-15). Geography expansion, not new pricing evidence — noted, not flagged as status-worthy on its own.
+- **Grid-modernization — root thesis:** PJM's 2028/29 Base Residual Auction cleared at the FERC-capped $325/MW-day price and still missed PJM's own reliability target by 6,831 MW ([PJM Inside Lines](https://insidelines.pjm.com/pjm-capacity-auction-procures-138318-mw-of-generation-resources-as-work-continues-to-address-growing-electricity-demand/), 2026-07-14) — reinforces the "aging grid can't keep up" root claim; doesn't map to a single node so not flagged separately.
+- **GLP-1 — sleep-apnea (RMD):** shares fell a further ~3% following through on the 2026-07-14 Citi downgrade, on the same Astral-shortage/GLP-1-displacement thesis ([Trefis market-mover data](https://www.trefis.com/data/companies/RMD?from=%5ESPX_movers_2026-07-15&mod=co_mid_rmd), 2026-07-15). Follow-through, not a reversal — consistent with the node's existing framing.
+- All other nodes (24 of 27) — including chips/HBM/packaging/ABF, power generation/interconnection, transformers/switchgear, on-site power, cooling/CDUs/CPO, data-center REITs, specialty materials/GOES, copper conductors, GLP-1 manufacturing/CDMO/fill-finish/muscle-preservation/food-beverage/snacks/protein/alcohol/ortho/dialysis/insurance, and grid HVDC/cable vessels/software/VPP/advanced conductors/distributed-gen/nuclear-SMR: nothing material in-window.
+
+## SCOREBOARD
+
+Live Yahoo fetch blocked again this session (403 on CONNECT); falls back to cache (`data/scoreboard_latest.json`, dated 2026-07-15):
+
+| ticker | surfaced | @mention | now | ret% | SPY% | excess% |
+|---|---|---|---|---|---|---|
+| CLF | 2026-07-05 | 9.86 | 9.71 | -1.5 | +0.6 | -2.1 |
+| WST | 2026-07-05 | 365.74 | 359.70 | -1.6 | +0.6 | -2.2 |
+| SRRK | 2026-07-05 | 54.88 | 53.78 | -2.0 | +0.6 | -2.6 |
+| FN | 2026-07-05 | 499.61 | 474.64 | -5.0 | +0.6 | -5.6 |
+| RMD | 2026-07-05 | 209.63 | 198.50 | -5.3 | +0.6 | -5.9 |
+| GNRC | 2026-07-05 | 252.66 | 226.95 | -10.2 | +0.6 | -10.8 |
+
+0/6 beating SPY (0.0% hit rate), avg excess -4.9%, median -2.6% — same cache date as yesterday (live fetch still down), so these are unchanged from the 07-15 brief.
+
+## CROWDING
+
+Same cache (`data/crowding_latest.json`, 2026-07-15):
+
+| ticker | 6mo% | x SPY | crowded? |
+|---|---|---|---|
+| LITE | +137.4 | 15.6x | CROWDED |
+| NBIS | +86.8 | 9.9x | CROWDED |
+| GNRC | +40.6 | 4.6x | CROWDED |
+| ASML | +30.1 | 3.4x | CROWDED |
+| WST | +29.0 | 3.3x | CROWDED |
+| TSM | +24.0 | 2.7x | CROWDED |
+| SRRK | +15.6 | 1.8x | — |
+
+Same names as prior briefs; SRRK dropped below the 2x threshold (was 2.2x on 07-15) — a de-crowding, not flagged. No new names crossed 2x SPY.
+
+## FLAGS
+
+None new today. Two flags remain open from 07-13, pending the Sunday weekly's decision:
+- STATUS-CHANGE ai-infrastructure/Data-center REITs, land & powered shell (approaching CONSENSUS).
+- STATUS-CHANGE ai-infrastructure/Transformers, switchgear & grid equipment (India bid-exemption competitive risk).
+
+Oral-GLP-1 EU approval and the PJM auction result (both above) are noted in DELTA rather than flagged — neither is strong enough on its own to argue a specific node's status tag is wrong.
+
+</script>
+
+<script type="text/markdown" id="doc-2026-07-15-briefs">
+# Daily Brief — 2026-07-15
+
+*Candidates to research, not recommendations. No buy signals, no price targets.*
+
+## DELTA
+
+Window covered: 2026-07-14 (Tue) through 2026-07-15 (Wed pre-market). 27 CURRENT/FRONTIER nodes checked across all three trees via parallel subagents.
+
+- **GLP-1 — ResMed (RMD) downgraded to Hold by Citigroup:** cited a component shortage for Astral portable ventilators constraining FY2027 production, not GLP-1-related demand erosion; RMD is a scoreboard ticker (sleep-apnea node), so this is noise vs. thesis signal, noted for context only ([TipRanks](https://www.tipranks.com/news/catalyst/resmed-stock-sinks-as-citi-sounds-supply-alarm), 2026-07-14).
+- **Grid-modernization — correction to the "copper Section 232 still pending" line carried in the last two briefs:** the base tariff (50% semi-finished copper, 25% derivatives) actually took effect 2026-04-06 and was finalized 2026-06-30; BIS separately announced 2026-07-07 it plans further guidance on adding more derivatives to the list — that expansion, not the base tariff, is the open catalyst ([TradingKey](https://www.tradingkey.com/analysis/commodities/metal/261993589-copper-inp-comex-lme-tin-tradingkey), 2026-06-30; [International Trade Today](https://internationaltradetoday.com/article/2026/07/07/bis-plans-to-issue-guidance-on-adding-more-copper-derivatives-to-section-232-list-2607070048), 2026-07-07).
+- All other nodes (25 of 27) — including power generation/interconnection, cooling, data-center REITs, specialty materials, transformers/switchgear, GOES, HVDC, cable-laying vessels, grid software/VPPs, advanced conductors, distributed generation, nuclear/SMR, GLP-1 manufacturing/CDMO/fill-finish/oral molecules/muscle-preservation/food & beverage/snacks/protein/alcohol/ortho/dialysis/insurance: nothing material in-window.
+
+## SCOREBOARD
+
+Live Yahoo fetch blocked again this session (403 on CONNECT); falls back to cache (`data/scoreboard_latest.json`, dated 2026-07-14):
+
+| ticker | surfaced | @mention | now | ret% | SPY% | excess% |
+|---|---|---|---|---|---|---|
+| SRRK | 2026-07-05 | 54.88 | 54.70 | -0.3 | +0.6 | -0.9 |
+| CLF | 2026-07-05 | 9.86 | 9.71 | -1.5 | +0.6 | -2.1 |
+| WST | 2026-07-05 | 365.74 | 359.70 | -1.6 | +0.6 | -2.2 |
+| FN | 2026-07-05 | 499.61 | 474.64 | -5.0 | +0.6 | -5.6 |
+| RMD | 2026-07-05 | 209.63 | 198.50 | -5.3 | +0.6 | -5.9 |
+| GNRC | 2026-07-05 | 252.66 | 226.95 | -10.2 | +0.6 | -10.8 |
+
+0/6 beating SPY (0.0% hit rate), avg excess -4.6%, median -2.2% — every name in the book is trailing SPY; the ResMed downgrade above only adds to RMD's drag.
+
+## CROWDING
+
+Same cache (`data/crowding_latest.json`, 2026-07-14):
+
+| ticker | 6mo% | x SPY | crowded? |
+|---|---|---|---|
+| LITE | +131.6 | 14.5x | CROWDED |
+| NBIS | +106.4 | 11.7x | CROWDED |
+| GNRC | +41.6 | 4.6x | CROWDED |
+| ASML | +37.1 | 4.1x | CROWDED |
+| WST | +31.0 | 3.4x | CROWDED |
+| TSM | +29.5 | 3.2x | CROWDED |
+| SRRK | +20.0 | 2.2x | CROWDED |
+
+Same 7 names as the last two briefs, no new names crossed 2x SPY — not re-flagged.
+
+## FLAGS
+
+None new today. Two flags remain open from 07-13, pending the Sunday weekly's decision:
+- STATUS-CHANGE ai-infrastructure/Data-center REITs, land & powered shell (approaching CONSENSUS).
+- STATUS-CHANGE ai-infrastructure/Transformers, switchgear & grid equipment (India bid-exemption competitive risk).
+
+No CANDIDATE-LEAD, CROWDING, or DATA-ISSUE flags today — the copper tariff item above is a factual correction to prior briefs' framing, not new evidence of a status-worthy shift, so it is noted in DELTA rather than flags.md. The cached-price fallback is the same known, already-accepted infra limitation.
+
+</script>
+
+<script type="text/markdown" id="doc-2026-07-14-briefs">
+# Daily Brief — 2026-07-14
+
+*Candidates to research, not recommendations. No buy signals, no price targets.*
+
+## DELTA
+
+Window covered: 2026-07-13 (Mon) through 2026-07-14 (Tue pre-market). 34 CURRENT/FRONTIER nodes checked across all three trees via parallel subagents.
+
+- **AI-infra — Meta's Hyperion (Louisiana) data center scales to 5 GW, cost tops $50B:** up from ~$27B in October, directly evidencing the gigawatt-scale power demand behind the "Power generation & grid interconnection" node ([CNBC](https://www.cnbc.com/2026/07/13/meta-louisiana-data-center-investment-reaches-50-billion-amid-ai-push.html), 2026-07-13).
+- **AI-infra — data centers have shifted ~$23B in electricity costs onto ratepayers:** sharpens the ratepayer-backlash/policy angle already implicit in the power-bottleneck node; no status change, but worth the weekly's attention if backlash starts touching permitting ([Fortune](https://fortune.com/2026/07/14/data-centers-23-billion-electricity-bills/), 2026-07-14).
+- **GLP-1 — cadaver-fat injections emerge as a new second-order effect:** private company Tiger Aesthetics reports 2,000+ patients treated since May 2025 with "alloClae," a cadaver-fat graft product addressing facial/body volume loss from rapid GLP-1 weight loss; NY State Health Dept reportedly denied distribution over the summer. Single article, private company, no ticker — noted here, not flagged (evidence thin) ([CNN](https://www.cnn.com/2026/07/13/style/alloclae-glp-1-cadaver-fat-interview), 2026-07-13).
+- All other nodes (31 of 34) — including transformers/switchgear, fuel cells, cooling/CDUs, CPO supply chain, data-center REITs, GOES, copper, ABF substrates, GLP-1 manufacturing/CDMO/fill-finish/oral molecules/food & beverage/sleep-apnea/ortho/dialysis/insurance, HVDC, cable-laying vessels, grid software/VPPs, advanced conductors, distributed generation, nuclear/SMR: nothing material in-window.
+- Copper Section 232 refined-tariff decision still has not landed — remains an open catalyst.
+
+## SCOREBOARD
+
+Live Yahoo fetch blocked again this session (403 on CONNECT); falls back to cache (`data/scoreboard_latest.json`, dated 2026-07-13):
+
+| ticker | surfaced | @mention | now | ret% | SPY% | excess% |
+|---|---|---|---|---|---|---|
+| SRRK | 2026-07-05 | 54.88 | 56.71 | +3.3 | +1.4 | +2.0 |
+| RMD | 2026-07-05 | 209.63 | 203.87 | -2.8 | +1.4 | -4.1 |
+| WST | 2026-07-05 | 365.74 | 353.71 | -3.3 | +1.4 | -4.7 |
+| CLF | 2026-07-05 | 9.86 | 9.40 | -4.7 | +1.4 | -6.0 |
+| FN | 2026-07-05 | 499.61 | 471.13 | -5.7 | +1.4 | -7.1 |
+| GNRC | 2026-07-05 | 252.66 | 233.94 | -7.4 | +1.4 | -8.8 |
+
+1/6 beating SPY (16.7%), avg excess -4.8%, median -4.7% — unchanged from 07-13, no fresher price data arrived; the book is still losing to SPY.
+
+## CROWDING
+
+Same cache (`data/crowding_latest.json`, 2026-07-13):
+
+| ticker | 6mo% | x SPY | crowded? |
+|---|---|---|---|
+| LITE | +136.0 | 14.8x | CROWDED |
+| NBIS | +104.6 | 11.4x | CROWDED |
+| GNRC | +49.4 | 5.4x | CROWDED |
+| ASML | +40.8 | 4.4x | CROWDED |
+| TSM | +31.5 | 3.4x | CROWDED |
+| SRRK | +30.2 | 3.3x | CROWDED |
+| WST | +29.8 | 3.2x | CROWDED |
+
+Same 7 names as 07-13, no new names crossed 2x SPY — not re-flagged.
+
+## FLAGS
+
+None new today. Two flags remain open from 07-13, pending the Sunday weekly's decision:
+- STATUS-CHANGE ai-infrastructure/Data-center REITs, land & powered shell (approaching CONSENSUS).
+- STATUS-CHANGE ai-infrastructure/Transformers, switchgear & grid equipment (India bid-exemption competitive risk).
+
+No CANDIDATE-LEAD, CROWDING, or DATA-ISSUE flags today — the cached-price fallback is the same known, already-accepted infra limitation.
+
+</script>
+
+<script type="text/markdown" id="doc-2026-07-13-briefs">
+# Daily Brief — 2026-07-13
+
+*Candidates to research, not recommendations. No buy signals, no price targets.*
+
+## DELTA
+
+Window covered: 2026-07-11 (Sat) through 2026-07-13 (Mon pre-market). 28 CURRENT/FRONTIER nodes checked across all three trees via parallel subagents.
+
+- **AI-infra — data-center REIT sector re-rating, approaching consensus:** DTCR (data-center REIT ETF) +36% trailing 12mo vs. VNQ (broad REITs) +13.4%; Equinix ~40% YTD, Digital Realty >20% YTD, with near-unanimous analyst Buy ratings ([24/7 Wall St.](https://247wallst.com/investing/2026/07/12/real-estate-is-up-13-the-data-center-reits-powering-ai-are-up-36/), 2026-07-12). Flagged.
+- **AI-infra — India exempts 4 Chinese-linked power-equipment makers from bid rules; missed by prior briefs:** order dated 2026-06-24 let TBEA Energy, Nanjing Electric India, New Northeast Electric India and Taikai Electric bid on Indian government power tenders; India-listed GE Vernova T&D, Hitachi Energy and Siemens Energy units fell 6-12%, though Nomura later called it an "overreaction" ([Business Standard](https://www.business-standard.com/india-news/govt-allows-4-china-linked-power-equipment-firms-to-bid-for-key-projects-126070300233_1.html), 2026-07-03; [BusinessToday](https://www.businesstoday.in/markets/stocks/story/ge-vernova-cg-power-hitachi-siemens-selloff-overreaction-as-4-chinese-firms-enter-power-tenders-says-nomura-541063-2026-07-06), 2026-07-06). Falls just before this window but wasn't caught 07-08/07-09/07-10 — flagged now.
+- **GLP-1 — new observational data reinforces (doesn't change) the alcohol node's framing:** NIH "All of Us" cohort study (393,596 participants) links current GLP-1RA prescriptions to lower self-reported drinking *frequency*, not fewer drinks/occasion — authors stress it's observational, not causal ([News-Medical.net](https://www.news-medical.net/news/20260713/Study-links-GLP-1-treatment-to-fewer-alcohol-drinking-days.aspx), 2026-07-13). "Real clinical signal, murky attribution" still holds; no status change.
+- **Grid/AI-infra — copper dipped on macro, not thesis news:** LME copper -0.64% to $13,398.5/mt on 2026-07-13 amid Iran/Strait of Hormuz tension and rate-hike fears — not company- or thesis-specific, not flagged.
+- Copper Section 232 refined-tariff decision (due by 2026-06-30) still has not landed as of today — remains an open catalyst.
+- All other nodes (24 of 28) — including Transformers lead-times, Bloom Energy/scandium, cable-laying vessels, SMR pipeline, GOES, GNRC, SRRK, WST, SMPL/BRBR: nothing material in-window.
+
+## SCOREBOARD
+
+Live Yahoo fetch blocked again this session (403 on CONNECT); falls back to cache (`data/scoreboard_latest.json`, dated 2026-07-12 — same as the weekly's cache, no fresher data landed overnight):
+
+| ticker | surfaced | @mention | now | ret% | SPY% | excess% |
+|---|---|---|---|---|---|---|
+| SRRK | 2026-07-05 | 54.88 | 56.71 | +3.3 | +1.4 | +2.0 |
+| RMD | 2026-07-05 | 209.63 | 203.87 | -2.8 | +1.4 | -4.1 |
+| WST | 2026-07-05 | 365.74 | 353.71 | -3.3 | +1.4 | -4.7 |
+| CLF | 2026-07-05 | 9.86 | 9.40 | -4.7 | +1.4 | -6.0 |
+| FN | 2026-07-05 | 499.61 | 471.13 | -5.7 | +1.4 | -7.1 |
+| GNRC | 2026-07-05 | 252.66 | 233.94 | -7.4 | +1.4 | -8.8 |
+
+1/6 beating SPY (16.7%), avg excess -4.8%, median -4.7% — unchanged from the 07-12 weekly since no fresher price data arrived; the book is still losing to SPY.
+
+## CROWDING
+
+Same cache (`data/crowding_latest.json`, 2026-07-12):
+
+| ticker | 6mo% | x SPY | crowded? |
+|---|---|---|---|
+| LITE | +136.0 | 14.8x | CROWDED |
+| NBIS | +104.6 | 11.4x | CROWDED |
+| GNRC | +49.4 | 5.4x | CROWDED |
+| ASML | +40.8 | 4.4x | CROWDED |
+| TSM | +31.5 | 3.4x | CROWDED |
+| SRRK | +30.2 | 3.3x | CROWDED |
+| WST | +29.8 | 3.2x | CROWDED |
+
+Same 7 names as the 07-12 weekly, no new names crossed 2x SPY — not re-flagged.
+
+## FLAGS
+
+Two new today:
+- [STATUS-CHANGE] ai-infrastructure/Data-center REITs, land & powered shell — sector-wide outperformance and analyst consensus argue this CURRENT node is nearing CONSENSUS.
+- [STATUS-CHANGE] ai-infrastructure/Transformers, switchgear & grid equipment — India's Chinese-manufacturer bid exemption is a competitive-erosion risk for the node's Indian-listed exposure, missed by prior briefs.
+
+No CANDIDATE-LEAD or CROWDING flags today. DATA-ISSUE (live Yahoo blocked) is the same known, already-accepted infra limitation from the 07-12 weekly — not re-flagged.
+
+</script>
+
+<script type="text/markdown" id="doc-2026-07-12-memos">
+# Research Memo — 2026-07-12
+
+*Candidates to research, not recommendations. This memo never issues buy signals or price targets. It argues; you allocate. Every ticker named here is logged to the paper scoreboard and measured against SPY in every future memo — including when it makes the ideas look bad.*
+
+Second weekly cycle. Live Yahoo price fetch is still blocked in this session (403 on CONNECT to fc.yahoo.com) — both scripts fell back automatically to the `refresh-prices` cache, which the automated workflow refreshed mid-session to **2026-07-12** (today). All returns below are as of that cache date. No roadmap review gate is due this session (next: 2026-08-03 daily-cadence review, per `docs/ROADMAP.md`).
+
+---
+
+## WHAT CHANGED
+
+**Three daily briefs ran this week (07-08, 07-09, 07-10)** and flagged two STATUS-CHANGE candidates plus a 7-name crowding cluster; all are decided below. Six status changes landed this session, three tree edits corrected or strengthened evidence, and 3 legacy nodes were retrofitted with `Dies if` falsifiers per the roadmap's kill-criteria rollout (§2).
+
+**Status promotions (edge maturing → less priced elsewhere):**
+- `ai-infrastructure` / **Transformers, switchgear & grid equipment: FRONTIER → CURRENT.** Reuters wire coverage (not trade press) put generator step-up transformer lead times at 160 weeks by Q1 2026, up from 143 weeks in 2024, plus a fresh high-voltage circuit-breaker lead-time datapoint (125 weeks, up from 77 in 2023) ([Reuters via WIFC](https://wifc.com/2026/07/09/us-power-companies-scramble-to-secure-equipment-as-surging-data-center-demand-strains-supplies/), 2026-07-09). This accepts the 07-10 daily brief's STATUS-CHANGE flag.
+- `ai-infrastructure` / **Gas turbines & slot reservations: CURRENT → CONSENSUS.** Barclays downgraded Siemens Energy to Underweight on "peak-cycle" logic (order pace ~15% above modeled-sustainable levels); Siemens Energy fell 5% and GE Vernova fell 6.5% in sympathy the same day ([Parameter](https://parameter.io/siemens-energy-enr-shares-tumble-5-following-barclays-downgrade-warning/), 2026-07-07). A sell-side house publicly debating "has this peaked" — while the stocks still fall on the call — is what full consensus pricing looks like. Attention moves to the newly-promoted Transformers/switchgear node above and the On-site-power/SMR tail below.
+- `ai-infrastructure` / **Optical interconnect & co-packaged optics: CURRENT → CONSENSUS.** LITE ran +131% trailing 6mo (15.1x SPY) per this week's crowding check, and the 2026-07-02 photonics valuation reset (Applied Optoelectronics -17%, Coherent/Lumentum -10%) was read by the market as multiple compression at a fully-priced level, not thesis damage. Attention moves to the still-FRONTIER child: CPO supply chain (lasers, fiber attach, photonic foundry).
+
+**Correction (not a status change — an evidence fix):** `grid-modernization` / **Grain-oriented electrical steel (GOES).** Last week's node claimed Cleveland-Cliffs' Weirton, WV transformer plant "comes online H1 2026, pulling 30-40% more GOES tonnage through Butler." That's stale and wrong — the plant was indefinitely paused in May 2025 when Cliffs pulled capital allocation, citing financial pressure and tariff uncertainty ([WV MetroNews](https://wvmetronews.com/2025/05/07/cleveland-cliffs-pulling-the-plug-on-development-of-transformers-production-plant-at-weirton-facility/), 2025-05-07). No 2026 news confirms a revival. Node stays FRONTIER; the evidence base is now *weaker* than previously stated, not stronger. This is exactly the kind of error the "claims need sources" rule exists to catch — caught this week during the routine sweep, not by outside pressure.
+
+**Flags reviewed and decided (all from `flags.md`):**
+- DATA-ISSUE (live Yahoo blocked): accepted as a known, ongoing limitation — the `refresh-prices` cache continues to satisfy both scripts with a dated banner. No weekly action; the network-policy fix is infrastructure work outside this routine's scope.
+- CROWDING x7 (NBIS, LITE, GNRC, ASML, TSM, SRRK, WST): acted on individually — see status promotions above (LITE) and GETTING CROWDED below (the rest).
+- STATUS-CHANGE (ai-infrastructure/Transformers): **accepted**, promoted above.
+- STATUS-CHANGE (glp1-second-order/High-protein & GLP-1 companion nutrition "winner", re: SMPL Q3 miss): **rejected as a node-wide demotion.** SMPL's Q3 FY26 miss (-6.3% net sales, $52.0M net loss) is real, but SMPL's own CEO called it "largely execution driven rather than category driven" — concentrated in the Atkins brand's distribution losses and weak marketing ([Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/simply-good-foods-co-smpl-210025744.html), 2026-07-09). BRBR, the node's other named winner, was still growing (+2% net sales) as of its last report and doesn't report again until 2026-08-04 — too early to read one company's stumble as the category turning. Node held at CURRENT; a caveat was added to the SMPL exposure line, and this is now the top item in DIG DEEPER for after BRBR reports.
+
+**`Dies if` retrofits this week (roadmap §2, target 2-3/week):** added falsifiers to `ai-infrastructure`/Transformers, switchgear & grid equipment; `glp1-second-order`/Muscle-preservation (bimagrumab/apitegromab/trevogrumab); `glp1-second-order`/Fill-finish & injector devices; and `grid-modernization`/GOES (4 legacy nodes, plus the one new node below).
+
+**Other dated developments worth noting (no status change):**
+- `glp1-second-order`: Scholar Rock's EMBRAZE Phase 2 (apitegromab + tirzepatide) reported 54.9% lean-mass preservation vs. tirzepatide alone ([Scholar Rock](https://investors.scholarrock.com/news-releases/news-release-details/scholar-rock-reports-positive-phase-2-embraze-trial-results), 2026-06-18) — real progress, still Phase 2. Separately, SRRK's ~33% trailing-6mo run is driven by an *unrelated* program (the apitegromab spinal-muscular-atrophy BLA, PDUFA 2026-09-30), not by this obesity data — flagged in-tree so the price move isn't misread as the market pricing in the muscle-preservation thesis.
+- `glp1-second-order`: West Pharmaceutical (WST) Q1 revenue +21% y/y, explicitly GLP-1-attributed; sold SmartDose 3.5mL rights to AbbVie while retaining the 10mL line. Fundamentals, not just re-rating, are behind the stock's run — noted as the reason not to demote despite WST running 3.6x SPY.
+- `grid-modernization`: Generac (GNRC, +50.6% trailing 6mo, 5.8x SPY) had no fresh backlog disclosure this week; analyst PT raises preceded a ~14% one-week pullback tied to a broad AI/power-sector rotation, not GNRC-specific news. Held at CURRENT — see GETTING CROWDED.
+- `grid-modernization`: a US-Japan-South Korea SMR-export MOU (2026-07-07) came with a GE Vernova/Hitachi/Samsung C&T BWRX-300 alliance for Europe; the UK filing under it (14 units, 4.2 GW) names Google Cloud as a participant — the first sighting of a hyperscaler attaching directly to an SMR build rather than a PPA with existing nuclear. Reinforces the SPECULATIVE SMR node, no status change.
+- Copper Section 232 refined-tariff decision, due to the President by 2026-06-30, has **not** landed as of 2026-07-12 — still an open catalyst, not resolved as the tree's citation implied.
+
+**New node added:** `ai-infrastructure` / **Scandium supply for solid-oxide fuel cells (SPECULATIVE, new child of On-site power).** A short-seller report (Hunterbrook Media, 2026-07-08, followed by Crossroads Capital 2026-07-09) alleged Bloom Energy's fuel-cell targets would outstrip global scandium-oxide supply; Bloom rebutted via 8-K and the stock recovered most of a ~15% five-day drawdown after sell-side pushback. This is a genuine second-order chokepoint question — "if fuel cells scale, does the ceramic-electrolyte input run out first?" — but the entire evidence base is one contested week-old short report. Added as SPECULATIVE with an explicit Evidence-thin flag; not promoted to a scoreboard candidate this week (see DIG DEEPER).
+
+---
+
+## NEW CANDIDATES
+
+**No new candidates cleared the bar this week.** The daily briefs produced zero CANDIDATE-LEAD flags across three days, and this week's sweep turned up two categories of near-misses that were deliberately not surfaced:
+
+- The scandium/fuel-cell chokepoint (`NB` NioCorp, `RIO` Element 21) is real second-order logic but rests on a single contested short-seller report from this week, rebutted by the company itself within 24 hours. Logging it to the scoreboard now would be reacting to noise, not evidence — it's in the tree as a SPECULATIVE watchlist node instead.
+- The high-voltage circuit-breaker lead-time datapoint (125 weeks, up from 77 in 2023) is a legitimate new chokepoint one layer below transformers, but the reported supply-side beneficiary (a Hyosung/Quanta breaker JV) is sourced only to secondary aggregation this week — not solid enough to name a ticker against.
+
+Per `docs/ROADMAP.md` §5: zero is a normal outcome, and the bar doesn't move to fill a section.
+
+---
+
+## GETTING CROWDED
+
+This week's crowding check (`scripts/crowding.py --md`, cache refreshed mid-session to 2026-07-12, trailing 6-month vs. SPY +9.2%) flagged 7 of 12 tracked names above 2x SPY:
+
+| ticker | 6mo% | x SPY | crowded? |
+|---|---|---|---|
+| LITE | +136.0 | 14.8x | CROWDED |
+| NBIS | +104.6 | 11.4x | CROWDED |
+| GNRC | +49.4 | 5.4x | CROWDED |
+| ASML | +40.8 | 4.4x | CROWDED |
+| TSM | +31.5 | 3.4x | CROWDED |
+| SRRK | +30.2 | 3.3x | CROWDED |
+| WST | +29.8 | 3.2x | CROWDED |
+
+Disposition, name by name:
+- **LITE** — demoted its tree node (Optical interconnect & CPO) to CONSENSUS this week; see WHAT CHANGED. Portfolio holding, no scoreboard action (not a scoreboard ticker).
+- **NBIS** — largest crowding multiple in the book (11.6x SPY), but NBIS isn't mapped to any node in any of the three trees (it's a portfolio-only "AI neocloud" holding — `portfolio.json` node-mapping is still pending per Roadmap §3). Flagged here for visibility; no tree action possible until it has a node to demote.
+- **GNRC** — held at CURRENT; this week's run is stale-data volatility, not new thesis confirmation (see WHAT CHANGED).
+- **ASML** — not mapped to any tree node (portfolio-only "semiconductors" holding, EUV monopoly thesis stands but isn't written into either tree). Flagged for visibility only.
+- **SRRK** — FRONTIER node held; the run is driven by an unrelated SMA catalyst, not the obesity thesis this node argues for (see WHAT CHANGED). Reason not to demote: the crowding signal doesn't actually confirm this thesis.
+- **TSM** — already CONSENSUS in both nodes it appears in (Chips; Advanced packaging); edge is already pushed down to its FRONTIER children (ABF substrates, GOES). No further action.
+- **WST** — held at CURRENT; Q1 revenue growth (+21%, GLP-1-attributed) argues the run is substantially fundamentals-driven (see WHAT CHANGED).
+
+**Portfolio-level read:** NBIS and ASML being crowded with no tree node to anchor them is itself a finding — two of six holdings (33%) have no documented thesis chain behind their sizing, which the machine can't yet evaluate. Worth a future session's attention once Roadmap §3 (node-mapping) is actioned.
+
+---
+
+## DIVERSIFICATION CHECK
+
+Count-based (per `portfolio.json`'s `_sizing_note` — share counts are unknown, so each of the 6 holdings is weighted equally):
+
+| theme tag | holdings | share |
+|---|---|---|
+| `ai-infrastructure` | NBIS, LITE, TSM | 50.0% |
+| `semiconductors` | TSM, ASML | 33.3% |
+| `data-center-hardware` | LITE | 16.7% |
+| `broad-index` | VOO | 16.7% |
+| `electric-vehicles` | WKHS | 16.7% |
+| **Combined AI-adjacent** (`ai-infrastructure` ∪ `semiconductors` ∪ `data-center-hardware`, unique holdings) | NBIS, LITE, TSM, ASML | **66.7%** |
+
+**CONCENTRATED** (>50%) on combined AI-adjacent exposure — matches the number `docs/ROADMAP.md` used when it set the §6 diversification mandate ("today two of three trees and ~67% of the portfolio are the same macro bet"). `ai-infrastructure` alone sits exactly at 50.0% — call it WATCH-adjacent, not yet strictly over the 50% CONCENTRATED line by itself, but combined with `semiconductors` there's no ambiguity.
+
+Zero new candidates this week means zero incremental concentration risk added. The structural fix remains what the roadmap already prescribes: `grid-modernization` is nominally "AI-agnostic" per its own root claim but its two most active nodes this week (Transformers, Gas turbines) are both AI-datacenter-driven in practice — the tree cap (5, per §6) and the "one structurally uncorrelated tree by 2026-09-30" deadline are the real levers here, not this week's candidate list (there wasn't one).
+
+---
+
+## SCOREBOARD CHECK
+
+`scripts/scoreboard.py --md` (cache refreshed mid-session to **2026-07-12** by the automated `refresh-prices` workflow — live Yahoo fetch still blocked in this session):
+
+| ticker | surfaced | @mention | now | ret% | SPY% | excess% |
+|---|---|---|---|---|---|---|
+| SRRK | 2026-07-05 | 54.88 | 56.71 | +3.3 | +1.4 | +2.0 |
+| RMD | 2026-07-05 | 209.63 | 203.87 | -2.8 | +1.4 | -4.1 |
+| WST | 2026-07-05 | 365.74 | 353.71 | -3.3 | +1.4 | -4.7 |
+| CLF | 2026-07-05 | 9.86 | 9.40 | -4.7 | +1.4 | -6.0 |
+| FN | 2026-07-05 | 499.61 | 471.13 | -5.7 | +1.4 | -7.1 |
+| GNRC | 2026-07-05 | 252.66 | 233.94 | -7.4 | +1.4 | -8.8 |
+
+**1 of 6 ideas beating SPY (16.7% hit rate), average excess -4.8%, median -4.7%.** Stated plainly: this book is losing to SPY, one week into a twelve-month evaluation window, and it got worse over the week, not better — average excess return widened from -2.9% (07-10 cache) to -4.8% (07-12 cache) as this memo was being written. That's still not a meaningful read at n=6, seven days in — but the direction is not encouraging, and only SRRK is ahead of the index, by a shrinking margin (+4.7% excess on 07-10, +2.0% on 07-12). No candidates were added this week to dilute or improve the sample. `docs/ROADMAP.md` §1 sets the real test — median excess return and hit rate at the six-month mark (due 2027-01-05) — and this week's number is a data point toward that, not a verdict.
+
+---
+
+## DIG DEEPER NEXT WEEK
+
+1. **BRBR's Q3 FY26 print (2026-08-04)** — the real test of whether SMPL's miss was company-specific (Atkins execution, per its own CEO) or the first crack in the "GLP-1 companion nutrition" winner framing. Directly actionable once it lands.
+2. **West Pharmaceutical's Q2 2026 earnings (2026-07-23)** — first hard number since the Q1 +21% GLP-1-attributed growth that's currently the main reason not to demote the fill-finish/injector node despite WST running 3.6x SPY.
+3. **Verify the Hyosung/Quanta HV circuit-breaker JV (Canonsburg, PA) against a primary source.** If confirmed, the 125-week/77-week breaker lead-time datapoint becomes a genuine new FRONTIER node (parallel to GOES-under-transformers) with `PWR` as a newly-exposed name — currently held back for lack of sourcing.
+4. **Scandium/Bloom Energy follow-through.** Watch for Bloom's July 28 earnings call and any further short-seller or sell-side scrutiny; decide whether the new SPECULATIVE scandium node graduates toward a scoreboard candidate (`NB`) or gets shelved once the news cycle settles.
+5. **Portfolio node-mapping (Roadmap §3).** NBIS and ASML are both crowded (11.6x and 4.7x SPY) with no thesis-tree node behind them — the machine can't argue for or against their sizing until they're mapped. Worth prioritizing given this week's crowding table exposed the gap directly.
+
+</script>
+
+<script type="text/markdown" id="doc-2026-07-10-briefs">
+# Daily Brief — 2026-07-10
+
+*Candidates to research, not recommendations. No buy signals, no price targets.*
+
+## DELTA
+
+Window covered: 2026-07-08 evening through 2026-07-10 morning (Fri pre-market). 28 CURRENT/FRONTIER nodes checked across all three trees via parallel subagents.
+
+- **AI-infra — transformer/switchgear bottleneck goes mainstream wire coverage:** Reuters reports substation transformer lead times now exceed 160 weeks, up from ~140 weeks in 2023, with utilities and developers locking in orders years ahead — the FRONTIER "Transformers, switchgear & grid equipment" node is no longer trade-press-only ([WIFC/Reuters](https://wifc.com/2026/07/09/us-power-companies-scramble-to-secure-equipment-as-surging-data-center-demand-strains-supplies/), 2026-07-09). Flagged.
+- **AI-infra — Bloom Energy scandium short-seller allegation, rebutted same day:** Hunterbrook Media alleged Bloom's 5GW fuel-cell production target would need ~220 t/yr of scandium oxide against ~240 t global supply (China-dependency risk); stock dipped ~5-6% then recovered after Bloom's 8-K rejected the claim, stating scandium supply is adequate and not China-dependent ([Bloomberg](https://www.bloomberg.com/news/articles/2026-07-09/bloom-energy-criticism-spotlights-vital-but-obscure-rare-mineral), 2026-07-09; [Bloom 8-K](https://www.sec.gov/Archives/edgar/data/0001664703/000162828026047734/be-20260709.htm), 2026-07-09). Contested, not flagged — relevant to the fuel-cells node's "Dies if" criteria, worth tracking to the July 28 earnings call.
+- **GLP-1 — SMPL Q3 miss undercuts the "winner" node:** Simply Good Foods net sales -6.3% YoY to $357.0M, swung to a $52.0M net loss, adj. EPS $0.42 vs $0.51, FY guidance cut to a 6-7% sales decline ([SEC 8-K](https://www.sec.gov/Archives/edgar/data/0001702744/000170274426000021/a991_pressreleasexq3x2026.htm), 2026-07-09). Flagged.
+- **GLP-1 — employers pulling back on coverage despite Medicare Bridge:** CNBC survey: 6% of large employers dropped GLP-1 coverage in 2026, drug spend now 11.4% of annual claims (up from 6.9% in 2023), CVS excluded Zepbound from formulary July 1 ([CNBC](https://www.cnbc.com/2026/07/08/employers-arent-expanding-coverage-of-glp-1-obesity-drugs-survey.html), 2026-07-08). Reinforces existing CURRENT framing, no ticker angle — not flagged.
+- **Grid — SMR trilateral MOU gets an industry initiative attached:** the 2026-07-08 US/Japan/South Korea MOU includes a GE Vernova/Hitachi/Samsung C&T coalition to advance BWRX-300 deployment in Europe, plus $10M new State Dept funding ([State Dept](https://www.state.gov/releases/office-of-the-spokesperson/2026/07/the-united-states-japan-and-the-republic-of-korea-sign-a-trilateral-memorandum-of-cooperation-on-small-modular-reactor-deployments-in-other-countries/), 2026-07-08). Follow-on detail, not a new catalyst.
+- Cable-laying vessels, GOES/CLF, gas turbines, copper, cooling/CDU, CPO supply chain, REITs, ABF substrates, dialysis, orthopedics, sleep-apnea (INSP/RMD), oral GLP-1s, peptide CDMO: nothing material in-window.
+
+## SCOREBOARD
+
+Live Yahoo fetch blocked again this session (403 on CONNECT); falls back to cache (`data/scoreboard_latest.json`, dated 2026-07-09 — one day fresher than yesterday's brief):
+
+| ticker | surfaced | @mention | now | ret% | SPY% | excess% |
+|---|---|---|---|---|---|---|
+| SRRK | 2026-07-05 | 54.88 | 56.03 | +2.1 | +0.1 | +2.0 |
+| RMD | 2026-07-05 | 209.63 | 205.84 | -1.8 | +0.1 | -1.9 |
+| WST | 2026-07-05 | 365.74 | 353.68 | -3.3 | +0.1 | -3.4 |
+| CLF | 2026-07-05 | 9.86 | 9.51 | -3.5 | +0.1 | -3.6 |
+| FN | 2026-07-05 | 499.61 | 480.07 | -3.9 | +0.1 | -4.0 |
+| GNRC | 2026-07-05 | 252.66 | 236.61 | -6.3 | +0.1 | -6.4 |
+
+1/6 candidates beating SPY (16.7%), avg excess -2.9%, median -3.4% — the book is losing to SPY, stated plainly.
+
+## CROWDING
+
+Same-dated cache (`data/crowding_latest.json`, 2026-07-09):
+
+| ticker | 6mo% | x SPY | crowded? |
+|---|---|---|---|
+| NBIS | +121.1 | 15.2x | CROWDED |
+| LITE | +101.2 | 12.7x | CROWDED |
+| GNRC | +54.9 | 6.9x | CROWDED |
+| ASML | +39.3 | 4.9x | CROWDED |
+| TSM | +35.7 | 4.5x | CROWDED |
+| SRRK | +32.8 | 4.1x | CROWDED |
+| WST | +28.6 | 3.6x | CROWDED |
+
+Same 7 names >2x SPY trailing 6mo as 2026-07-08; no new names crossed the threshold, not re-flagged.
+
+## FLAGS
+
+Two new today:
+- [STATUS-CHANGE] ai-infrastructure/Transformers, switchgear & grid equipment — bottleneck now wire-service (Reuters) coverage, not trade-press-only.
+- [STATUS-CHANGE] glp1-second-order/High-protein & GLP-1 companion nutrition (winner) — SMPL Q3 miss and guidance cut cut against the "winner" tag.
+
+Open from prior days (unresolved, pending Sunday weekly): live-Yahoo DATA-ISSUE (cache fallback working), and the 7-name CROWDING flag from 2026-07-08.
+
+</script>
+
+<script type="text/markdown" id="doc-2026-07-09-briefs">
+# Daily Brief — 2026-07-09
+
+*Candidates to research, not recommendations. No buy signals, no price targets.*
+
+## DELTA
+
+Window covered: 2026-07-08 through 2026-07-09 (Wed→Thu pre-market). 28 CURRENT/FRONTIER nodes checked across all three trees.
+
+- **Grid — cable-laying vessel scarcity still tightening, not easing:** two new ultra-large CLV newbuilds began construction this week — Tersan/LS Marine Solution (13,000t, HVDC+fiber, 2026-07-06) and OMS Group's *CS Resilience* (6,500t, 2026-07-07) — both delivering 2028, reinforcing the FRONTIER "bottleneck's bottleneck" read rather than relieving it ([Offshore Wind](https://www.offshorewind.biz/2026/07/06/south-korean-ultra-large-cable-laying-vessel-enters-construction-in-turkiye/), 2026-07-06; [Baird Maritime](https://www.bairdmaritime.com/offshore/exploration-development/offshore-construction/construction-begins-on-oms-groups-new-cable-laying-vessel), 2026-07-07).
+- **Grid — SMR pipeline goes international:** US, Japan, South Korea signed a trilateral MOU (2026-07-08, NATO summit Ankara) to jointly develop/export SMRs to the Indo-Pacific — extends addressable market, no new listed-ticker angle ([KED Global](https://www.kedglobal.com/energy/newsView/ked202607090001), 2026-07-09).
+- **GLP-1 — Inspire (INSP) recall compounds its loser case:** voluntary Class II recall of Stimulation/Respiratory Sensing Leads over "Use By" labeling defects — a fresh, non-GLP-1 quality issue that reinforces the sleep-apnea node's existing INSP-loser framing ([Simply Wall St](https://simplywall.st/stocks/us/healthcare/nyse-insp/inspire-medical-systems/news/inspire-medical-systems-insp-could-be-5-undervalued-after-cl/amp), 2026-07-07).
+- **GLP-1 — SMPL (named exposure, high-protein node) reports Q3 FY26 this morning:** consensus already cut to $0.35 EPS from $0.57 three months ago after an April guidance cut; results weren't out at search time, worth checking follow-through ([Alphastreet](https://news.alphastreet.com/simply-good-foods-q3-2026-earnings-preview-july-9-street-expects-0-35-eps/), 2026-07-09).
+- AI-infrastructure tree: nothing material in-window — the TeraWulf/Anthropic lease and the photonics-sector selloff both predate the window and were already covered in the 2026-07-08 brief.
+
+All other nodes: nothing material this window.
+
+## SCOREBOARD
+
+Live Yahoo fetch still blocked this session (403 on CONNECT to fc.yahoo.com); falls back to the same cache as yesterday (`data/scoreboard_latest.json`, dated 2026-07-08 — no fresher cache landed overnight, figures unchanged):
+
+| ticker | surfaced | @mention | now | ret% | SPY% | excess% |
+|---|---|---|---|---|---|---|
+| RMD | 2026-07-05 | 209.63 | 219.75 | +4.8 | +0.4 | +4.4 |
+| SRRK | 2026-07-05 | 54.88 | 56.56 | +3.1 | +0.4 | +2.7 |
+| WST | 2026-07-05 | 365.74 | 356.08 | -2.6 | +0.4 | -3.0 |
+| CLF | 2026-07-05 | 9.86 | 9.54 | -3.2 | +0.4 | -3.6 |
+| FN | 2026-07-05 | 499.61 | 468.48 | -6.2 | +0.4 | -6.6 |
+| GNRC | 2026-07-05 | 252.66 | 235.80 | -6.7 | +0.4 | -7.1 |
+
+2/6 beating SPY (33.3%), avg excess -2.2% — unchanged from yesterday, honestly, since no new price data arrived.
+
+## CROWDING
+
+Same cache (`data/crowding_latest.json`, dated 2026-07-08), figures unchanged:
+
+| ticker | 6mo% | x SPY | crowded? |
+|---|---|---|---|
+| LITE | +100.7 | 11.2x | CROWDED |
+| NBIS | +100.6 | 11.2x | CROWDED |
+| GNRC | +58.5 | 6.5x | CROWDED |
+| ASML | +46.8 | 5.2x | CROWDED |
+| TSM | +36.7 | 4.1x | CROWDED |
+| SRRK | +35.7 | 4.0x | CROWDED |
+| WST | +29.6 | 3.3x | CROWDED |
+
+Same 7 names remain >2x SPY trailing 6mo — already flagged 2026-07-08, not re-flagged today.
+
+## FLAGS
+
+None new today. The dated developments above (cable-laying vessel newbuilds, SMR trilateral MOU, INSP recall, SMPL earnings) reinforce existing framing but don't clear the STATUS-CHANGE or CANDIDATE-LEAD bar. The open DATA-ISSUE (live Yahoo fetch blocked) and CROWDING (7 names) flags from 2026-07-08 remain unresolved, pending the Sunday weekly.
+
+</script>
+
+<script type="text/markdown" id="doc-2026-07-08-briefs">
+# Daily Brief — 2026-07-08
+
+*Candidates to research, not recommendations. No buy signals, no price targets.*
+
+## DELTA
+
+Window covered: 2026-07-05 (seeding memo) through today — first daily pass since inception, no Mon/Tue brief ran.
+
+- **Virginia data-center electricity tax took effect 2026-07-01** — $0.011/kWh on consumption over 1 MW, applying to both utility-supplied *and* self-generated/behind-the-meter power in the NoVA data-center cluster; a modest new operating-cost headwind for the `ai-infrastructure` Power node, first collection September 2026 ([Virginia Mercury](https://virginiamercury.com/2026/07/06/how-virginia-became-the-worlds-data-center-capital-and-how-its-going/), 2026-07-06).
+- **AI-photonics valuation reset**: Applied Optoelectronics -17%, Coherent -10%, Lumentum -10% in one session starting 2026-07-02 on stretched multiples (P/E >125x), "no company-specific catalyst" — Lumentum's own fundamentals stayed strong (Q3 rev +90% y/y, guidance raised, new CPO order). Reads as multiple compression, not thesis damage, but relevant to the portfolio's `LITE` holding ([24/7 Wall St.](https://247wallst.com/investing/2026/07/02/applied-optoelectronics-plunges-17-coherent-and-lumentum-sink-10-as-photonics-stocks-reset/), 2026-07-02).
+- **CLF kept sliding on generic steel weakness**, not GOES-specific: Citi cut its price target to $10 (from $11) around 2026-07-07/08, stock down ~33% trailing month vs SPY -1.4%, consistent with the memo's existing "commodity-cyclical costume" caveat on the GOES thesis vehicle ([Simply Wall St](https://simplywall.st/stocks/us/materials/nyse-clf/cleveland-cliffs/news/why-cleveland-cliffs-clf-is-down-124-after-analyst-steel-pri), 2026-07).
+- **ResMed agreed to sell MatrixCare** (software business) for $490M, refocusing on core sleep/breathing and funding buybacks — reinforces the contrarian RMD thesis (core-business strength, capital discipline) though isn't itself GLP-1 news ([StockTitan/8-K](https://www.stocktitan.net/sec-filings/RMD/8-k-resmed-inc-reports-material-event-9d86469bad1b.html), 2026-07-07).
+- **Medicare GLP-1 Bridge** (live since 2026-07-01) is drawing early scrutiny over cost — projected program cost estimates span a wide $1.3B–$10B range and clinical-documentation rules are still being finalized ([AJMC](https://www.ajmc.com/view/medicare-glp-1-bridge-launches-but-who-actually-qualifies-), 2026-07).
+- PJM's July heat-dome DOE emergency order resolved quietly by 2026-07-04, no follow-on grid action found in-window ([Utility Dive](https://www.utilitydive.com/news/pjm-doe-emergency-order-curtail-data-centers/820571/), 2026).
+
+All other CURRENT/FRONTIER nodes across the three trees (28 checked): nothing material this window.
+
+## SCOREBOARD
+
+Live Yahoo fetch still blocked in this session; falls back to the cached `data/scoreboard_latest.json` (dated 2026-07-08, committed by `refresh-prices`):
+
+| ticker | surfaced | @mention | now | ret% | SPY% | excess% |
+|---|---|---|---|---|---|---|
+| RMD | 2026-07-05 | 209.63 | 219.75 | +4.8 | +0.4 | +4.4 |
+| SRRK | 2026-07-05 | 54.88 | 56.56 | +3.1 | +0.4 | +2.7 |
+| WST | 2026-07-05 | 365.74 | 356.08 | -2.6 | +0.4 | -3.0 |
+| CLF | 2026-07-05 | 9.86 | 9.54 | -3.2 | +0.4 | -3.6 |
+| FN | 2026-07-05 | 499.61 | 468.48 | -6.2 | +0.4 | -6.6 |
+| GNRC | 2026-07-05 | 252.66 | 235.80 | -6.7 | +0.4 | -7.1 |
+
+2/6 beating SPY (33.3% hit rate), avg excess -2.2%, median -3.0% — three days in, more of the book is lagging SPY than beating it. Stated plainly, not spun.
+
+## CROWDING
+
+Same cache fallback (`data/crowding_latest.json`, 2026-07-08), trailing 6-month vs SPY (+9.0%):
+
+| ticker | 6mo% | x SPY | crowded? |
+|---|---|---|---|
+| LITE | +100.7 | 11.2x | CROWDED |
+| NBIS | +100.6 | 11.2x | CROWDED |
+| GNRC | +58.5 | 6.5x | CROWDED |
+| ASML | +46.8 | 5.2x | CROWDED |
+| TSM | +36.7 | 4.1x | CROWDED |
+| SRRK | +35.7 | 4.0x | CROWDED |
+| WST | +29.6 | 3.3x | CROWDED |
+| FN, RMD, CLF, WKHS, VOO | — | <2x or negative | not crowded |
+
+7 of 12 tracked names ran >2x SPY trailing 6mo — most of the portfolio's active positions (NBIS, LITE, TSM, ASML) plus three scoreboard names (GNRC, SRRK, WST). All flagged below for the Sunday weekly to weigh against status/sizing.
+
+## FLAGS
+
+- [2026-07-08] DATA-ISSUE: live Yahoo fetch still blocked (403 on CONNECT to fc.yahoo.com), but the new `refresh-prices` cache (`data/*_latest.json`, dated 2026-07-08) restored a real SCOREBOARD/CROWDING read today — no longer a total data blackout, root network-policy fix still open.
+- [2026-07-08] CROWDING x7: NBIS, LITE, GNRC, ASML, TSM, SRRK, WST all crossed >2x SPY trailing 6-month — see table above and `flags.md` for per-name detail.
+
+No STATUS-CHANGE or CANDIDATE-LEAD flags today — all three trees came back clean (no items cleared the evidence bar) beyond the crowding signal above.
+
+</script>
+
+<script type="text/markdown" id="doc-2026-07-05-memos">
+# Research Memo — 2026-07-05
+
+*Candidates to research, not recommendations. This memo never issues buy signals or price targets. It argues; you allocate. Every ticker named here is logged to the paper scoreboard and measured against SPY in every future memo — including when it makes the ideas look bad.*
+
+This is memo #1 — the seeding session. Three thesis trees now exist (`ai-infrastructure`, `glp1-second-order`, `grid-modernization`), and this memo works the frontier nodes of each into a short, deliberately small candidate list. Six names, cross-sector, each with a full reasoning chain. The bar was three deeply-reasoned candidates over twenty shallow tickers; six is where honest conviction ran out.
+
+---
+
+## WHAT CHANGED
+
+Baseline session, so "what changed" is really "what the trees now assert." Node statuses as seeded:
+
+- **AI infrastructure — the whole top of the stack is CONSENSUS.** Chips, HBM, CoWoS packaging, and "data centers are being built" are all marked CONSENSUS or effectively PLAYED-OUT as an *edge*. The TrendForce datapoint that the CoWoS supply-demand gap is narrowing from ~20% to ~10% by end-2026 ([TrendForce](https://www.trendforce.com/news/2026/06/15/news-tsmc-cowos-supply-demand-gap-reportedly-seen-narrowing-from-20-to-10-by-end-2026-as-capacity-expands/), 2026-06-15) is the tell: when the bottleneck eases, the scarcity premium is past peak. Attention pushed down to power, cooling components, optics sub-components, and materials.
+- **Power generation is loud but crowded.** Gas turbines (GEV, Siemens Energy) and fuel cells (Bloom) are marked CURRENT-approaching-CONSENSUS — the backlogs are real (GEV gas backlog + slot reservations hit 100 GW in Q1 2026) but the stocks have already re-rated hard. Flagged, not surfaced.
+- **GLP-1 first-order trade (LLY/NVO) is CONSENSUS and the leadership flipped** — Lilly guiding +25% for 2026 while Novo braces for a *decline* ([CNBC](https://www.cnbc.com/2026/02/04/eli-lilly-novo-nordisk-earnings-glp1-market.html), 2026-02-04). The edge migrated to second-order nodes.
+- **Two live policy/market catalysts this week** (see Recent Developments in the trees): the Medicare GLP-1 "Bridge" went live July 1, and a PJM grid emergency during a July heat dome triggered DOE orders forcing large loads onto backup generation — a real-world stress test of the grid-scarcity thesis.
+
+---
+
+## NEW CANDIDATES
+
+Six candidates, each stated as a chain from consensus root to a frontier node the market is under-weighting. All are logged to the scoreboard at today's close.
+
+### 1. West Pharmaceutical (`WST`) — GLP-1 · $365.74
+**Chain:** GLP-1 mass adoption (CONSENSUS) → every injectable dose needs a coated stopper + prefilled component (injectable supply chain) → **qualified fill-finish capacity is the physical chokepoint that survives even as drug list prices fall** (CURRENT, contrarian).
+**Why it's a candidate:** West makes the elastomer stoppers and components that every injectable GLP-1 pen requires, in a concentrated oligopoly where *qualified* (validated, regulator-approved) capacity — not raw material — is the binding constraint ([Pharma Bottlenecks](https://pharmabottlenecks.com/chokepoints/drug-packaging-components), 2025). The stock has been de-rated on the "oral pills kill injectables" fear, which the installed injectable base and multi-year dosing make look overdone.
+**What would kill the thesis:** faster-than-expected shift to oral small molecules (orforglipron bypasses injection entirely) and to monthly/quarterly dosing, both of which cut devices-per-patient. This is the real bear case, not a strawman.
+**Theme tags:** `glp1-supply-chain`, `healthcare-services`.
+
+### 2. Scholar Rock (`SRRK`) — GLP-1 · $54.88
+**Chain:** GLP-1 weight loss (CONSENSUS) → 25–40% of the weight lost is *lean muscle mass* → **a muscle-preserving add-on becomes the next clinical necessity** (FRONTIER — no Phase 3 approval exists yet, genuinely pre-consensus).
+**Why it's a candidate:** the muscle-loss problem is clinically inevitable and there is no approved fix; Phase 2 bimagrumab + semaglutide data was described as "previously unseen" ([ConscienHealth/Nature Medicine](https://conscienhealth.org/2026/03/09/striking-results-with-bimagrumab-and-semaglutide/), 2026-03-09). Scholar Rock (apitegromab / SRK-439) is a small-cap pure-play on exactly this.
+**What would kill the thesis — read this before anything else:** this is a **high binary-risk, small-cap biotech with no approved product.** A single failed readout can halve it. It is on the scoreboard as a FRONTIER bet precisely so we track whether these speculative calls actually pay — not because it's de-risked. Size accordingly, or treat purely as a watch item.
+**Theme tags:** `healthcare-services`.
+
+### 3. ResMed (`RMD`) — GLP-1 · $209.63
+**Chain:** GLP-1s now treat obstructive sleep apnea (Zepbound OSA approval) → reflexive market trade: "GLP-1 kills sleep-apnea hardware" → **but GLP-1s also drive OSA *diagnosis*, and ~half of even slimmed patients still need CPAP** → CPAP is a net beneficiary, not a victim (CURRENT, contrarian winner).
+**Why it's a candidate:** the knee-jerk lumps ResMed (CPAP) with Inspire (surgical implant, a genuine substitution loser, down ~37%). But analysts argue GLP-1s expand the diagnosed OSA funnel, and the clinical data shows most patients still need airway support ([AJMC](https://www.ajmc.com/view/glp-1s-likely-new-frontier-in-the-treatment-of-osa-obesity-in-sleep-medicine), 2025). The mispricing is the market treating a possible beneficiary as a loser.
+**What would kill the thesis:** if higher-efficacy molecules (retatrutide-class, ~30% weight loss) resolve enough OSA to genuinely shrink the CPAP pool, the "diagnosis funnel" tailwind loses to the substitution headwind.
+**Theme tags:** `healthcare-services`.
+
+### 4. Fabrinet (`FN`) — AI infrastructure · $499.61
+**Chain:** AI clusters scale to millions of GPUs (CONSENSUS) → the bottleneck shifts from FLOPs to bandwidth-per-watt → optics is the fastest-growing bill-of-materials line (CURRENT; Nvidia paid $4B for Coherent/Lumentum stakes) → **co-packaged optics shifts value toward the laser/fiber-attach assembly that CPO can't integrate away** (FRONTIER).
+**Why it's a candidate:** 1.6T optical module demand is projected to grow from ~1.8M units (2025) to 30M+ (2026) ([MapYourTech](https://mapyourtech.com/co-packaged-optics-architecture-status-and-the-path-to-1-6t-switches/), 2026). Fabrinet is the contract manufacturer assembling much of Nvidia's optics — a way to hold the optics ramp without picking which transceiver design wins.
+**What would kill the thesis:** heavy customer concentration (Nvidia + a few others); a faster-than-expected move to fully integrated CPO could disintermediate discrete-module assembly. The optics primes (COHR/LITE) already re-rated hard, so easy discovery here is gone — FN is the less-crowded expression, not an undiscovered one.
+**Theme tags:** `ai-infrastructure`, `data-center-hardware`.
+
+### 5. Cleveland-Cliffs (`CLF`) — AI infrastructure / grid (cross-node) · $9.86
+**Chain:** AI + electrification → transformer shortage (4–5 year lead times) → **every transformer core needs grain-oriented electrical steel, and the US has exactly one domestic producer** (FRONTIER, single-source chokepoint).
+**Why it's a candidate:** Cliffs' Butler Works is the sole US GOES producer, and the Pentagon just locked in a GOES supply contract worth up to $400M through 2030 ([Defence Blog](https://defence-blog.com/pentagon-locks-in-critical-transformer-steel-supply/), 2026) — a chokepoint the market isn't pricing because CLF trades as a distressed *carbon-steel* cyclical, not a GOES story. This is the same node in two trees (AI-infra materials and grid transformers), which is exactly the cross-sector convergence the machine is built to catch.
+**What would kill the thesis — flagged honestly:** GOES is a *small slice* of CLF's consolidated P&L, which is dominated by cyclical carbon steel and a levered balance sheet. The GOES thesis can be right and the stock still be driven by steel prices and debt. Evidence on GOES's actual earnings contribution is thin — this is a chokepoint idea wearing a commodity-cyclical costume. Size for that.
+**Theme tags:** `materials`, `grid-equipment`.
+
+### 6. Generac (`GNRC`) — grid modernization · $252.66
+**Chain:** Structural electricity demand + 4–7 year interconnection queues (CONSENSUS demand, real scarcity) → large loads buy their own on-site power → **behind-the-meter generation, where Generac's data-center backlog is inflecting off a home-standby base** (CURRENT).
+**Why it's a candidate:** Generac's data-center backlog grew from $400M to ~$700M in 2025–26, built from colocators before any hyperscaler mega-award ([TIKR](https://www.tikr.com/blog/generacs-700-million-data-center-backlog-is-building-the-case-for-a-250-price-target), 2026). The July PJM emergency — DOE ordering large users onto backup generation — validated the "bridge power becomes grid infrastructure" thesis in real time. Less crowded than CAT/Cummins because the market still frames Generac as a residential-generator story.
+**What would kill the thesis:** the data-center backlog is still small relative to the home-standby core, which is weather- and rate-sensitive; if hyperscaler awards route to CAT/Cummins/Bloom instead, the inflection stalls.
+**Theme tags:** `power-generation`, `grid-equipment`.
+
+---
+
+## GETTING CROWDED
+
+Named here so we *don't* keep re-surfacing consensus as if it were discovery:
+
+- **Chips / HBM / CoWoS** (NVDA, MU, TSM) — CONSENSUS bordering played-out as an edge; incremental info is now negative-surprise risk. The CoWoS gap narrowing is the "peak scarcity" signal.
+- **Gas turbines & fuel cells** (GEV, Siemens Energy, BE) — CURRENT but heavily re-rated; among the best-performing large caps of 2025–26. Real backlogs, rich prices. Bloom drew explicit CNBC "bubble" coverage.
+- **Merchant nuclear / IPPs** (CEG, VST, TLN) and **"copper is the new oil"** (FCX) — mainstream macro narratives at or near record levels. The less-crowded expressions (fuel-cycle names, cable *fabricators* capturing conversion margin) are noted in the trees but not yet surfaced as candidates.
+- **The obvious GLP-1 losers** (Inspire, DaVita, bariatric) — the substitution trade is well-priced. The edge, if any, is in the *contrarian* reads (RMD, SYK) and the picks-and-shovels (WST), which is where this memo went.
+
+---
+
+## SCOREBOARD CHECK
+
+First entries logged today, so every return is mechanically zero — there is nothing yet to be honest *about*. Stated plainly: **this scoreboard has no track record and proves nothing yet.** Its entire purpose is to make the next 12 months of these ideas measurable against SPY, so that if the frontier-node reasoning is just dressed-up narrative, we find out from the numbers instead of from the vibes. Check back weekly; the first meaningful read is a month or two out.
+
+| ticker | surfaced | @mention | now | ret% | SPY% | excess% |
+|---|---|---|---|---|---|---|
+| WST | 2026-07-05 | 365.74 | 365.74 | -0.0 | +0.0 | -0.0 |
+| SRRK | 2026-07-05 | 54.88 | 54.88 | +0.0 | +0.0 | +0.0 |
+| RMD | 2026-07-05 | 209.63 | 209.63 | +0.0 | +0.0 | +0.0 |
+| FN | 2026-07-05 | 499.61 | 499.61 | -0.0 | +0.0 | -0.0 |
+| CLF | 2026-07-05 | 9.86 | 9.86 | -0.0 | +0.0 | -0.0 |
+| GNRC | 2026-07-05 | 252.66 | 252.66 | +0.0 | +0.0 | +0.0 |
+
+*As of 2026-07-05: 0/6 ideas beating SPY (day-zero baseline; no signal yet).*
+
+---
+
+## DIG DEEPER NEXT WEEK
+
+Ranked by expected edge-per-hour of research:
+
+1. **The muscle-preservation field (SRRK, LLY/bimagrumab, REGN/trevogrumab).** Highest pre-consensus payoff in any tree, highest binary risk. Track the bimagrumab combo readouts due ~April 2026 and whether any agent reaches Phase 3 — that's the de-risking catalyst. Worth a dedicated deep-dive on which mechanism (myostatin/activin) is winning.
+2. **Qualified fill-finish capacity vs. the oral-pill headwind (WST, STVN).** The whole contrarian case rests on injectable device-per-patient counts holding up. Find hard numbers on oral-vs-injectable mix projections through 2027 — that quantifies the bear case.
+3. **The GOES chokepoint's actual P&L weight in CLF.** The idea is strong; the vehicle is muddy. Dig for any disclosure or analyst estimate of GOES revenue/margin as a share of Cliffs. If it's immaterial, we need a cleaner vehicle (POSCO, Nippon Steel) or we demote the candidate.
+4. **Transformer & switchgear mid-caps (POWL, HPS.A.TO, Hitachi 6501.T).** FRONTIER node in two trees; POWL has run but the shortage is still worsening. Worth pricing which names still have runway vs. which have discounted the 2027 capacity adds.
+5. **Cooling component layer (Taiwan thermal chain: Auras 3324.TW, AVC 3017.TW).** FRONTIER, but non-US listings that yfinance may not price cleanly — resolve the data-access question before surfacing them as scoreboard candidates.
+6. **CDU saturation signal.** Dell'Oro is already asking if the CDU space is over-entered. Next week, check whether that's showing up in Vertiv/Modine order or margin commentary — an early "this node is going consensus" demotion trigger.
+
+</script>
+
+<script>
+(function () {
+  var CFG = {"beat": 0, "scored": 6, "avgExcess": -4.96, "dayN": 11, "spyWin": 1.35, "spy6": 9.7, "hurdle": 19.4, "sd0": -13, "sd1": 2, "cd0": -60, "cd1": 140};
+  var SCORE = [{"t": "CLF", "theme": "AI-infra", "excess": -1.45, "ret": -0.1, "spy": 1.35, "at": 9.86, "now": 9.85, "chain": "AI+grid -> transformer shortage -> grain-oriented electrical steel -> sole US GOES producer (chokepoint buried in a steel story)"}, {"t": "SRRK", "theme": "GLP-1", "excess": -2.88, "ret": -1.53, "spy": 1.35, "at": 54.88, "now": 54.04, "chain": "GLP-1 weight loss -> 25-40pct lean-mass loss -> muscle-preservation add-on becomes clinical necessity (FRONTIER, high binary risk)"}, {"t": "WST", "theme": "GLP-1", "excess": -3.19, "ret": -1.84, "spy": 1.35, "at": 365.74, "now": 359.0, "chain": "GLP-1 adoption -> injectable supply chain -> qualified fill-finish/coated-stopper capacity (contrarian: de-rated on pill fear)"}, {"t": "FN", "theme": "AI-infra", "excess": -3.94, "ret": -2.59, "spy": 1.35, "at": 499.61, "now": 486.65, "chain": "AI clusters -> bandwidth bottleneck -> optics -> CPO shifts value to laser/fiber-attach assembly (Nvidia optics CM)"}, {"t": "RMD", "theme": "GLP-1", "excess": -6.63, "ret": -5.28, "spy": 1.35, "at": 209.63, "now": 198.57, "chain": "GLP-1 OSA treatment -> reflexive kills-sleep-apnea trade -> but GLP-1 raises diagnosis; CPAP a net beneficiary (contrarian winner)"}, {"t": "GNRC", "theme": "Grid", "excess": -11.67, "ret": -10.32, "spy": 1.35, "at": 252.66, "now": 226.58, "chain": "Electricity demand + 4-7yr interconnect queues -> behind-the-meter generation -> data-center genset backlog inflection on a home-standby base"}];
+  var CROWD = [{"t": "LITE", "g": "P", "ret": 131.9, "x": 13.6, "crowded": true}, {"t": "NBIS", "g": "P", "ret": 83.5, "x": 8.6, "crowded": true}, {"t": "GNRC", "g": "S", "ret": 40.9, "x": 4.2, "crowded": true}, {"t": "WST", "g": "S", "ret": 38.4, "x": 4.0, "crowded": true}, {"t": "ASML", "g": "P", "ret": 34.1, "x": 3.5, "crowded": true}, {"t": "TSM", "g": "P", "ret": 23.1, "x": 2.4, "crowded": true}, {"t": "SRRK", "g": "S", "ret": 20.2, "x": 2.1, "crowded": true}, {"t": "VOO", "g": "P", "ret": 9.7, "x": 1.0, "crowded": false}, {"t": "FN", "g": "S", "ret": -1.6, "x": -0.2, "crowded": false}, {"t": "RMD", "g": "S", "ret": -22.5, "x": -2.3, "crowded": false}, {"t": "CLF", "g": "S", "ret": -29.6, "x": -3.1, "crowded": false}, {"t": "WKHS", "g": "P", "ret": -49.6, "x": -5.1, "crowded": false}];
+  var DOCS = [{"id": "doc-2026-07-16-briefs", "kind": "Daily brief", "date": "2026-07-16", "title": "Wegovy pill approved in EU \u00b7 PJM clears at cap"}, {"id": "doc-2026-07-15-briefs", "kind": "Daily brief", "date": "2026-07-15", "title": "RMD downgraded \u00b7 copper 232 correction"}, {"id": "doc-2026-07-14-briefs", "kind": "Daily brief", "date": "2026-07-14", "title": "Meta's 5 GW Hyperion \u00b7 $23B ratepayer shift"}, {"id": "doc-2026-07-13-briefs", "kind": "Daily brief", "date": "2026-07-13", "title": "DC-REITs near consensus \u00b7 India opens door to Chinese gear"}, {"id": "doc-2026-07-12-memos", "kind": "Weekly memo", "date": "2026-07-12", "title": "Three demotions, a caught error, zero new candidates"}, {"id": "doc-2026-07-10-briefs", "kind": "Daily brief", "date": "2026-07-10", "title": "Transformer crunch hits wires \u00b7 Bloom scandium short"}, {"id": "doc-2026-07-09-briefs", "kind": "Daily brief", "date": "2026-07-09", "title": "Cable-vessel scarcity \u00b7 SMR trilateral MOU \u00b7 INSP recall"}, {"id": "doc-2026-07-08-briefs", "kind": "Daily brief", "date": "2026-07-08", "title": "Photonics reset \u00b7 VA data-center tax \u00b7 price bridge live"}, {"id": "doc-2026-07-05-memos", "kind": "Weekly memo", "date": "2026-07-05", "title": "Seeding session \u2014 six candidates"}];
+  var CONC = [
+    { n: "AI-adjacent (combined)", v: 67, names: "NBIS · LITE · TSM · ASML", combined: true },
+    { n: "ai-infrastructure",      v: 50, names: "NBIS · LITE · TSM" },
+    { n: "semiconductors",         v: 33, names: "TSM · ASML" },
+    { n: "broad-index",            v: 17, names: "VOO" },
+    { n: "data-center-hardware",   v: 17, names: "LITE" },
+    { n: "electric-vehicles",      v: 17, names: "WKHS" }
+  ];
+  var TREES = [{"name": "AI Infrastructure", "root": "Value migrates down the stack \u2014 from chips (consensus) to whatever becomes scarce next.", "nodes": [[0, "CONSENSUS", "AI boom \u2014 training + inference scaling"], [1, "CONSENSUS", "Chips / GPUs & accelerators"], [2, "CONSENSUS", "HBM memory"], [2, "CONSENSUS", "Advanced packaging (CoWoS / SoIC)"], [3, "FRONTIER", "ABF substrates & packaging materials"], [1, "CONSENSUS", "Data center buildout"], [2, "CURRENT", "Power generation & grid interconnection"], [3, "CONSENSUS", "Gas turbines & slot reservations"], [3, "CURRENT", "Transformers, switchgear & grid equipment"], [3, "CURRENT", "On-site power: fuel cells & bridge generation"], [4, "SPECULATIVE", "Scandium supply for solid-oxide fuel cells"], [3, "SPECULATIVE", "SMRs / new nuclear"], [2, "CURRENT", "Liquid / direct-to-chip cooling"], [3, "FRONTIER", "Cold plates, CDUs & the Taiwan thermal chain"], [3, "SPECULATIVE", "Immersion cooling & dielectric fluids"], [2, "CONSENSUS", "Optical interconnect & CPO"], [3, "FRONTIER", "CPO supply chain: lasers, fiber attach, foundry"], [2, "CURRENT", "DC REITs, land & powered shell"], [2, "FRONTIER", "Specialty materials"], [3, "FRONTIER", "Grain-oriented electrical steel (GOES)"], [3, "CURRENT", "Copper & electrical conductors"]]}, {"name": "GLP-1 Second-Order", "root": "The drug trade is played out; the alpha moved to what GLP-1 makes scarce, cheap, or newly necessary.", "nodes": [[0, "CONSENSUS", "GLP-1 mass adoption"], [1, "CURRENT", "Manufacturing & supply chain"], [2, "CURRENT", "Peptide API / CDMO capacity"], [2, "CURRENT", "Fill-finish & injector devices"], [1, "CURRENT", "Oral GLP-1s & next-gen molecules"], [2, "FRONTIER", "Muscle-preservation drugs"], [1, "CURRENT", "Food & beverage demand shifts"], [2, "CURRENT", "Snacks & indulgent food"], [2, "CURRENT", "High-protein nutrition (winner)"], [2, "FRONTIER", "Alcohol (clinical signal)"], [1, "CURRENT", "Healthcare device second-orders"], [2, "CONSENSUS", "Bariatric surgery (loser)"], [2, "CURRENT", "Sleep-apnea devices (nuance)"], [2, "CURRENT", "Orthopedics (contrarian winner)"], [2, "FRONTIER", "Dialysis / renal (slow loser)"], [1, "CURRENT", "Insurance / PBM coverage"]]}, {"name": "Grid Modernization", "root": "Structural demand meets a 40\u201370-year-old grid. Stands even without AI.", "nodes": [[0, "CONSENSUS", "Demand growth meets aging grid"], [1, "CURRENT", "Transformers & grid equipment"], [2, "FRONTIER", "Grain-oriented electrical steel"], [1, "CURRENT", "HV transmission & HVDC"], [2, "FRONTIER", "Cable-laying vessels"], [1, "CONSENSUS", "Utility capex supercycle"], [1, "FRONTIER", "Grid software, VPPs & DR"], [1, "CURRENT", "Copper & conductor materials"], [2, "FRONTIER", "Advanced conductors"], [1, "CURRENT", "Behind-the-meter generation"], [1, "CURRENT", "Nuclear restart & SMR response"], [2, "SPECULATIVE", "SMR pipeline"]]}];
+
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html != null) e.innerHTML = html;
+    return e;
+  }
+  function fmt(v, digits) { return (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(digits == null ? 1 : digits); }
+
+  /* tiles + legends from CFG */
+  document.getElementById("tile-score").innerHTML = CFG.beat + "/" + CFG.scored;
+  if (CFG.beat === 0) document.getElementById("tile-score").style.color = "var(--crit)";
+  document.getElementById("tile-score-s").innerHTML = "beating SPY · avg excess " + fmt(CFG.avgExcess) + "% · day " + CFG.dayN;
+  document.getElementById("sb-spy").textContent = "SPY " + fmt(CFG.spyWin) + "% same window";
+  document.getElementById("cb-spy").textContent = "SPY " + fmt(CFG.spy6) + "% · 2× hurdle " + fmt(CFG.hurdle) + "%";
+  document.getElementById("sb-axis").innerHTML = "<span>" + CFG.sd0 + "%</span><span>0</span><span>+" + CFG.sd1 + "%</span>";
+  document.getElementById("cb-axis").innerHTML = "<span>" + CFG.cd0 + "%</span><span>0</span><span>+" + CFG.cd1 + "%</span>";
+
+  function signedBar(container, value, min, max, marks) {
+    var track = el("div", "btrack");
+    var zeroPct = (0 - min) / (max - min) * 100;
+    var zero = el("div", "zero"); zero.style.left = zeroPct + "%"; track.appendChild(zero);
+    (marks || []).forEach(function (m) {
+      var mk = el("div", "mark"); mk.style.left = ((m - min) / (max - min) * 100) + "%"; track.appendChild(mk);
+    });
+    var fill = el("div", "fill" + (value < 0 ? " neg" : ""));
+    var vPct = Math.abs(value) / (max - min) * 100;
+    if (value >= 0) { fill.style.left = zeroPct + "%"; } else { fill.style.left = (zeroPct - vPct) + "%"; }
+    fill.style.width = vPct + "%";
+    track.appendChild(fill);
+    container.appendChild(track);
+  }
+
+  var tip = document.getElementById("tip");
+  function showTip(html, x, y) {
+    tip.innerHTML = html; tip.classList.add("on"); tip.setAttribute("aria-hidden", "false");
+    var pad = 14, w = tip.offsetWidth, h = tip.offsetHeight;
+    var left = Math.min(x + pad, window.innerWidth - w - 8);
+    var top = y - h - pad; if (top < 8) top = y + pad;
+    tip.style.left = left + "px"; tip.style.top = top + "px";
+  }
+  function hideTip() { tip.classList.remove("on"); tip.setAttribute("aria-hidden", "true"); }
+  function bindTip(row, html) {
+    row.setAttribute("tabindex", "0");
+    row.addEventListener("mousemove", function (ev) { showTip(html, ev.clientX, ev.clientY); });
+    row.addEventListener("mouseleave", hideTip);
+    row.addEventListener("focus", function () {
+      var r = row.getBoundingClientRect(); showTip(html, r.left + r.width / 2, r.top);
+    });
+    row.addEventListener("blur", hideTip);
+  }
+
+  var sb = document.getElementById("scorebars");
+  SCORE.forEach(function (d) {
+    var row = el("div", "brow");
+    row.appendChild(el("div", "blabel", '<span class="tk mono">' + d.t + '</span><span class="chip">' + d.theme + "</span>"));
+    signedBar(row, d.excess, CFG.sd0, CFG.sd1, []);
+    row.appendChild(el("div", "bval mono", fmt(d.excess) + "%"));
+    bindTip(row, '<div class="tt">' + d.t + " · excess " + fmt(d.excess) + "% vs SPY</div>"
+      + '<div class="mono">' + d.at.toFixed(2) + " → " + d.now.toFixed(2) + " (" + fmt(d.ret) + "%) · SPY " + fmt(d.spy) + "%</div>"
+      + "<div style='margin-top:5px;'>" + d.chain + "</div>");
+    sb.appendChild(row);
+  });
+
+  var cb = document.getElementById("crowdbars");
+  CROWD.forEach(function (d) {
+    var row = el("div", "brow");
+    var chips = '<span class="chip">' + d.g + "</span>" + (d.crowded ? ' <span class="chip crowded">CROWDED</span>' : "");
+    row.appendChild(el("div", "blabel", '<span class="tk mono">' + d.t + "</span>" + chips));
+    signedBar(row, d.ret, CFG.cd0, CFG.cd1, [CFG.spy6, CFG.hurdle]);
+    row.appendChild(el("div", "bval mono", fmt(d.ret) + "%"));
+    bindTip(row, '<div class="tt">' + d.t + " · " + fmt(d.ret) + "% trailing 6mo</div>"
+      + '<div class="mono">' + (d.x != null && d.x >= 0 ? d.x.toFixed(1) + "× SPY" : "negative vs SPY " + fmt(CFG.spy6) + "%") + " · hurdle " + fmt(CFG.hurdle) + "%</div>"
+      + "<div style='margin-top:5px;'>" + (d.g === "P" ? "Portfolio holding." : "Scoreboard candidate.")
+      + (d.crowded ? " Ran more than 2× SPY — feeds demotion review." : " Below the crowding hurdle.") + "</div>");
+    cb.appendChild(row);
+  });
+
+  var cc = document.getElementById("concbars");
+  CONC.forEach(function (d) {
+    var row = el("div", "crow" + (d.combined ? " combined" : ""));
+    row.appendChild(el("div", "nm", d.combined ? "<strong>" + d.n + "</strong>" : '<span class="mono">' + d.n + "</span>"));
+    var tr = el("div", "tr");
+    var fl = el("div", "fl"); fl.style.width = d.v + "%"; tr.appendChild(fl);
+    [35, 50].forEach(function (m) { var mk = el("div", "mark"); mk.style.left = m + "%"; tr.appendChild(mk); });
+    row.appendChild(tr);
+    var flag = d.v > 50 ? ' <span class="chip conc">CONCENTRATED</span>' : d.v > 35 ? ' <span class="chip watch">WATCH</span>' : "";
+    row.appendChild(el("div", "rv", '<span class="mono">' + d.v + "%</span>" + flag));
+    bindTip(row, '<div class="tt">' + d.n + " · " + d.v + "% of holdings</div><div>" + d.names + "</div>");
+    cc.appendChild(row);
+  });
+
+  var tg = document.getElementById("trees");
+  TREES.forEach(function (tree) {
+    var card = el("div", "tree");
+    var nFrontier = tree.nodes.filter(function (n) { return n[1] === "FRONTIER"; }).length;
+    var head = el("div", "treehead");
+    head.appendChild(el("h3", "serif", tree.name));
+    head.appendChild(el("span", "tcount mono", nFrontier + " FRONTIER"));
+    card.appendChild(head);
+    card.appendChild(el("div", "sub", tree.root));
+    var rootUl = el("ul");
+    var stack = [rootUl];
+    tree.nodes.forEach(function (n) {
+      var depth = n[0], status = n[1], title = n[2];
+      while (stack.length > depth + 1) stack.pop();
+      while (stack.length < depth + 1) {
+        var parentLi = stack[stack.length - 1].lastElementChild;
+        var childUl = el("ul");
+        (parentLi || stack[stack.length - 1]).appendChild(childUl);
+        stack.push(childUl);
+      }
+      var li = el("li");
+      var rowEl = el("div", "tnode " + status.toLowerCase().replace("-", "") + (depth === 0 ? " root" : ""));
+      rowEl.appendChild(el("span", "dot"));
+      rowEl.appendChild(el("span", "tt", title));
+      rowEl.appendChild(el("span", "st", status));
+      li.appendChild(rowEl);
+      stack[stack.length - 1].appendChild(li);
+    });
+    card.appendChild(rootUl);
+    tg.appendChild(card);
+  });
+
+  function renderMD(src) {
+    function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+    function inline(s) {
+      s = esc(s);
+      s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+      s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+      s = s.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+      s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      return s;
+    }
+    var lines = src.split("\n"), out = [], para = [], list = null, table = null;
+    function flushPara() { if (para.length) { out.push("<p>" + para.map(inline).join("<br>") + "</p>"); para = []; } }
+    function flushList() { if (list) { out.push("<" + list.tag + ">" + list.items.join("") + "</" + list.tag + ">"); list = null; } }
+    function flushTable() {
+      if (!table) return;
+      var html = "<div class='tablewrap'><table>";
+      table.forEach(function (cells, idx) {
+        var tag = idx === 0 ? "th" : "td";
+        html += "<tr>" + cells.map(function (c) { return "<" + tag + ">" + inline(c) + "</" + tag + ">"; }).join("") + "</tr>";
+      });
+      out.push(html + "</table></div>");
+      table = null;
+    }
+    lines.forEach(function (raw) {
+      var line = raw.replace(/\s+$/, ""), m;
+      if (/^\|/.test(line)) {
+        flushPara(); flushList();
+        if (/^\|[\s|:-]+$/.test(line)) return;
+        var cells = line.replace(/^\||\|$/g, "").split("|").map(function (c) { return c.trim(); });
+        (table = table || []).push(cells);
+        return;
+      }
+      flushTable();
+      if (!line.trim()) { flushPara(); flushList(); return; }
+      if ((m = line.match(/^(#{1,3})\s+(.*)/))) { flushPara(); flushList(); out.push("<h" + m[1].length + ">" + inline(m[2]) + "</h" + m[1].length + ">"); return; }
+      if (/^---+$/.test(line)) { flushPara(); flushList(); out.push("<hr>"); return; }
+      if ((m = line.match(/^-\s+(.*)/))) { flushPara(); if (!list || list.tag !== "ul") { flushList(); list = { tag: "ul", items: [] }; } list.items.push("<li>" + inline(m[1]) + "</li>"); return; }
+      if ((m = line.match(/^\d+\.\s+(.*)/))) { flushPara(); if (!list || list.tag !== "ol") { flushList(); list = { tag: "ol", items: [] }; } list.items.push("<li>" + inline(m[1]) + "</li>"); return; }
+      if (list) { list.items[list.items.length - 1] = list.items[list.items.length - 1].replace(/<\/li>$/, " " + inline(line.trim()) + "</li>"); return; }
+      para.push(line);
+    });
+    flushPara(); flushList(); flushTable();
+    return out.join("");
+  }
+
+  var doclist = document.getElementById("doclist");
+  var docbody = document.getElementById("docbody");
+  var note = doclist.querySelector(".docnote");
+  function openDoc(doc, btn) {
+    var src = document.getElementById(doc.id);
+    docbody.innerHTML = src ? renderMD(src.textContent.trim()) : "<p>Document not found.</p>";
+    doclist.querySelectorAll(".doc").forEach(function (b) { b.classList.remove("active"); });
+    btn.classList.add("active");
+    document.querySelector(".docpane").scrollTop = 0;
+  }
+  DOCS.forEach(function (doc, i) {
+    var btn = el("button", "doc", '<div class="dk">' + doc.kind + " · " + doc.date + '</div><div class="dt">' + doc.title + "</div>");
+    btn.addEventListener("click", function () { openDoc(doc, btn); });
+    doclist.insertBefore(btn, note);
+    if (i === 0) openDoc(doc, btn);
+  });
+})();
+</script>

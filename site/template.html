@@ -1,0 +1,526 @@
+<title>Stock Researcher — Machine State</title>
+<style>
+  :root {
+    --paper: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e;
+    --muted: #898781; --hairline: #e1e0d9; --baseline: #c3c2b7;
+    --border: rgba(11,11,11,0.10); --accent: #2a78d6; --neg: #e34948;
+    --cur: #eda100; --spec: #e87ba4; --warn: #fab219; --crit: #d03b3b;
+    --good-text: #006300; --tip-bg: #0b0b0b; --tip-ink: #fcfcfb;
+    --branch: color-mix(in srgb, var(--ink) 16%, transparent);
+    --card-shadow: 0 1px 2px rgba(11,11,11,0.05), 0 6px 20px -8px rgba(11,11,11,0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink2: #c3c2b7;
+      --muted: #898781; --hairline: #2c2c2a; --baseline: #383835;
+      --border: rgba(255,255,255,0.10); --accent: #3987e5; --neg: #e66767;
+      --cur: #c98500; --spec: #d55181; --good-text: #0ca30c;
+      --tip-bg: #fcfcfb; --tip-ink: #0b0b0b;
+      --branch: color-mix(in srgb, var(--ink) 20%, transparent);
+      --card-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 14px 34px -12px rgba(0,0,0,0.55);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e;
+    --muted: #898781; --hairline: #e1e0d9; --baseline: #c3c2b7;
+    --border: rgba(11,11,11,0.10); --accent: #2a78d6; --neg: #e34948;
+    --cur: #eda100; --spec: #e87ba4; --good-text: #006300;
+    --tip-bg: #0b0b0b; --tip-ink: #fcfcfb;
+    --branch: color-mix(in srgb, var(--ink) 16%, transparent);
+    --card-shadow: 0 1px 2px rgba(11,11,11,0.05), 0 6px 20px -8px rgba(11,11,11,0.10);
+  }
+  :root[data-theme="dark"] {
+    --paper: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink2: #c3c2b7;
+    --muted: #898781; --hairline: #2c2c2a; --baseline: #383835;
+    --border: rgba(255,255,255,0.10); --accent: #3987e5; --neg: #e66767;
+    --cur: #c98500; --spec: #d55181; --good-text: #0ca30c;
+    --tip-bg: #fcfcfb; --tip-ink: #0b0b0b;
+    --branch: color-mix(in srgb, var(--ink) 20%, transparent);
+    --card-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 14px 34px -12px rgba(0,0,0,0.55);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: var(--paper); color: var(--ink); font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .serif { font-family: Charter, "Iowan Old Style", Georgia, "Times New Roman", serif; }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+  .wrap { max-width: 1020px; margin: 0 auto; padding: clamp(20px, 4vw, 44px) clamp(16px, 3vw, 32px) 56px; }
+
+  header { border-bottom: 2px solid var(--ink); padding-bottom: 16px; }
+  h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.12; margin: 0 0 6px; font-weight: 700; letter-spacing: -0.01em; }
+  .standfirst { color: var(--ink2); margin: 0; max-width: 64ch; }
+  .asof { color: var(--muted); font-size: 12px; margin-top: 8px; }
+  .asof b { color: var(--good-text); font-weight: 650; }
+
+  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0 6px; }
+  @media (max-width: 760px) { .tiles { grid-template-columns: repeat(2, 1fr); } }
+  .tile { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px 10px; box-shadow: var(--card-shadow); }
+  .tile .k { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .tile .v { font-size: 24px; font-weight: 650; margin-top: 3px; }
+  .tile .s { font-size: 12px; color: var(--ink2); margin-top: 1px; }
+
+  section { margin-top: 36px; }
+  .sectionhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--hairline); padding-bottom: 7px; margin-bottom: 12px; }
+  h2 { font-size: 19px; margin: 0; font-weight: 700; }
+  .sectionhead .note { color: var(--muted); font-size: 12px; }
+  .caption { color: var(--ink2); font-size: 13px; margin: 10px 0 0; max-width: 80ch; }
+  .caption strong { color: var(--ink); }
+
+  .chart { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px 12px; overflow-x: auto; box-shadow: var(--card-shadow); }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--ink2); margin-bottom: 10px; }
+  .legend .sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  .legend .ln { display: inline-block; width: 14px; border-top: 2px dashed var(--muted); margin-right: 5px; vertical-align: 3px; }
+  .brow { display: grid; grid-template-columns: 128px 1fr 60px; align-items: center; gap: 12px; padding: 3px 0; border-radius: 4px; min-width: 460px; }
+  .brow:hover, .brow:focus-visible { background: color-mix(in srgb, var(--ink) 5%, transparent); outline: none; }
+  .brow:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+  .blabel { font-size: 13px; display: flex; align-items: center; gap: 6px; min-width: 0; }
+  .blabel .tk { font-weight: 650; }
+  .chip { display: inline-block; font-size: 10px; letter-spacing: 0.05em; padding: 0.5px 6px; border: 1px solid var(--border); border-radius: 999px; color: var(--ink2); white-space: nowrap; }
+  .chip.crowded { border-color: var(--crit); color: var(--crit); font-weight: 650; }
+  .chip.conc { border-color: var(--crit); color: var(--crit); font-weight: 650; }
+  .chip.watch { border-color: var(--warn); color: var(--ink2); font-weight: 650; }
+  .btrack { position: relative; height: 18px; }
+  .btrack .zero { position: absolute; top: -2px; bottom: -2px; width: 1px; background: var(--baseline); }
+  .btrack .mark { position: absolute; top: -2px; bottom: -2px; width: 0; border-left: 2px dashed var(--muted); opacity: 0.7; }
+  .btrack .fill { position: absolute; top: 2px; height: 14px; border-radius: 0 4px 4px 0; background: var(--accent); }
+  .btrack .fill.neg { border-radius: 4px 0 0 4px; background: var(--neg); }
+  .bval { font-size: 12.5px; text-align: right; }
+  .axisnote { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; margin-top: 8px; border-top: 1px solid var(--hairline); padding-top: 5px; min-width: 460px; }
+
+  .crow { display: grid; grid-template-columns: 180px 1fr 118px; align-items: center; gap: 12px; padding: 4px 0; min-width: 460px; }
+  .crow .nm { font-size: 12.5px; }
+  .crow .tr { position: relative; height: 15px; background: color-mix(in srgb, var(--ink) 4%, transparent); border-radius: 4px; }
+  .crow .fl { position: absolute; inset: 2px auto 2px 0; background: var(--accent); border-radius: 3px; }
+  .crow.combined .fl { background: var(--crit); }
+  .crow .tr .mark { position: absolute; top: -3px; bottom: -3px; border-left: 2px dashed var(--muted); }
+  .crow .rv { font-size: 12.5px; display: flex; gap: 7px; align-items: center; }
+
+  .treegrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .treegrid { grid-template-columns: 1fr; } }
+  .tree {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, var(--surface)), var(--surface) 120px);
+    border: 1px solid var(--border); border-radius: 10px; padding: 18px 16px 16px;
+    box-shadow: var(--card-shadow);
+  }
+  .treehead { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 3px; }
+  .tree h3 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.005em; }
+  .tree .tcount { flex: none; font-size: 10.5px; color: var(--accent); font-weight: 650; letter-spacing: 0.07em; }
+  .tree .sub { color: var(--muted); font-size: 12px; line-height: 1.5; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--hairline); }
+  .tree ul { list-style: none; margin: 0; padding: 0; }
+  .tree li { position: relative; }
+  .tree ul ul { margin-left: 10px; }
+  .tree ul ul > li { padding-left: 20px; }
+  .tree ul ul > li::before {
+    content: ""; position: absolute; left: 0; top: -6px; height: 24px; width: 14px;
+    border-left: 1.5px solid var(--branch); border-bottom: 1.5px solid var(--branch);
+    border-bottom-left-radius: 9px;
+  }
+  .tree ul ul > li:not(:last-child)::after {
+    content: ""; position: absolute; left: 0; top: -6px; bottom: -2px;
+    border-left: 1.5px solid var(--branch);
+  }
+  .tnode { position: relative; display: flex; align-items: baseline; gap: 9px; padding: 5px 8px; border-radius: 7px; font-size: 13px; }
+  .tnode .dot {
+    flex: none; width: 8px; height: 8px; border-radius: 50%; align-self: center;
+    background: var(--dc, var(--muted));
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--dc, var(--muted)) 18%, transparent);
+  }
+  .tnode.consensus { --dc: var(--baseline); }
+  .tnode.consensus .tt { color: var(--muted); }
+  .tnode.current { --dc: var(--cur); }
+  .tnode.current .tt { color: var(--ink2); }
+  .tnode.speculative { --dc: var(--spec); }
+  .tnode.speculative .tt { color: var(--ink2); }
+  .tnode.frontier {
+    --dc: var(--accent);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 16%, transparent), color-mix(in srgb, var(--accent) 4%, transparent) 70%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    margin: 2px 0;
+  }
+  .tnode.frontier .dot { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent), 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent); }
+  .tnode.frontier .tt { color: var(--ink); font-weight: 600; }
+  .tnode .tt { min-width: 0; }
+  .tnode .st { margin-left: auto; flex: none; font-size: 9px; letter-spacing: 0.1em; color: var(--muted); font-weight: 650; }
+  .tnode.frontier .st { color: var(--accent); }
+  .tnode.root .tt { color: var(--ink); font-weight: 650; font-size: 13.5px; }
+  .treekey { display: flex; gap: 18px; flex-wrap: wrap; font-size: 12px; color: var(--ink2); margin-bottom: 14px; }
+  .treekey span { display: inline-flex; align-items: center; gap: 7px; }
+  .treekey i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; background: var(--kc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--kc) 18%, transparent); }
+
+  .reader { display: grid; grid-template-columns: 236px 1fr; gap: 12px; align-items: start; }
+  @media (max-width: 820px) { .reader { grid-template-columns: 1fr; } }
+  .doclist { display: flex; flex-direction: column; gap: 6px; max-height: 74vh; overflow-y: auto; }
+  .doc { text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; cursor: pointer; color: var(--ink); font: inherit; box-shadow: var(--card-shadow); }
+  .doc:hover { border-color: var(--accent); }
+  .doc:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .doc.active { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+  .doc .dk { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .doc .dt { font-weight: 650; font-size: 13.5px; margin-top: 1px; }
+  .docnote { font-size: 12px; color: var(--muted); padding: 4px 12px 0; line-height: 1.5; }
+  .docpane { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 8px 24px 24px; max-height: 74vh; overflow-y: auto; box-shadow: var(--card-shadow); }
+  .md { max-width: 72ch; }
+  .md h1 { font-size: 21px; margin: 18px 0 6px; font-family: Charter, "Iowan Old Style", Georgia, serif; }
+  .md h2 { font-size: 16.5px; margin: 22px 0 6px; border-bottom: 1px solid var(--hairline); padding-bottom: 5px; }
+  .md h3 { font-size: 14.5px; margin: 16px 0 4px; }
+  .md p, .md li { font-size: 13.5px; color: var(--ink2); line-height: 1.6; }
+  .md p strong, .md li strong { color: var(--ink); }
+  .md a { color: var(--accent); }
+  .md code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; background: color-mix(in srgb, var(--ink) 6%, transparent); padding: 1px 5px; border-radius: 4px; }
+  .md hr { border: 0; border-top: 1px solid var(--hairline); margin: 18px 0; }
+  .md .tablewrap { overflow-x: auto; }
+  .md table { border-collapse: collapse; font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+  .md th, .md td { border: 1px solid var(--hairline); padding: 4px 10px; text-align: right; }
+  .md th:first-child, .md td:first-child { text-align: left; }
+
+  .runrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media (max-width: 760px) { .runrow { grid-template-columns: 1fr; } }
+  .run { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: var(--ink2); box-shadow: var(--card-shadow); }
+  .run b { color: var(--ink); display: block; margin-bottom: 2px; font-size: 13.5px; }
+  .run .when { color: var(--muted); font-size: 11.5px; margin-top: 6px; }
+
+  footer { margin-top: 44px; border-top: 2px solid var(--ink); padding-top: 12px; color: var(--ink2); font-size: 12.5px; }
+  footer p { margin: 0 0 5px; max-width: 82ch; }
+
+  #tip { position: fixed; z-index: 10; max-width: 330px; background: var(--tip-bg); color: var(--tip-ink); border-radius: 6px; padding: 10px 12px; font-size: 12.5px; line-height: 1.45; pointer-events: none; opacity: 0; transition: opacity 0.12s; box-shadow: 0 4px 18px rgba(0,0,0,0.25); }
+  #tip.on { opacity: 1; }
+  #tip .tt { font-weight: 650; margin-bottom: 3px; }
+  @media (prefers-reduced-motion: reduce) { #tip { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1 class="serif">Stock Researcher — Machine State</h1>
+    <p class="standfirst">Three thesis trees, a paper scoreboard measured against SPY, and pre-committed tests that decide whether any of it survives.</p>
+    <p class="asof mono">as of __ASOF__ · <b>live</b> — __RUNCOUNT__ · candidates to research, not recommendations</p>
+  </header>
+
+  <div class="tiles">
+    <div class="tile">
+      <div class="k">Scoreboard vs SPY</div>
+      <div class="v mono" id="tile-score"></div>
+      <div class="s" id="tile-score-s"></div>
+    </div>
+    <div class="tile">
+      <div class="k">Frontier nodes</div>
+      <div class="v mono">__NFRONTIER__<span style="color:var(--muted); font-size:15px;"> / __NNODES__</span></div>
+      <div class="s">where the edge lives</div>
+    </div>
+    <div class="tile">
+      <div class="k">AI-adjacent holdings</div>
+      <div class="v mono" style="color:var(--crit);">67%</div>
+      <div class="s">CONCENTRATED (&gt;50%)</div>
+    </div>
+    <div class="tile">
+      <div class="k">Next review gate</div>
+      <div class="v mono">Aug 3</div>
+      <div class="s">daily-cadence test</div>
+    </div>
+  </div>
+
+  <section>
+    <div class="sectionhead">
+      <h2 class="serif">Research — read it here</h2>
+      <span class="note">every brief and memo, permanently — the list only grows</span>
+    </div>
+    <div class="reader">
+      <div class="doclist" id="doclist">
+        <p class="docnote">Daily briefs land every weekday morning and Sunday memos every week. Every document also lives permanently as a dated file in the git repo; nothing is ever overwritten.</p>
+      </div>
+      <article class="docpane"><div class="md" id="docbody"></div></article>
+    </div>
+  </section>
+
+  <section>
+    <div class="sectionhead">
+      <h2 class="serif">Thesis trees</h2>
+      <span class="note">__NNODES__ nodes · the edge is only at the frontier</span>
+    </div>
+    <div class="treekey">
+      <span><i style="--kc:var(--accent);"></i>FRONTIER — the edge</span>
+      <span><i style="--kc:var(--cur);"></i>CURRENT — being worked</span>
+      <span><i style="--kc:var(--spec);"></i>SPECULATIVE — evidence thin</span>
+      <span><i style="--kc:var(--baseline);"></i>CONSENSUS — context only</span>
+    </div>
+    <div class="treegrid" id="trees"></div>
+  </section>
+
+  <section>
+    <div class="sectionhead">
+      <h2 class="serif">Scoreboard — excess return vs SPY since mention</h2>
+      <span class="note">every candidate ever surfaced, forever</span>
+    </div>
+    <div class="chart">
+      <div class="legend">
+        <span><span class="sw" style="background:var(--accent);"></span>beating SPY</span>
+        <span><span class="sw" style="background:var(--neg);"></span>trailing SPY</span>
+        <span class="mono" id="sb-spy"></span>
+      </div>
+      <div id="scorebars"></div>
+      <div class="axisnote mono" id="sb-axis"></div>
+    </div>
+    <p class="caption">__SCORECAPTION__</p>
+  </section>
+
+  <section>
+    <div class="sectionhead">
+      <h2 class="serif">Crowding — trailing 6-month return vs SPY</h2>
+      <span class="note">ran &gt;2× SPY = already discovered</span>
+    </div>
+    <div class="chart">
+      <div class="legend">
+        <span><span class="sw" style="background:var(--accent);"></span>positive</span>
+        <span><span class="sw" style="background:var(--neg);"></span>negative</span>
+        <span><span class="ln"></span><span id="cb-spy"></span></span>
+        <span><span class="chip">P</span> portfolio · <span class="chip">S</span> scoreboard</span>
+      </div>
+      <div id="crowdbars"></div>
+      <div class="axisnote mono" id="cb-axis"></div>
+    </div>
+    <p class="caption">__CROWDCAPTION__</p>
+  </section>
+
+  <section>
+    <div class="sectionhead">
+      <h2 class="serif">Portfolio — theme concentration</h2>
+      <span class="note">dashed marks: WATCH 35% · CONCENTRATED 50%</span>
+    </div>
+    <div class="chart" id="concbars"></div>
+    <p class="caption"><strong>Four of six holdings are the same AI-compute bet</strong> — which is why the roadmap forces a non-AI thesis tree by Sep 30. Count-based until real share counts are filled in.</p>
+  </section>
+
+  <section>
+    <div class="sectionhead">
+      <h2 class="serif">How it runs</h2>
+      <span class="note">scheduled cloud agents + a GitHub Actions price bridge — nothing depends on your machine</span>
+    </div>
+    <div class="runrow">
+      <div class="run">
+        <b>Daily brief · read-only</b>
+        News delta on active nodes, fresh numbers, proposals to <span class="mono">flags.md</span>. Never adds candidates.
+        <div class="when mono">Mon–Fri 11:00 UTC (~7a ET) · price cache 8:45 UTC</div>
+      </div>
+      <div class="run">
+        <b>Weekly memo · writer of record</b>
+        Decides every flag, extends trees, surfaces candidates, logs them to the scoreboard at that day's price.
+        <div class="when mono">Sun 12:00 UTC (~8a ET)</div>
+      </div>
+      <div class="run">
+        <b>Review gates · pre-committed</b>
+        Aug 3 — daily earns its keep or dies. Sep 30 — a non-AI tree must exist. <strong style="color:var(--crit);">Jan 5 — kill test:</strong> negative median excess + hit rate &lt;40% → probation.
+        <div class="when mono">thresholds never move after results arrive</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Candidates to research, not recommendations.</strong> The machine argues; the owner allocates. Every claim in the memos carries a dated source, and every surfaced name is measured against SPY forever.</p>
+    <p class="mono" style="color:var(--muted);">snapshot of <a href="https://github.com/learn-programing1223/stockResearcher" target="_blank" rel="noopener" style="color:inherit;">learn-programing1223/stockResearcher</a> · prices: yfinance close via data/ cache, __ASOF__</p>
+  </footer>
+</div>
+
+<div id="tip" role="status" aria-hidden="true"></div>
+
+<!--DOCBLOCKS-->
+
+<script>
+(function () {
+  var CFG = /*__CFG__*/{};
+  var SCORE = /*__SCORE__*/[];
+  var CROWD = /*__CROWD__*/[];
+  var DOCS = /*__DOCS__*/[];
+  var CONC = [
+    { n: "AI-adjacent (combined)", v: 67, names: "NBIS · LITE · TSM · ASML", combined: true },
+    { n: "ai-infrastructure",      v: 50, names: "NBIS · LITE · TSM" },
+    { n: "semiconductors",         v: 33, names: "TSM · ASML" },
+    { n: "broad-index",            v: 17, names: "VOO" },
+    { n: "data-center-hardware",   v: 17, names: "LITE" },
+    { n: "electric-vehicles",      v: 17, names: "WKHS" }
+  ];
+  var TREES = /*__TREES__*/[];
+
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html != null) e.innerHTML = html;
+    return e;
+  }
+  function fmt(v, digits) { return (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(digits == null ? 1 : digits); }
+
+  /* tiles + legends from CFG */
+  document.getElementById("tile-score").innerHTML = CFG.beat + "/" + CFG.scored;
+  if (CFG.beat === 0) document.getElementById("tile-score").style.color = "var(--crit)";
+  document.getElementById("tile-score-s").innerHTML = "beating SPY · avg excess " + fmt(CFG.avgExcess) + "% · day " + CFG.dayN;
+  document.getElementById("sb-spy").textContent = "SPY " + fmt(CFG.spyWin) + "% same window";
+  document.getElementById("cb-spy").textContent = "SPY " + fmt(CFG.spy6) + "% · 2× hurdle " + fmt(CFG.hurdle) + "%";
+  document.getElementById("sb-axis").innerHTML = "<span>" + CFG.sd0 + "%</span><span>0</span><span>+" + CFG.sd1 + "%</span>";
+  document.getElementById("cb-axis").innerHTML = "<span>" + CFG.cd0 + "%</span><span>0</span><span>+" + CFG.cd1 + "%</span>";
+
+  function signedBar(container, value, min, max, marks) {
+    var track = el("div", "btrack");
+    var zeroPct = (0 - min) / (max - min) * 100;
+    var zero = el("div", "zero"); zero.style.left = zeroPct + "%"; track.appendChild(zero);
+    (marks || []).forEach(function (m) {
+      var mk = el("div", "mark"); mk.style.left = ((m - min) / (max - min) * 100) + "%"; track.appendChild(mk);
+    });
+    var fill = el("div", "fill" + (value < 0 ? " neg" : ""));
+    var vPct = Math.abs(value) / (max - min) * 100;
+    if (value >= 0) { fill.style.left = zeroPct + "%"; } else { fill.style.left = (zeroPct - vPct) + "%"; }
+    fill.style.width = vPct + "%";
+    track.appendChild(fill);
+    container.appendChild(track);
+  }
+
+  var tip = document.getElementById("tip");
+  function showTip(html, x, y) {
+    tip.innerHTML = html; tip.classList.add("on"); tip.setAttribute("aria-hidden", "false");
+    var pad = 14, w = tip.offsetWidth, h = tip.offsetHeight;
+    var left = Math.min(x + pad, window.innerWidth - w - 8);
+    var top = y - h - pad; if (top < 8) top = y + pad;
+    tip.style.left = left + "px"; tip.style.top = top + "px";
+  }
+  function hideTip() { tip.classList.remove("on"); tip.setAttribute("aria-hidden", "true"); }
+  function bindTip(row, html) {
+    row.setAttribute("tabindex", "0");
+    row.addEventListener("mousemove", function (ev) { showTip(html, ev.clientX, ev.clientY); });
+    row.addEventListener("mouseleave", hideTip);
+    row.addEventListener("focus", function () {
+      var r = row.getBoundingClientRect(); showTip(html, r.left + r.width / 2, r.top);
+    });
+    row.addEventListener("blur", hideTip);
+  }
+
+  var sb = document.getElementById("scorebars");
+  SCORE.forEach(function (d) {
+    var row = el("div", "brow");
+    row.appendChild(el("div", "blabel", '<span class="tk mono">' + d.t + '</span><span class="chip">' + d.theme + "</span>"));
+    signedBar(row, d.excess, CFG.sd0, CFG.sd1, []);
+    row.appendChild(el("div", "bval mono", fmt(d.excess) + "%"));
+    bindTip(row, '<div class="tt">' + d.t + " · excess " + fmt(d.excess) + "% vs SPY</div>"
+      + '<div class="mono">' + d.at.toFixed(2) + " → " + d.now.toFixed(2) + " (" + fmt(d.ret) + "%) · SPY " + fmt(d.spy) + "%</div>"
+      + "<div style='margin-top:5px;'>" + d.chain + "</div>");
+    sb.appendChild(row);
+  });
+
+  var cb = document.getElementById("crowdbars");
+  CROWD.forEach(function (d) {
+    var row = el("div", "brow");
+    var chips = '<span class="chip">' + d.g + "</span>" + (d.crowded ? ' <span class="chip crowded">CROWDED</span>' : "");
+    row.appendChild(el("div", "blabel", '<span class="tk mono">' + d.t + "</span>" + chips));
+    signedBar(row, d.ret, CFG.cd0, CFG.cd1, [CFG.spy6, CFG.hurdle]);
+    row.appendChild(el("div", "bval mono", fmt(d.ret) + "%"));
+    bindTip(row, '<div class="tt">' + d.t + " · " + fmt(d.ret) + "% trailing 6mo</div>"
+      + '<div class="mono">' + (d.x != null && d.x >= 0 ? d.x.toFixed(1) + "× SPY" : "negative vs SPY " + fmt(CFG.spy6) + "%") + " · hurdle " + fmt(CFG.hurdle) + "%</div>"
+      + "<div style='margin-top:5px;'>" + (d.g === "P" ? "Portfolio holding." : "Scoreboard candidate.")
+      + (d.crowded ? " Ran more than 2× SPY — feeds demotion review." : " Below the crowding hurdle.") + "</div>");
+    cb.appendChild(row);
+  });
+
+  var cc = document.getElementById("concbars");
+  CONC.forEach(function (d) {
+    var row = el("div", "crow" + (d.combined ? " combined" : ""));
+    row.appendChild(el("div", "nm", d.combined ? "<strong>" + d.n + "</strong>" : '<span class="mono">' + d.n + "</span>"));
+    var tr = el("div", "tr");
+    var fl = el("div", "fl"); fl.style.width = d.v + "%"; tr.appendChild(fl);
+    [35, 50].forEach(function (m) { var mk = el("div", "mark"); mk.style.left = m + "%"; tr.appendChild(mk); });
+    row.appendChild(tr);
+    var flag = d.v > 50 ? ' <span class="chip conc">CONCENTRATED</span>' : d.v > 35 ? ' <span class="chip watch">WATCH</span>' : "";
+    row.appendChild(el("div", "rv", '<span class="mono">' + d.v + "%</span>" + flag));
+    bindTip(row, '<div class="tt">' + d.n + " · " + d.v + "% of holdings</div><div>" + d.names + "</div>");
+    cc.appendChild(row);
+  });
+
+  var tg = document.getElementById("trees");
+  TREES.forEach(function (tree) {
+    var card = el("div", "tree");
+    var nFrontier = tree.nodes.filter(function (n) { return n[1] === "FRONTIER"; }).length;
+    var head = el("div", "treehead");
+    head.appendChild(el("h3", "serif", tree.name));
+    head.appendChild(el("span", "tcount mono", nFrontier + " FRONTIER"));
+    card.appendChild(head);
+    card.appendChild(el("div", "sub", tree.root));
+    var rootUl = el("ul");
+    var stack = [rootUl];
+    tree.nodes.forEach(function (n) {
+      var depth = n[0], status = n[1], title = n[2];
+      while (stack.length > depth + 1) stack.pop();
+      while (stack.length < depth + 1) {
+        var parentLi = stack[stack.length - 1].lastElementChild;
+        var childUl = el("ul");
+        (parentLi || stack[stack.length - 1]).appendChild(childUl);
+        stack.push(childUl);
+      }
+      var li = el("li");
+      var rowEl = el("div", "tnode " + status.toLowerCase().replace("-", "") + (depth === 0 ? " root" : ""));
+      rowEl.appendChild(el("span", "dot"));
+      rowEl.appendChild(el("span", "tt", title));
+      rowEl.appendChild(el("span", "st", status));
+      li.appendChild(rowEl);
+      stack[stack.length - 1].appendChild(li);
+    });
+    card.appendChild(rootUl);
+    tg.appendChild(card);
+  });
+
+  function renderMD(src) {
+    function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+    function inline(s) {
+      s = esc(s);
+      s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+      s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+      s = s.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+      s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      return s;
+    }
+    var lines = src.split("\n"), out = [], para = [], list = null, table = null;
+    function flushPara() { if (para.length) { out.push("<p>" + para.map(inline).join("<br>") + "</p>"); para = []; } }
+    function flushList() { if (list) { out.push("<" + list.tag + ">" + list.items.join("") + "</" + list.tag + ">"); list = null; } }
+    function flushTable() {
+      if (!table) return;
+      var html = "<div class='tablewrap'><table>";
+      table.forEach(function (cells, idx) {
+        var tag = idx === 0 ? "th" : "td";
+        html += "<tr>" + cells.map(function (c) { return "<" + tag + ">" + inline(c) + "</" + tag + ">"; }).join("") + "</tr>";
+      });
+      out.push(html + "</table></div>");
+      table = null;
+    }
+    lines.forEach(function (raw) {
+      var line = raw.replace(/\s+$/, ""), m;
+      if (/^\|/.test(line)) {
+        flushPara(); flushList();
+        if (/^\|[\s|:-]+$/.test(line)) return;
+        var cells = line.replace(/^\||\|$/g, "").split("|").map(function (c) { return c.trim(); });
+        (table = table || []).push(cells);
+        return;
+      }
+      flushTable();
+      if (!line.trim()) { flushPara(); flushList(); return; }
+      if ((m = line.match(/^(#{1,3})\s+(.*)/))) { flushPara(); flushList(); out.push("<h" + m[1].length + ">" + inline(m[2]) + "</h" + m[1].length + ">"); return; }
+      if (/^---+$/.test(line)) { flushPara(); flushList(); out.push("<hr>"); return; }
+      if ((m = line.match(/^-\s+(.*)/))) { flushPara(); if (!list || list.tag !== "ul") { flushList(); list = { tag: "ul", items: [] }; } list.items.push("<li>" + inline(m[1]) + "</li>"); return; }
+      if ((m = line.match(/^\d+\.\s+(.*)/))) { flushPara(); if (!list || list.tag !== "ol") { flushList(); list = { tag: "ol", items: [] }; } list.items.push("<li>" + inline(m[1]) + "</li>"); return; }
+      if (list) { list.items[list.items.length - 1] = list.items[list.items.length - 1].replace(/<\/li>$/, " " + inline(line.trim()) + "</li>"); return; }
+      para.push(line);
+    });
+    flushPara(); flushList(); flushTable();
+    return out.join("");
+  }
+
+  var doclist = document.getElementById("doclist");
+  var docbody = document.getElementById("docbody");
+  var note = doclist.querySelector(".docnote");
+  function openDoc(doc, btn) {
+    var src = document.getElementById(doc.id);
+    docbody.innerHTML = src ? renderMD(src.textContent.trim()) : "<p>Document not found.</p>";
+    doclist.querySelectorAll(".doc").forEach(function (b) { b.classList.remove("active"); });
+    btn.classList.add("active");
+    document.querySelector(".docpane").scrollTop = 0;
+  }
+  DOCS.forEach(function (doc, i) {
+    var btn = el("button", "doc", '<div class="dk">' + doc.kind + " · " + doc.date + '</div><div class="dt">' + doc.title + "</div>");
+    btn.addEventListener("click", function () { openDoc(doc, btn); });
+    doclist.insertBefore(btn, note);
+    if (i === 0) openDoc(doc, btn);
+  });
+})();
+</script>
