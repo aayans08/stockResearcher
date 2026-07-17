@@ -5,8 +5,10 @@
 name: refresh-prices
 on:
   schedule:
-    - cron: "30 10 * * 1-5"   # weekdays 10:30 UTC, before the 11:00 daily brief
-    - cron: "30 11 * * 0"     # Sunday 11:30 UTC, before the 12:00 weekly memo
+    # GitHub cron regularly fires 1-3h late; scheduled well ahead of the 11:00
+    # weekday brief / 12:00 Sunday memo so the cache is same-morning even when delayed.
+    - cron: "45 8 * * 1-5"
+    - cron: "45 8 * * 0"
   workflow_dispatch:
 
 permissions:
