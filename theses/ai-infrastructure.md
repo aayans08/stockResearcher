@@ -120,9 +120,26 @@
 
 **Exposed:** `ETN` (Eaton), Hitachi (6501.T, Tokyo — Hitachi Energy), ABB (ABBN.SW, Zurich), Schneider Electric (SU.PA), `POWL` (Powell Industries — switchgear pure-play), Hammond Power Solutions (HPS-A.TO, Toronto — dry-type transformers), `GEV` (Electrification: $2.4B of Q1'26 data-center equipment orders).
 
+**Competitive-risk caveat (2026-07-19):** India's Finance Ministry granted 4 Chinese-linked manufacturers (TBEA Energy, Nanjing Electric India, New Northeast Electric India, Taikai Electric) a 2-year bid-eligibility exemption for government power tenders, dated 2026-06-24 ([Business Upturn](https://www.businessupturn.com/finance/stock-market/government-names-four-chinese-entities-for-2-year-power-procurement-exemption-tbea-nanjing-new-northeast-and-taikai/), 2026-06-24). India-listed Hitachi Energy, GE Vernova T&D and Siemens Energy units fell up to 12% on the news ([BusinessToday](https://www.businesstoday.in/markets/stocks/story/hitachi-energy-bhel-siemens-energy-taril-shares-crash-up-to-on-govts-latest-move-540788-2026-07-03), 2026-07-03), but Nomura called it an "overreaction" and Citi initiated Buy on Hitachi Energy India and GE Vernova T&D India days later, citing the exempted firms' historically small ~9% share of PGCIL transmission tenders (FY09–20) against a ~40% domestic supply gap that has room for new entrants without necessarily displacing incumbents ([BusinessToday](https://www.businesstoday.in/markets/stocks/story/ge-vernova-cg-power-hitachi-siemens-selloff-overreaction-as-4-chinese-firms-enter-power-tenders-says-nomura-541063-2026-07-06), 2026-07-06). Read as a real but tempered risk to Indian-listed exposure specifically, not a US/global chokepoint change.
+
 **Dies if:** large power transformer lead times fall back under ~2 years (the pre-2020 norm) as new domestic capacity (Eaton, Hitachi South Boston/VA) comes fully online, signaling the shortage has cleared.
 
 **Status rationale:** CURRENT (promoted from FRONTIER, 2026-07-12) — a Reuters wire story ([WIFC](https://wifc.com/2026/07/09/us-power-companies-scramble-to-secure-equipment-as-surging-data-center-demand-strains-supplies/), 2026-07-09), not just trade press, carried the 160-week figure; this is mainstream-acknowledged now, though mid-cap exposure (POWL, HPS-A) is still less saturated than turbines and capacity adds don't land until 2027+.
+
+###### [FRONTIER] High-voltage circuit breakers — the chokepoint below the chokepoint
+
+**Claim:** Transformer scarcity pushed lead-time pressure down one more layer: HV circuit breakers, and a newly-confirmed domestic joint venture names the first concrete supply-side beneficiary of that specific sub-bottleneck.
+
+**Evidence:**
+- Reuters wire coverage put HV circuit-breaker lead times at 125 weeks in 2H2025, up from 77 weeks in 2023 — a distinct, previously-untracked chokepoint one layer below transformers ([Reuters via WIFC](https://wifc.com/2026/07/09/us-power-companies-scramble-to-secure-equipment-as-surging-data-center-demand-strains-supplies/), 2026-07-09).
+- Hyosung Heavy Industries and a Quanta Services subsidiary formed "HYOSUNG HICO BREAKER, LLC" to manufacture gas circuit breakers (72.5kV–800kV) at Quanta's existing Pennsylvania Transformer Technology campus in Canonsburg, PA, incorporation targeted July 2026, production starting as early as October 2026 — this is now primary-sourced (last week's memo held it back for lack of sourcing) ([PR Newswire / Hyosung Heavy Industries](https://www.prnewswire.co.uk/news-releases/hyosung-heavy-industries-forms-us-joint-venture-to-produce-high-voltage-circuit-breakers-302805276.html), 2026-06-22; corroborated by [Korea JoongAng Daily](https://www.koreajoongangdaily.com/business/hyosung-to-become-first-korean-firm-to-build-ultrahighvoltage-circuit-breaker-plant-in-the-united-states/12721900), 2026-06; [UPI](https://www.upi.com/Top_News/World-News/2026/06/14/circuit-breakers-us-power-grid-Pennsylvania/3701781491063/), 2026-06-14).
+- This is one dated capacity response, not evidence the bottleneck has cleared: first output is October 2026 from a single campus against a national 125-week lead-time backdrop.
+
+**Exposed:** `PWR` (Quanta Services — JV host site, though breakers are a small slice of a large diversified E&C book), Hyosung Heavy Industries (298040.KS, Korea — the more pure-play beneficiary, thinly covered by US research).
+
+**Dies if:** HV circuit-breaker lead times fall back under ~1 year as the Hyosung/Quanta JV and other new capacity ramp, or the JV fails to reach production by early 2027.
+
+**Status rationale:** FRONTIER, new node (2026-07-19) — graduates last week's DIG DEEPER item #3 now that the JV is primary-sourced; genuinely pre-consensus (no mainstream equity coverage of the breaker sub-bottleneck specifically yet).
 
 ##### [CURRENT] On-site power: fuel cells & bridge generation
 
@@ -148,9 +165,11 @@
 
 **Exposed:** `NB` (NioCorp Developments — pre-revenue Elk Creek scandium/niobium project), Rio Tinto (`RIO` — Element 21 scandium byproduct, immaterial to consolidated P&L). `BE` (Bloom Energy) sits on the input-risk side of this node, not the beneficiary side.
 
+**Evidence update (2026-07-19):** the falsifier condition was directly tested and remains unresolved. Bloom published a blog post claiming scandium-oxide sourcing diversified across "multiple suppliers and countries," not China-dependent, with visibility to support 25GW/yr ([Bloom Energy blog](https://www.bloomenergy.com/blog/demystifying-scandium-oxide-why-it-matters-in-bloom-fuel-cells/), 2026-07-07). Hunterbrook Media's follow-up report ("Bloom's Big Lie") alleged Bloom's supply still routes through China via at least four intermediary trade routes, citing three Chinese scandium suppliers observed at Bloom's own May 2026 supplier conference, and recalculated 25GW would need ~620 tons/yr — roughly 10x 2025 global consumption ([Hunterbrook Media](https://hntrbrk.com/investigations/bloom), 2026-07-08). Bloom filed an 8-K rejecting the allegations and reaffirming its sourcing claim ([SEC EDGAR](https://www.sec.gov/Archives/edgar/data/1664703/000162828026047734/be-20260709.htm), 2026-07-09); the stock fell 5.7% on the report then partly recovered. Separately, Oracle's Project Jupiter (New Mexico, 2.45GW of planned Bloom fuel cells) was rejected by regulators for a second time, with a public hearing ordered and no date set — an execution setback for the deployment side of the falsifier, independent of the scandium dispute ([24/7 Wall St.](https://247wallst.com/investing/2026/07/18/bloom-energys-ai-data-center-growth-story-is-starting-to-crack/), 2026-07-18).
+
 **Dies if:** Bloom's own SEC disclosures or independent audits confirm scandium sourcing is diversified beyond China at the volumes needed for its stated GW targets, refuting the shortfall math — or Bloom's actual GW deployment stays far below the 5 GW/25 GW figures the allegation used.
 
-**Status rationale:** SPECULATIVE, evidence thin — the entire node is downstream of one contested short-seller report from this week, rebutted by the company and pushed back on by sell-side within 48 hours; genuinely pre-consensus but on a thin, single-narrative evidence base. Not yet a scoreboard candidate — see DIG DEEPER.
+**Status rationale:** SPECULATIVE, evidence now contested rather than merely thin — company and short-seller made direct, conflicting, dated claims this week and neither has been independently verified; the parallel Oracle project-rejection news adds a genuine (if separate) drag on the deployment-scale assumption behind the falsifier. Not yet a scoreboard candidate — see DIG DEEPER.
 
 ##### [SPECULATIVE] SMRs / new nuclear
 
@@ -232,6 +251,8 @@
 
 **Exposed:** `LITE` (laser sources), `COHR` (InP lasers vertically integrated), `GLW` (fiber/connectivity), `FN` (assembly), `TSM` (COUPE), IQE (IQE.L, London — III-V epiwafers, speculative).
 
+**Evidence sharpening (2026-07-19):** the sub-bottleneck inside "lasers" is specifically indium-phosphide EML wafer capacity — Coherent's 6-inch InP line in Sherman, TX runs 15–50% yields depending on generation, and Lumentum is currently the sole supplier shipping 200 Gbps/lane EMLs at volume (needed for 1.6T transceivers); Nvidia's $4B March 2026 commitments to both effectively locked up priority access, pushing other buyers' lead times past 2027, with 800G transceiver production running 40–60% below demand through 2027 ([Futurum Group](https://futurumgroup.com/insights/nvidias-4b-optics-bet-signals-photonics-as-ais-next-bottleneck/), 2026; [TechTimes](https://www.techtimes.com/articles/317281/20260527/ai-data-center-optical-component-shortage-nvidias-4b-laser-lockup-pushes-rivals-past-2027.htm), 2026-05-27).
+
 **Status rationale:** FRONTIER — the pluggables-vs-CPO transition creates winners/losers not yet fully sorted; laser and fiber-attach content per GPU is rising faster than consensus models it. Evidence on timing (2027–28 volume CPO) still partly vendor-promotional.
 
 #### [CURRENT] Data-center REITs, land & powered shell
@@ -246,7 +267,11 @@
 
 **Exposed:** `DLR` (Digital Realty), `EQIX` (Equinix), `IRM` (Iron Mountain), `GDS` (GDS Holdings — China/SEA), plus powered-land converters `APLD` (Applied Digital) and `WULF` (TeraWulf) as higher-beta shell/power plays.
 
-**Status rationale:** CURRENT — fundamentals at records but the REITs themselves have lagged the AI complex (rate sensitivity, capex intensity), so this is less crowded than the semis chain; the debate is whether hyperscaler self-build erodes the moat.
+**Evidence correction (2026-07-19):** the widely-circulated "DTCR +36% vs. broad REITs +13.4%" comparison overstates the pure-play case — DTCR (Global X Data Center & Digital Infrastructure ETF) is anchored partly by cell-tower names (American Tower +12.25% YTD, Crown Castle +8.58% YTD are ~20%+ of the fund), and within DTCR itself Equinix (+34% YTD) and Digital Realty (+14% YTD, close to the broad-REIT number) diverge sharply ([Global X ETFs fund page](https://www.globalxetfs.com/funds/dtcr), 2026-07; [Motley Fool](https://www.fool.com/investing/2026/07/17/data-centers-are-hot-new-reits-should-you-invest/), 2026-07-17). NAREIT's own data-center REIT index — a cleaner read — shows +33.2% YTD through June 30 vs. broad REITs, still a wide gap ([Motley Fool](https://www.fool.com/investing/2026/07/17/data-centers-are-hot-new-reits-should-you-invest/), 2026-07-17). Against a "priced-in" case: analyst breadth is still bullish, not skeptical — EQIX carries 79% Buy ratings (26/33) with ~18.5% median-target upside, DLR 72% Buy (21/29) with >10% upside ([Yahoo Finance — EQIX](https://finance.yahoo.com/quote/EQIX/analysis/), 2026-07; [Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/3-ways-play-data-center-150500711.html), 2026-07). A real crowding signal did surface: DTCR fell 7.4% in the past month even as broad REITs gained 2.3% — volatility consistent with a crowded trade, independent of the return framing ([Global X ETFs fund page](https://www.globalxetfs.com/funds/dtcr), 2026-07).
+
+**Dies if:** top-four-market vacancy normalizes back above ~2–3% and preleasing falls back toward the 40–50% historical norm, signaling the power/shell scarcity has eased.
+
+**Status rationale:** CURRENT, not promoted this week — flagged by the 07-13 daily brief as approaching CONSENSUS, but analyst-target evidence (still net-bullish, not "has this peaked" debate like gas turbines) argues against promotion; the DTCR volatility is a genuine watch item, not yet a status-change trigger. See GETTING CROWDED.
 
 #### [FRONTIER] Specialty materials
 
@@ -271,7 +296,9 @@
 
 **Exposed:** `CLF` (Cleveland-Cliffs — GOES buried in a distressed commodity-steel story), `PKX` (POSCO ADR), Nippon Steel (5401.T, Tokyo), thyssenkrupp (TKA.DE, Frankfurt). Evidence thin on how much GOES moves CLF's consolidated P&L — size accordingly.
 
-**Status rationale:** FRONTIER — genuine single-source US chokepoint, almost no dedicated equity coverage; the offset is that GOES is a small revenue slice inside large cyclical steelmakers.
+**Countervailing evidence (2026-07-19):** a global GOES price war is underway as Chinese exporters flood the market, squeezing non-Chinese producers — thyssenkrupp shut its Isbergues, France site until September 2026 in response, and the EU Commission opened a formal safeguard investigation into GOES imports tied to July 2026 Tariff Rate Quota changes ([Magnetics Magazine](https://magneticsmag.com/price-war-in-grain-oriented-electrical-steel-ripples-through-producers/), 2026-07; [European Commission](https://policy.trade.ec.europa.eu/news/commission-initiates-safeguard-investigation-imports-grain-oriented-electrical-steel-2026-03-27_en), 2026-03-27). This complicates the pure-scarcity bull case globally even as the US-domestic angle (CLF's Butler Works monopoly) stands unchanged — protectionism elsewhere may in fact keep the US chokepoint tighter by discouraging import substitution. CLF reports Q2 2026 earnings 2026-07-23, the next concrete check on GOES demand commentary.
+
+**Status rationale:** FRONTIER — genuine single-source US chokepoint, almost no dedicated equity coverage; the offset is that GOES is a small revenue slice inside large cyclical steelmakers, and this week's evidence shows the *global* GOES market is oversupplied even as the US slice stays scarce — a nuance worth holding, not a reason to change status.
 
 ##### [CURRENT] Copper & electrical conductors
 
@@ -283,5 +310,7 @@
 - At ~15 GW/yr of data-center builds, ~750,000 t/yr of new copper demand ([Crux Investor](https://www.cruxinvestor.com/posts/ai-infrastructure-electrification-drive-structural-copper-demand), 2026).
 
 **Exposed:** `FCX` (Freeport-McMoRan), `SCCO` (Southern Copper), `TECK` (Teck), Glencore (GLEN.L, London), Prysmian (PRY.MI — cables, acquired Encore Wire), Nexans (NEX.PA).
+
+**Dies if:** refined-copper deficit forecasts flip back to surplus and LME copper falls back under ~$9,000/tonne (pre-2024 range), or large-scale aluminum-conductor substitution becomes standard practice rather than a fringe workaround.
 
 **Status rationale:** CURRENT — "copper is the new oil" is a saturated macro narrative at record prices; the less-crowded expression is fabricators (cable/busway) capturing volume + conversion margin rather than price beta.
