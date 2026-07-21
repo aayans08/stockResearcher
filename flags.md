@@ -1,1 +1,2 @@
 # Flags — proposed by daily briefs, decided by the Sunday weekly
+- [2026-07-21] [DATA-ISSUE] scoreboard+crowding/RMD — `data/crowding_latest.json` (2026-07-21) has no priceable 6-month window for RMD, though `scoreboard_latest.json` (same date) prices it fine; no real ResMed market event found to explain the gap (normal trading, ~$198, no halt/news) — looks like a cache-generation gap for this ticker specifically, worth a look at the `refresh-prices` workflow's per-ticker handling.
