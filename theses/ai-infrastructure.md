@@ -89,8 +89,11 @@
 - Only ~5 GW of 16 GW of announced 2026 capacity under construction, with power infrastructure the named cause ([Tech-Insider](https://tech-insider.org/us-ai-data-center-delays-cancellations-7gw-capacity-crisis-2026/), 2026).
 - FERC on 2026-06-18 issued show-cause orders to **all** jurisdictional RTOs (PJM singled out) to justify or fix large-load interconnection rules; PJM must respond by Aug 17 ([FERC](https://www.ferc.gov/news-events/news/ferc-directs-nations-largest-grid-operator-create-new-rules-embrace-innovation-and), 2026-06-18; [Utility Dive](https://www.utilitydive.com/news/ferc-doe-data-center-interconnection/823360/), 2026-06).
 - Meta signed nuclear agreements for up to 6.6 GW (Oklo, Vistra, TerraPower) for its Prometheus supercluster ([Utility Dive](https://www.utilitydive.com/news/meta-nuclear-deal-oklo-vistra-terrapower-ai-data-centers/809215/), 2026-01).
+- **Update (2026-07-26):** GE Vernova's Q2 2026 print (2026-07-22) initially sold off ~8.7% on an EPS miss ($2.47 vs $3.17 consensus, Wind-segment loss of $275M), but analysts reversed to bullish through 07-25/26 on the underlying order book: Electrification backlog $40.6B (+69% y/y), overall backlog $176B; Morgan Stanley, Guggenheim, RBC, Oppenheimer, JPMorgan and TD Cowen all raised price targets (Citi was the lone cut, to Neutral); company also raised its gas-turbine capacity target to 30 GW/yr by 2030 ([Benzinga](https://www.benzinga.com/markets/earnings/26/07/60610400/ge-vernova-stock-falls-after-profit-miss-wind-unit-remains-a-drag), 2026-07-22; [Quiver Quantitative](https://www.quiverquant.com/news/GE+Vernova+Stock+(GEV)+Opinions+on+Recent+Earnings+and+Backlog+Growth), 2026-07-25). Read as sentiment volatility around an intact backlog story, not a thesis change.
 
 **Exposed:** `CEG` (Constellation), `VST` (Vistra), `TLN` (Talen) — merchant nuclear/gas near data centers; `NEE` (NextEra); `NRG`; `GEV` (GE Vernova) and Siemens Energy (ENR.DE, Xetra) spanning generation + grid.
+
+**Dies if:** grid interconnection queue times fall back under ~2 years (from the current 4–7 year norm) as FERC's RTO reforms (PJM's Aug-17 response and follow-ons) take effect, removing the "speed to power" premium that drives developers to on-site generation and long-dated PPAs.
 
 **Status rationale:** CURRENT — the constraint is real and worsening, but IPP/utility names (CEG, VST, TLN) have already re-rated dramatically; discovery value now sits in the sub-nodes.
 
@@ -147,10 +150,12 @@
 
 **Evidence:**
 - Bloom Energy total backlog ~**$20B** (up 65% y/y) at end-2025, with **$7.65B of data-center contracts signed in one 90-day period** in early 2026, including a reported 2.8 GW Oracle order ([EnkiAI](https://enkiai.com/fuel-cells/bloom-energy-fuel-cell-2026-7-65b-in-90-day-pacts/), 2026; [TradingKey](https://www.tradingkey.com/analysis/stocks/us-stocks/261779571-bloom-energy-oracle-fuel-cell-ai-datacenter-sofc-power-order-valuation-tradingkey), 2026).
-- Brookfield committed up to $5B to deploy Bloom fuel cells at AI data centers; Bloom doubling manufacturing 1→2 GW by end-2026 ([CNBC](https://www.cnbc.com/2026/01/11/bloom-energy-ai-data-center-power-stock-bubble.html), 2026-01-11).
+- **Correction (2026-07-26):** the Brookfield-Bloom partnership figure in this node was stale. Brookfield's original commitment was $5B (November 2025, part of its AI Infrastructure Fund); it was expanded **fivefold to $25B** on **2026-06-30**, per Bloom's own investor-relations release, "Brookfield and Bloom Energy Expand AI Infrastructure Partnership to $25 Billion" ([Bloom Energy IR](https://investor.bloomenergy.com/press-releases/press-release-details/2026/Brookfield-and-Bloom-Energy-Expand-AI-Infrastructure-Partnership-to-25-Billion-Fivefold-Increase-to-Build-and-Finance-Rapid-Power-for-AI-Infrastructure/default.aspx), 2026-06-30; corroborated by [US News/AP](https://money.usnews.com/investing/news/articles/2026-06-30/bloom-energy-brookfield-expand-ai-infrastructure-power-partnership-to-25-billion), 2026-06-30). Bloom doubling manufacturing 1→2 GW by end-2026 ([CNBC](https://www.cnbc.com/2026/01/11/bloom-energy-ai-data-center-power-stock-bubble.html), 2026-01-11).
 - Developers "increasingly building their own power on site — gas turbines and dedicated generation" as the default workaround ([Fast Company](https://www.fastcompany.com/91442349/supply-chain-delays-transformers-push-power-grid), 2026).
 
 **Exposed:** `BE` (Bloom Energy), `CAT`, `CMI`, `GEV` (aeroderivatives), `FCEL` (FuelCell Energy — speculative laggard).
+
+**Dies if:** major behind-the-meter backlog customers (Oracle, Brookfield-financed projects, other hyperscalers) cancel or materially downsize already-signed fuel-cell/genset contracts, or grid interconnection queue times compress industry-wide, removing the bridge-power economic rationale.
 
 **Status rationale:** CURRENT — Bloom is now a headline AI trade (CNBC "bubble" coverage, +23% single-day moves); thesis intact but entry is crowded.
 
@@ -252,6 +257,8 @@
 **Exposed:** `LITE` (laser sources), `COHR` (InP lasers vertically integrated), `GLW` (fiber/connectivity), `FN` (assembly), `TSM` (COUPE), IQE (IQE.L, London — III-V epiwafers, speculative).
 
 **Evidence sharpening (2026-07-19):** the sub-bottleneck inside "lasers" is specifically indium-phosphide EML wafer capacity — Coherent's 6-inch InP line in Sherman, TX runs 15–50% yields depending on generation, and Lumentum is currently the sole supplier shipping 200 Gbps/lane EMLs at volume (needed for 1.6T transceivers); Nvidia's $4B March 2026 commitments to both effectively locked up priority access, pushing other buyers' lead times past 2027, with 800G transceiver production running 40–60% below demand through 2027 ([Futurum Group](https://futurumgroup.com/insights/nvidias-4b-optics-bet-signals-photonics-as-ais-next-bottleneck/), 2026; [TechTimes](https://www.techtimes.com/articles/317281/20260527/ai-data-center-optical-component-shortage-nvidias-4b-laser-lockup-pushes-rivals-past-2027.htm), 2026-05-27).
+
+**Lead, not yet verified (2026-07-26):** industry commentary names `AXT` (AXT Inc.) as an upstream InP substrate/wafer supplier feeding Coherent's and Lumentum's laser lines — one level further upstream than either name already in this node ([Substack — Global Semi Research](https://globalsemiresearch.substack.com/p/axt-the-indium-phosphide-play-for), undated 2026). Single-source (one independent analyst newsletter), no primary-source confirmation of AXT's actual share of Coherent/Lumentum's InP supply or financial materiality found this week — logged as a lead requiring its own diligence pass, not added as a confirmed exposed name.
 
 **Status rationale:** FRONTIER — the pluggables-vs-CPO transition creates winners/losers not yet fully sorted; laser and fiber-attach content per GPU is rising faster than consensus models it. Evidence on timing (2027–28 volume CPO) still partly vendor-promotional.
 
