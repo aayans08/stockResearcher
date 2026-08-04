@@ -1,1 +1,4 @@
 # Flags — proposed by daily briefs, decided by the Sunday weekly
+
+- [2026-08-04] [STATUS-CHANGE] glp1-second-order/Sleep-apnea devices (INSP) — Q2 2026 beat (rev $200.6M) + raised FY26 guidance to $835-875M despite -7.6% YoY revenue decline; stock +13.6%; worth revisiting the "clear loser" framing for INSP specifically ([StockStory](https://markets.financialcontent.com/stocks/article/stockstory-2026-8-3-inspire-medical-systems-nyseinsp-reports-bullish-q2-cy2026-stock-jumps-136), 2026-08-03).
+- [2026-08-04] [DATA-ISSUE] scoreboard/crowding price cache — the 2026-08-03 refresh-prices commit (`adc62d3`) only bumped the `as_of` date stamp; every `price_now`/`return_pct`/crowding value is byte-identical to the 2026-08-02 commit (`dcc1cfe`). Cache is advancing its date label without actually refreshing prices — worth checking the GH Action logs before trusting the next "fresh" banner.
