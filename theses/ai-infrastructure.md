@@ -41,6 +41,35 @@
 
 **Status rationale:** CONSENSUS — "HBM sold out" is a headline meme; memory stocks have re-rated on record margins. The less-crowded angle is the equipment/test fringe.
 
+#### [CONSENSUS] EUV lithography (ASML monopoly)
+
+**Claim:** All leading-edge logic (and increasingly memory) manufacturing depends on extreme ultraviolet lithography tools that only ASML makes, so ASML captures economics from every advanced-node shrink regardless of which fab or which chip design wins — closing the standing Roadmap §3 gap between this portfolio holding and the tree it sits in.
+
+**Evidence:**
+- ASML raised FY2026 net sales guidance to €43–45B (from €36–40B) after Q2 2026 net income of €2.9B on €9.3B total net sales, a 31.3% margin ([StockTitan](https://www.stocktitan.net/news/ASML/asml-reports-9-3-billion-total-net-sales-and-2-9-billion-net-income-7ycaa74al32x.html), 2026).
+- Intel Foundry began high-volume manufacturing of Intel 18A (Panther Lake) using ASML's High-NA EUV — the first production deployment of the technology worldwide — while ASML plans ~30% low-NA EUV capacity growth for 2026 ([Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/asml-lifts-2026-outlook-high-042931579.html), 2026-08).
+- An interim 2026 dividend of €1.88/share was paid 2026-08-05, funded by the same beat-and-raise quarter ([SEC 6-K via Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/asml-holding-nv-asml-q2-210029930.html), 2026-08-05).
+
+**Exposed:** `ASML` ASML Holding N.V. (Nasdaq/Euronext Amsterdam) — sole global maker of EUV and High-NA EUV lithography systems; already a portfolio holding per `portfolio.json`.
+
+**Dies if:** a second commercially viable EUV (or equivalent-resolution) lithography supplier reaches volume production, ending the single-source constraint — no credible competitor exists as of 2026.
+
+**Status rationale:** CONSENSUS, new node (2026-08-09) — closes the standing Roadmap §3 gap (crowding flagged ASML crossing >2x SPY trailing-6mo on 2026-08-04, oscillating 1.6x–2.4x in the days since with no tree node behind it). ASML is one of the most widely covered, institutionally-owned names in the entire AI stack; the oscillating-not-breaking-out crowding pattern reads as normal volatility around an already-priced monopoly, not a fresh re-rating — CONSENSUS, not FRONTIER. The edge is in the frontier child below.
+
+##### [FRONTIER] High-NA EUV adoption & capacity
+
+**Claim:** As High-NA EUV moves from lab to production, only a handful of fabs can absorb ~$380M+/tool capex, concentrating next-node advanced-logic capacity in fewer hands and pulling downstream demand (advanced packaging, ABF substrate) toward whichever foundries adopt first.
+
+**Evidence:**
+- Intel 18A/Panther Lake is the first confirmed high-volume-manufacturing use of High-NA EUV ([Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/asml-lifts-2026-outlook-high-042931579.html), 2026-08).
+- ASML is expanding low-NA EUV capacity ~30% for 2026 while High-NA remains supply-constrained to a small customer set ([Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/asml-lifts-2026-outlook-high-042931579.html), 2026-08).
+
+**Exposed:** `ASML`; `INTC` Intel — first production adopter, a research candidate not previously on this tree's exposed-names list.
+
+**Dies if:** High-NA yields/economics disappoint at Intel 18A and adoption stalls industry-wide through 2027, or a second fab customer fails to materialize by end of 2026.
+
+**Status rationale:** FRONTIER, new node (2026-08-09) — real and dated but narrow (single confirmed adopter so far); watch for a second fab customer as the promotion trigger.
+
 #### [CONSENSUS] Advanced packaging (CoWoS / SoIC)
 
 **Claim:** GPUs+HBM must be stitched together on interposers, making TSMC's CoWoS the persistent assembly bottleneck — though capacity is now catching up, which is itself a signal.
@@ -65,7 +94,11 @@
 
 **Exposed:** Ibiden (4062.T, Tokyo), Ajinomoto (2802.T, Tokyo — the film monopolist buried inside a food company), Unimicron (3037.TW), Nan Ya PCB (8046.TW), AT&S (ATS.VI, Vienna), Kinsus (3189.TW). (Shinko Electric was taken private via the JIC deal — verify listing status before use.)
 
-**Status rationale:** FRONTIER — real single-source constraint (Ajinomoto film), thin sell-side coverage outside Asia; note prior ABF cycles (2021) ended in oversupply.
+**Update (2026-08-09):** Nvidia, AMD and hyperscalers are locking in ABF capacity through 2028 and pressing suppliers to plan 2029–2030 expansion — demand visibility lengthening, not shortening ([DigiTimes](https://www.digitimes.com/news/a20260805PD222/demand-ai-chip-capacity-2028-abf-substrate.html), 2026-08-05).
+
+**Dies if:** Ajinomoto's ABF-film share falls materially below its current >95% (a second qualified film supplier reaching volume-comparable output), or substrate-maker capacity additions outpace GPU/ASIC packaging order growth, repeating the 2021 oversupply cycle.
+
+**Status rationale:** FRONTIER — real single-source constraint (Ajinomoto film), thin sell-side coverage outside Asia; note prior ABF cycles (2021) ended in oversupply. `Dies if` retrofitted 2026-08-09 (Roadmap §2).
 
 ### [CONSENSUS] Data center buildout
 
@@ -127,6 +160,8 @@
 
 **Dies if:** large power transformer lead times fall back under ~2 years (the pre-2020 norm) as new domestic capacity (Eaton, Hitachi South Boston/VA) comes fully online, signaling the shortage has cleared.
 
+**Update (2026-08-09):** Eaton's Q2 2026 print showed data-center revenue +65% y/y and backlog +43% y/y at a 1.2x book-to-bill; Evercore upgraded ETN to Outperform ($502 PT) the same week ([Barchart](https://www.barchart.com/story/news/34488374/vrt-rides-on-strong-organic-order-growth-a-sign-for-more-upside), week of 2026-08-03). Neither ETN nor VRT appears on this week's >2x-trailing-SPY crowding list, leaving headroom before a CONSENSUS relabel would be warranted.
+
 **Status rationale:** CURRENT (promoted from FRONTIER, 2026-07-12) — a Reuters wire story ([WIFC](https://wifc.com/2026/07/09/us-power-companies-scramble-to-secure-equipment-as-surging-data-center-demand-strains-supplies/), 2026-07-09), not just trade press, carried the 160-week figure; this is mainstream-acknowledged now, though mid-cap exposure (POWL, HPS-A) is still less saturated than turbines and capacity adds don't land until 2027+.
 
 ###### [FRONTIER] High-voltage circuit breakers — the chokepoint below the chokepoint
@@ -159,7 +194,7 @@
 
 **Status rationale:** CURRENT — Bloom is now a headline AI trade (CNBC "bubble" coverage, +23% single-day moves); thesis intact but entry is crowded.
 
-###### [SPECULATIVE] Scandium supply for solid-oxide fuel cells
+###### [FRONTIER] Scandium supply for solid-oxide fuel cells
 
 **Claim:** If solid-oxide fuel-cell deployment scales the way Bloom Energy's backlog implies, scandium oxide — a byproduct-sourced, China-concentrated input with no substitute in the ceramic electrolyte — becomes the binding constraint before fuel-cell manufacturing capacity does.
 
@@ -174,7 +209,9 @@
 
 **Dies if:** Bloom's own SEC disclosures or independent audits confirm scandium sourcing is diversified beyond China at the volumes needed for its stated GW targets, refuting the shortfall math — or Bloom's actual GW deployment stays far below the 5 GW/25 GW figures the allegation used.
 
-**Status rationale:** SPECULATIVE, evidence now contested rather than merely thin — company and short-seller made direct, conflicting, dated claims this week and neither has been independently verified; the parallel Oracle project-rejection news adds a genuine (if separate) drag on the deployment-scale assumption behind the falsifier. Not yet a scoreboard candidate — see DIG DEEPER.
+**Evidence sharpening (2026-08-09):** the debate has moved from thin to genuinely contested and dated. A second short-seller (Crossroads Capital) piled on in July with similar tonnage math; Bloom's own blog and 8-K continue to assert diversified, non-China-dependent sourcing sufficient for 25 GW/yr ([Bloom Energy blog](https://www.bloomenergy.com/blog/demystifying-scandium-oxide-why-it-matters-in-bloom-fuel-cells/), 2026-07-07). On the Western-supply-response side: Sunrise Energy Metals' 2026 feasibility study sizes global high-purity scandium-oxide demand at 50–60 t/yr (~40t into SOFC), and Australian Mines' Flemington scandium PFS formally began mid-2026 as a non-China supply candidate ([DiscoveryAlert — Flemington PFS](https://discoveryalert.com.au/scandium-supply-crisis-flemington-pfs-sofc-australia-2026/), 2026) — sourcing here leans on one aggregator republishing similar content, a real caveat on independence, but the underlying feasibility-study and PFS facts are checkable primary corporate disclosures.
+
+**Status rationale:** FRONTIER, promoted from SPECULATIVE (2026-08-09) — the evidence bar has cleared "thin": company and two independent short-sellers have made direct, conflicting, dated claims, and a real Western supply-response project (Flemington PFS) now exists to weigh against the China-concentration risk. The underlying dispute remains unresolved either way — this is a promotion on evidentiary weight, not a directional call. Not yet a scoreboard candidate — see DIG DEEPER.
 
 ##### [SPECULATIVE] SMRs / new nuclear
 
@@ -217,7 +254,9 @@
 
 **Exposed:** Asia Vital Components (3017.TW), Auras (3324.TW), Delta Electronics (2308.TW — also rack power/busbar), Jentech (3653.TW — lids/heat spreaders), `NVT`, `MOD`. Key private competitor: Boyd.
 
-**Status rationale:** FRONTIER — direct GB300/Rubin-generation content growth, still primarily covered in Asian trade press; risks are customer concentration and eventual CDU commoditization.
+**Dies if:** Western/US CDU and cold-plate entrants reach comparable GB300/Rubin-generation qualification and price down the Taiwanese suppliers' content share (Dell'Oro has already flagged the CDU space as approaching saturation), or direct-to-chip liquid cooling itself gets displaced by immersion before these suppliers diversify beyond it.
+
+**Status rationale:** FRONTIER — direct GB300/Rubin-generation content growth, still primarily covered in Asian trade press; risks are customer concentration and eventual CDU commoditization. `Dies if` retrofitted 2026-08-09 (Roadmap §2).
 
 ##### [SPECULATIVE] Immersion cooling & dielectric fluids
 
@@ -266,6 +305,22 @@
 
 **Status rationale:** FRONTIER — the pluggables-vs-CPO transition creates winners/losers not yet fully sorted; laser and fiber-attach content per GPU is rising faster than consensus models it. Evidence on timing (2027–28 volume CPO) still partly vendor-promotional. AXT's dual SEC-filed agreements are the strongest single piece of new evidence this node has had since the March Nvidia investments.
 
+###### [FRONTIER] Indium metal & InP wafer supply — the chokepoint below AXT
+
+**Claim:** A reported draft US ban on Chinese optical-transceiver imports would force hyperscalers onto Western/Taiwanese transceivers built on indium-phosphide lasers — but China controls roughly 80% of global indium supply and has already restricted InP exports, so the ban's intended beneficiaries (Lumentum, Coherent, AXT) inherit a second, upstream scarcity even as the first (transceiver-supply) scarcity resolves in their favor.
+
+**Evidence:**
+- China's February-2025 InP export controls pushed a 6-inch InP wafer from ~$1,400 to ~$5,000, with approval/inspection delays lengthening further in recent weeks ([DiscoveryAlert](https://discoveryalert.com.au/china-indium-phosphide-export-controls-ai-photonics/), 2026; [igor'sLAB](https://www.igorslab.de/en/china-tightens-indium-inspections-niche-metal-becomes-risk-optical-ai-interconnects/), 2026).
+- China produces roughly 1,050 t/yr of indium, >80% of world supply ([DiscoveryAlert](https://discoveryalert.com.au/indium-phosphide-export-controls-ai-data-centres-2026/), 2026).
+- AXT signed a definitive InP-wafer supply/capacity-reservation agreement with Lumentum through Dec 31, 2031, backed by $87M in prepaid deposits, dated 2026-07-29 — days before the FCC ban story broke ([AXT investor relations / BusinessWire](https://investors.axt.com/Investors/news/news-details/2026/AXT-Inc--Announces-Long-Term-Supplier-Agreement-with-Lumentum/default.aspx), 2026-07-29).
+- A reported draft FCC ban on new-model Chinese optical-transceiver imports (Innolight named as the largest targeted supplier, ~27% global share) sent `AAOI` +16–18%, `COHR` +11–13%, `LITE` +6–11%, `GLW` +8% on 2026-08-04 ([247wallst](https://247wallst.com/investing/2026/08/04/applied-optoelectronics-rockets-17-coherent-climbs-11-lumentum-gains-6-on-reported-u-s-ban-of-chinese-optics/), 2026-08-04); as of 2026-08-09 the ban remains an unfinalized draft that "could still be modified, delayed or abandoned" ([TechTimes](https://www.techtimes.com/articles/323104/20260805/fcc-transceiver-ban-would-cut-60-ai-data-center-supply-western-replacements-need-chinese-indium.htm), 2026-08-05).
+
+**Exposed:** `AXTI` AXT, Inc. — one of few non-Chinese commercial InP-substrate makers; `LITE` Lumentum, `COHR` Coherent — downstream laser/transceiver makers dependent on InP; `AAOI` Applied Optoelectronics — see NEW CANDIDATES.
+
+**Dies if:** the FCC softens the ban to exempt current-generation 800G transceivers (restricting only next-gen 1.6T), easing urgency on the InP-substitution race and reducing AXT/LITE/AAOI pricing power.
+
+**Status rationale:** FRONTIER, new node (2026-08-09) — genuinely new dated evidence this week (China inspection tightening plus the ban draft), not yet consensus-priced; the sub-bottleneck beneath the sub-bottleneck the tree already tracks (CPO supply chain → lasers → InP wafers → now the raw indium behind those wafers).
+
 #### [CURRENT] Data-center REITs, land & powered shell
 
 **Claim:** Scarce power + scarce shells give landlords record pricing power and pre-leasing — the "real estate with an interconnection agreement" trade.
@@ -276,7 +331,9 @@
 - Equinix Q1 2026: revenue $2.44B (+10% y/y), record Q1 gross bookings; Digital Realty grew 16% y/y with $1.8B backlog and record interconnection bookings ([The AI Consulting Network](https://www.theaiconsultingnetwork.com/blog/equinix-q1-2026-ai-inference-data-center-reit-cre-investors), 2026; [MarketWise](https://marketwise.com/investing/best-data-center-reits-ai-infrastructure/), 2026).
 - AI tenants signing 15-year terms and preleasing 24–36 months ahead of delivery ([TickerSpark](https://tickerspark.ai/top-stocks/best-data-center-reit-stocks), 2026).
 
-**Exposed:** `DLR` (Digital Realty), `EQIX` (Equinix), `IRM` (Iron Mountain), `GDS` (GDS Holdings — China/SEA), plus powered-land converters `APLD` (Applied Digital) and `WULF` (TeraWulf) as higher-beta shell/power plays.
+**Exposed:** `DLR` (Digital Realty), `EQIX` (Equinix), `IRM` (Iron Mountain), `GDS` (GDS Holdings — China/SEA), `BNL` (Broadstone Net Lease — new, see update below), plus powered-land converters `APLD` (Applied Digital) and `WULF` (TeraWulf) as higher-beta shell/power plays.
+
+**Update (2026-08-09):** Broadstone Net Lease raised FY guidance on a $303M Colorado powered-shell deal — 100 MW capacity, 15-year triple-net lease with two 5-year extensions, 3% annual escalators, ~11.6% straight-line yield ([Broadstone Q2 2026 earnings call via AOL](https://www.aol.com/articles/broadstone-net-lease-bnl-q2-010031000.html), week of 2026-08-03) — a distinct "powered-shell NNN" beneficiary type not previously named in this node, added to Exposed.
 
 **Evidence correction (2026-07-19):** the widely-circulated "DTCR +36% vs. broad REITs +13.4%" comparison overstates the pure-play case — DTCR (Global X Data Center & Digital Infrastructure ETF) is anchored partly by cell-tower names (American Tower +12.25% YTD, Crown Castle +8.58% YTD are ~20%+ of the fund), and within DTCR itself Equinix (+34% YTD) and Digital Realty (+14% YTD, close to the broad-REIT number) diverge sharply ([Global X ETFs fund page](https://www.globalxetfs.com/funds/dtcr), 2026-07; [Motley Fool](https://www.fool.com/investing/2026/07/17/data-centers-are-hot-new-reits-should-you-invest/), 2026-07-17). NAREIT's own data-center REIT index — a cleaner read — shows +33.2% YTD through June 30 vs. broad REITs, still a wide gap ([Motley Fool](https://www.fool.com/investing/2026/07/17/data-centers-are-hot-new-reits-should-you-invest/), 2026-07-17). Against a "priced-in" case: analyst breadth is still bullish, not skeptical — EQIX carries 79% Buy ratings (26/33) with ~18.5% median-target upside, DLR 72% Buy (21/29) with >10% upside ([Yahoo Finance — EQIX](https://finance.yahoo.com/quote/EQIX/analysis/), 2026-07; [Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/3-ways-play-data-center-150500711.html), 2026-07). A real crowding signal did surface: DTCR fell 7.4% in the past month even as broad REITs gained 2.3% — volatility consistent with a crowded trade, independent of the return framing ([Global X ETFs fund page](https://www.globalxetfs.com/funds/dtcr), 2026-07).
 
@@ -325,5 +382,7 @@
 **Exposed:** `FCX` (Freeport-McMoRan), `SCCO` (Southern Copper), `TECK` (Teck), Glencore (GLEN.L, London), Prysmian (PRY.MI — cables, acquired Encore Wire), Nexans (NEX.PA).
 
 **Dies if:** refined-copper deficit forecasts flip back to surplus and LME copper falls back under ~$9,000/tonne (pre-2024 range), or large-scale aluminum-conductor substitution becomes standard practice rather than a fringe workaround.
+
+**Update (2026-08-09):** DR Congo's copper/cobalt concentrate export ban (signed 2026-06-29, publicized 2026-08-06) drove a fresh Comex ATH ~$6.90/lb on 08-06, but the ban targets *concentrate* specifically — Congo overwhelmingly exports refined *cathode* already (Q1 2026: 696,725t cathode vs. just 53,926t concentrate containing ~18,863t of copper metal), so the direct physical-supply impact is smaller than the headline suggests; price eased to ~$6.57/lb by 08-08 as a weak July US jobs report shifted attention to demand fragility ([StoneX](https://www.stonex.com/en/insights/drc-bans-copper-and-cobalt-exports-what-do-we-need-to-know/), 2026-08; [TradingEconomics](https://tradingeconomics.com/commodity/copper/news/512816), 2026-08-08). Read plainly: the risk-premium/precedent effect on price is real, but the tonnage story is smaller than this week's headlines implied — an honesty-over-excitement nuance worth stating rather than repeating the panic framing uncritically.
 
 **Status rationale:** CURRENT — "copper is the new oil" is a saturated macro narrative at record prices; the less-crowded expression is fabricators (cable/busway) capturing volume + conversion margin rather than price beta.
