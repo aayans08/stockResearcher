@@ -1,1 +1,2 @@
 # Flags — proposed by daily briefs, decided by the Sunday weekly
+- [2026-08-19] [STATUS-CHANGE] ai-infrastructure/Indium metal & InP wafer supply — AXT +19.8% on record-severe InP wafer undersupply and Q4 price-hike guidance raised to >10% (from 3-5%); second sharp re-rating in three weeks on real fundamentals, worth reviewing FRONTIER→CURRENT ([24/7 Wall St.](https://247wallst.com/investing/2026/08/17/axt-soars-again-on-monday-to-lead-optics-stocks-coherent-and-lumentum-rally-on-indium-phosphide-price-hikes/), 2026-08-17).
