@@ -146,6 +146,8 @@
 
 **Dies if:** grid interconnection queue times fall back under ~2 years (from the current 4–7 year norm) as FERC's RTO reforms (PJM's Aug-17 response and follow-ons) take effect, removing the "speed to power" premium that drives developers to on-site generation and long-dated PPAs.
 
+**Update (2026-08-23) — Texas PUCT ruled: a conditional pause-with-pathway, not a freeze.** At its 2026-08-20 open meeting PUCT granted ERCOT's good-cause-exception request tied to Gov. Abbott's audit directive: large-load classification (Base/Studied/Batch-0-Ineligible) is pushed from Aug-7 to conditional classification by **2026-08-31**; conditionally-classified base loads may still enter the Aug-1 and Nov-1 queued-scheduled auctions; a 24-day cure period applies to dynamic-data deficiencies flagged after Aug-7 ([Baker Botts](https://www.bakerbotts.com/thought-leadership/publications/2026/august/texas-large-load-interconnection-update---ercot-batch-zero-pause-and-verification-process), 2026-08; [Gibson Dunn](https://www.gibsondunn.com/what-governor-abbotts-data-center-audit-directive-means-for-ercot-and-the-batch-zero-study-process/), 2026-08). Separately, ERCOT stated it aims to complete the governor's full audit of ~250–300 large-load projects (~474 GW of pending requests) by **2026-12-10** ([Utility Dive](https://www.utilitydive.com/news/ercot-texas-puc-data-center-audit/828472/), 2026-08-21). Net effect: the procedural pause is resolved on a revised timeline, but real interconnection certainty for the queue now stretches to December — audit friction of exactly the kind that pushes large loads toward behind-the-meter power rather than waiting (reinforces the On-site power/Scandium sub-nodes below, not a new risk).
+
 **Status rationale:** CURRENT — the constraint is real and worsening, but IPP/utility names (CEG, VST, TLN) have already re-rated dramatically; discovery value now sits in the sub-nodes.
 
 ##### [CONSENSUS] Gas turbines & slot reservations
@@ -263,6 +265,8 @@
 
 **Update (2026-08-02):** Vertiv's Q2 2026 print (2026-07-30) beat on adjusted EPS ($1.52, fifth straight beat) but missed on revenue ($3.27B vs. ~$3.38B est.) on "temporary supply chain congestion" and weak EMEA organic growth (+1.7%); stock fell ~17.5% intraday, then a further ~6% the next session on continued digestion. Management guided EMEA back to organic growth in 2H26; sell-side stayed heavily bullish through the drop (26 analysts, consensus target ~$376 vs. ~$222 price, no downgrades found) and framed it as a one-quarter timing issue against a $15B+ backlog, not fundamental deterioration ([24/7 Wall St.](https://247wallst.com/investing/2026/07/30/vertiv-falls-25-in-1-month-100-gains-from-here-says-wall-street-pro/), 2026-07-30). Read as an open, unresolved question — durable EMEA weakness vs. overreaction — not yet a thesis change.
 
+**Dies if:** rack densities plateau below the ~60 kW threshold that made liquid cooling a design default (removing the physical forcing function), or air-cooling/rear-door heat-exchanger retrofits prove sufficient for the next 1–2 GPU generations, stalling the shift from optional to mandatory. `Dies if` retrofitted 2026-08-23 (Roadmap §2).
+
 **Status rationale:** CURRENT — fundamentals exceptional but VRT/MOD are well-owned AI names and competitive entry into CDUs is accelerating; edge has moved to the component layer below.
 
 ##### [FRONTIER] Cold plates, CDUs & the Taiwan thermal chain
@@ -290,6 +294,8 @@
 - Single-phase fluids come from oil majors (Shell, Castrol/BP, ExxonMobil, ENEOS, SK Enmove) — real business, immaterial to their P&Ls ([DCD](https://www.datacenterdynamics.com/en/analysis/everything-data-center-operators-need-to-know-about-dielectric-fluids/), 2025).
 
 **Exposed:** `CC` (Chemours — Opteon two-phase fluid), `SHEL` (Shell), `BP` (Castrol ON), FUCHS (FPE3.DE, Frankfurt), Samsung Electronics (005930.KS — qualifying two-phase at scale). Pure-play immersion vendors (Submer, GRC, LiquidStack) are private.
+
+**Dies if:** direct-to-chip cold-plate cooling remains sufficient through the next 2+ GPU generations without immersion becoming necessary at scale, or no hydrocarbon two-phase fluid reaches data-center-scale production qualification by 2028, leaving the category permanently niche. `Dies if` retrofitted 2026-08-23 (Roadmap §2).
 
 **Status rationale:** SPECULATIVE — evidence thin for near-term public-equity payoff: direct-to-chip is winning this generation, fluid exposure is diluted inside majors, and the PFAS overhang cuts both ways.
 
@@ -329,7 +335,7 @@
 
 **Status rationale:** FRONTIER — the pluggables-vs-CPO transition creates winners/losers not yet fully sorted; laser and fiber-attach content per GPU is rising faster than consensus models it. Evidence on timing (2027–28 volume CPO) still partly vendor-promotional. AXT's dual SEC-filed agreements are the strongest single piece of new evidence this node has had since the March Nvidia investments.
 
-###### [FRONTIER] Indium metal & InP wafer supply — the chokepoint below AXT
+###### [CURRENT] Indium metal & InP wafer supply — the chokepoint below AXT
 
 **Claim:** A reported draft US ban on Chinese optical-transceiver imports would force hyperscalers onto Western/Taiwanese transceivers built on indium-phosphide lasers — but China controls roughly 80% of global indium supply and has already restricted InP exports, so the ban's intended beneficiaries (Lumentum, Coherent, AXT) inherit a second, upstream scarcity even as the first (transceiver-supply) scarcity resolves in their favor.
 
@@ -343,7 +349,9 @@
 
 **Dies if:** the FCC softens the ban to exempt current-generation 800G transceivers (restricting only next-gen 1.6T), easing urgency on the InP-substitution race and reducing AXT/LITE/AAOI pricing power.
 
-**Status rationale:** FRONTIER, new node (2026-08-09) — genuinely new dated evidence this week (China inspection tightening plus the ban draft), not yet consensus-priced; the sub-bottleneck beneath the sub-bottleneck the tree already tracks (CPO supply chain → lasers → InP wafers → now the raw indium behind those wafers).
+**Status change (2026-08-23) — flag from `flags.md` (2026-08-19) accepted, promoted FRONTIER → CURRENT.** Re-verified independently of the AXT-stock-move framing that originally triggered the flag: TrendForce, a primary semiconductor-industry research firm (not an aggregator), published its own InP shortage analysis sizing 2026 global effective InP wafer capacity at 600K–750K wafers/yr against demand of 2.6M–3.0M wafers — a supply gap exceeding 70% ([TrendForce/LEDinside](https://www.trendforce.com/news/2026/08/06/news-inp-shortage-emerges-as-ai-optical-interconnect-bottleneck/), 2026-08-06). Separately, Lumentum's own CEO Michael Hurlston said publicly that "the indium phosphide shortage is going to be more severe than what's happening in the memory market," with Lumentum's five InP fabs still shipping >30% below customer demand — a customer/competitor confirming scarcity from the demand side, independent of AXT's own incentive to talk its book (fact via Lumentum CEO public remarks, reported [XenoSpectrum](https://xenospectrum.com/en/lumentum-inp-ai-optics-shortage/), 2026-08). AXT's own Q2 print backs it structurally, not just promotionally: record InP revenue of $30.7M (of $47.6M total, +164.8% y/y) and a 3-year Master Development & Supply Agreement with Coherent backed by a $22.29M prepayment (AXT Q2 2026 earnings, 2026-08). **Caveat, stated plainly:** AXT's stock itself has pulled back sharply from its August peak — down to the $69–76 range by 2026-08-21 (-3.2% that day) after trading as high as ~$97–143 intramonth ([GuruFocus](https://www.gurufocus.com/news/9048223/axt-inc-axti-stock-down-32-but-still-overvalued-gf-score-58100), 2026-08-21) — read as valuation-driven profit-taking on an already-volatile name, not a reversal of the underlying shortage thesis; the promotion rests on the TrendForce/Lumentum evidence, not on AXT's price action.
+
+**Status rationale:** CURRENT, promoted from FRONTIER (2026-08-23) — two independent sources corroborate the InP shortage from outside AXT's own disclosures (a market-research firm's capacity/demand math, and a customer's CEO on the record), which clears the bar from "genuinely new, thin" to "real, multiply-confirmed." Not CONSENSUS: the FCC transceiver-ban catalyst remains an unfinalized draft, and mainstream generalist coverage of the InP angle specifically (as opposed to the optics trade broadly) is still limited.
 
 #### [CURRENT] Data-center REITs, land & powered shell
 
@@ -374,6 +382,8 @@
 - GOES is made in exactly one US plant (Cleveland-Cliffs' Butler Works); global capability confined to a few producers in Japan, Korea, China and the US ([The Geopolitical Economist/Medium](https://medium.com/the-geopolitical-economist/everyone-is-watching-the-ai-boom-nobody-is-watching-the-transformer-that-cant-be-built-in-time-341c523e8e81), 2026).
 
 **Exposed:** See children below; also Prysmian (PRY.MI, Milan) and Nexans (NEX.PA, Paris) for cable/busway conversion of copper into data-center product.
+
+**Dies if:** GOES and copper capacity expansions (Cliffs' Butler Works, new refined-copper supply) outpace transformer/grid-equipment demand growth by 2028, easing the materials-layer scarcity even as the equipment-layer shortage persists. `Dies if` retrofitted 2026-08-23 (Roadmap §2).
 
 **Status rationale:** FRONTIER — trade-press attention rising but equity coverage of the *data-center-specific* angle is thin; commodity cyclicality is the main confounder.
 
@@ -408,6 +418,8 @@
 **Dies if:** refined-copper deficit forecasts flip back to surplus and LME copper falls back under ~$9,000/tonne (pre-2024 range), or large-scale aluminum-conductor substitution becomes standard practice rather than a fringe workaround.
 
 **Update (2026-08-09):** DR Congo's copper/cobalt concentrate export ban (signed 2026-06-29, publicized 2026-08-06) drove a fresh Comex ATH ~$6.90/lb on 08-06, but the ban targets *concentrate* specifically — Congo overwhelmingly exports refined *cathode* already (Q1 2026: 696,725t cathode vs. just 53,926t concentrate containing ~18,863t of copper metal), so the direct physical-supply impact is smaller than the headline suggests; price eased to ~$6.57/lb by 08-08 as a weak July US jobs report shifted attention to demand fragility ([StoneX](https://www.stonex.com/en/insights/drc-bans-copper-and-cobalt-exports-what-do-we-need-to-know/), 2026-08; [TradingEconomics](https://tradingeconomics.com/commodity/copper/news/512816), 2026-08-08). Read plainly: the risk-premium/precedent effect on price is real, but the tonnage story is smaller than this week's headlines implied — an honesty-over-excitement nuance worth stating rather than repeating the panic framing uncritically.
+
+**Update (2026-08-23) — the record LME backwardation cracked, not continued.** Cash-to-3-month spread hit $545/ton on 2026-08-17 (widest since the 2021 squeeze), then collapsed to $248/ton by 08-18 after Trafigura and other traders delivered over 20,000 tons onto LME warrant — the largest one-day on-warrant stock build since April, and per a follow-on Bloomberg piece the biggest weekly flow to LME sheds since 2020 ([Bloomberg](https://www.bloomberg.com/news/articles/2026-08-19/copper-holds-loss-as-deliveries-to-lme-mitigate-supply-crunch), 2026-08-19; [Bloomberg](https://www.bloomberg.com/news/articles/2026-08-20/copper-holds-above-14-000-as-traders-assess-us-treasury-action), 2026-08-20). Nothing structural reversed — the Section 232 tariff question is still unresolved and Chile has cut output guidance twice this year — but the *near-term squeeze intensity*, not the multi-year deficit thesis, is what eased. Worth tempering "record backwardation" framing in future write-ups; the deficit thesis itself stands.
 
 **Status rationale:** CURRENT — "copper is the new oil" is a saturated macro narrative at record prices; the less-crowded expression is fabricators (cable/busway) capturing volume + conversion margin rather than price beta.
 
