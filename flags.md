@@ -1,1 +1,2 @@
 # Flags — proposed by daily briefs, decided by the Sunday weekly
+- [2026-08-25] [CROWDING] glp1-second-order/SRRK — trailing 6-mo return crossed the 2x SPY threshold (2.2x, up from 1.6x in the 2026-08-23 weekly; `crowding.py` cache dated 2026-08-25); per the existing thesis honesty-flag note this is driven by the unrelated SMA/apitegromab BLA resubmission catalyst, not obesity-node fundamentals ([MarketBeat](https://www.marketbeat.com/instant-alerts/scholar-rock-nasdaqsrrk-reaches-new-52-week-high-whats-next-2026-06-24/), 2026-06-24).
