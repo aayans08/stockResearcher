@@ -1,1 +1,2 @@
 # Flags — proposed by daily briefs, decided by the Sunday weekly
+- [2026-08-31] [STATUS-CHANGE] grid-modernization/Nuclear restart & SMR pipeline as grid response — Holtec began loading nuclear fuel into the Palisades reactor vessel on 2026-08-30 (204 assemblies), the first concrete restart step after three straight weeks of "no date"; NRC inspections/tests still remain before criticality ([ExchangeMonitor](https://www.exchangemonitor.com/fuel-loading-begins-at-palisades-holtec-says/), 2026-08-30).
