@@ -1,1 +1,2 @@
 # Flags — proposed by daily briefs, decided by the Sunday weekly
+- [2026-09-15] [STATUS-CHANGE] ai-infrastructure/Scandium supply for solid-oxide fuel cells — Bloom Energy hit with a new securities class-action alleging scandium-sourcing misstatements (lead-plaintiff deadline 2026-09-28), casting doubt on the node's key company's own disclosures ([Investing.com](https://ca.investing.com/news/stock-market-news/why-is-bloom-energy-stock-sliding-today-93CH-4837771), 2026-09-14).
