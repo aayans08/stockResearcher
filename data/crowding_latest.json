@@ -1,89 +1,89 @@
 {
-  "as_of": "2026-09-27",
-  "spy_6mo_pct": 20.2,
+  "as_of": "2026-09-28",
+  "spy_6mo_pct": 22.0,
   "entries": [
     {
       "ticker": "VOO",
-      "ret_6mo_pct": 20.2,
-      "spy_6mo_pct": 20.2,
+      "ret_6mo_pct": 21.7,
+      "spy_6mo_pct": 22.0,
       "ratio_vs_spy": 1.0,
       "crowded": false
     },
     {
       "ticker": "NBIS",
-      "ret_6mo_pct": 124.0,
-      "spy_6mo_pct": 20.2,
-      "ratio_vs_spy": 6.1,
+      "ret_6mo_pct": 152.3,
+      "spy_6mo_pct": 22.0,
+      "ratio_vs_spy": 6.9,
       "crowded": true
     },
     {
       "ticker": "LITE",
-      "ret_6mo_pct": 36.7,
-      "spy_6mo_pct": 20.2,
-      "ratio_vs_spy": 1.8,
-      "crowded": false
-    },
-    {
-      "ticker": "TSM",
-      "ret_6mo_pct": 38.9,
-      "spy_6mo_pct": 20.2,
-      "ratio_vs_spy": 1.9,
-      "crowded": false
-    },
-    {
-      "ticker": "ASML",
-      "ret_6mo_pct": 31.6,
-      "spy_6mo_pct": 20.2,
+      "ret_6mo_pct": 35.4,
+      "spy_6mo_pct": 22.0,
       "ratio_vs_spy": 1.6,
       "crowded": false
     },
     {
+      "ticker": "TSM",
+      "ret_6mo_pct": 43.6,
+      "spy_6mo_pct": 22.0,
+      "ratio_vs_spy": 2.0,
+      "crowded": false
+    },
+    {
+      "ticker": "ASML",
+      "ret_6mo_pct": 41.6,
+      "spy_6mo_pct": 22.0,
+      "ratio_vs_spy": 1.9,
+      "crowded": false
+    },
+    {
       "ticker": "WKHS",
-      "ret_6mo_pct": -7.1,
-      "spy_6mo_pct": 20.2,
-      "ratio_vs_spy": -0.4,
+      "ret_6mo_pct": -0.7,
+      "spy_6mo_pct": 22.0,
+      "ratio_vs_spy": -0.0,
       "crowded": false
     },
     {
       "ticker": "WST",
-      "ret_6mo_pct": 49.5,
-      "spy_6mo_pct": 20.2,
+      "ret_6mo_pct": 54.5,
+      "spy_6mo_pct": 22.0,
       "ratio_vs_spy": 2.5,
       "crowded": true
     },
     {
       "ticker": "SRRK",
-      "ret_6mo_pct": 10.0,
-      "spy_6mo_pct": 20.2,
-      "ratio_vs_spy": 0.5,
+      "ret_6mo_pct": 14.9,
+      "spy_6mo_pct": 22.0,
+      "ratio_vs_spy": 0.7,
       "crowded": false
     },
     {
       "ticker": "RMD",
-      "ret_6mo_pct": 0.4,
-      "spy_6mo_pct": 20.2,
+      "ret_6mo_pct": 0.6,
+      "spy_6mo_pct": 22.0,
       "ratio_vs_spy": 0.0,
       "crowded": false
     },
     {
       "ticker": "FN",
-      "ret_6mo_pct": -24.1,
-      "spy_6mo_pct": 20.2,
-      "ratio_vs_spy": -1.2,
+      "ret_6mo_pct": -18.1,
+      "spy_6mo_pct": 22.0,
+      "ratio_vs_spy": -0.8,
       "crowded": false
     },
     {
       "ticker": "CLF",
-      "ret_6mo_pct": 43.5,
-      "spy_6mo_pct": 20.2,
-      "ratio_vs_spy": 2.2,
-      "crowded": true
+      "ret_6mo_pct": 36.7,
+      "spy_6mo_pct": 22.0,
+      "ratio_vs_spy": 1.7,
+      "crowded": false
     },
     {
       "ticker": "GNRC",
-      "ret_6mo_pct": 5.1,
-      "spy_6mo_pct": 20.2,
-      "ratio_vs_spy": 0.3,
+      "ret_6mo_pct": 10.0,
+      "spy_6mo_pct": 22.0,
+      "ratio_vs_spy": 0.5,
       "crowded": false
     }
   ]
